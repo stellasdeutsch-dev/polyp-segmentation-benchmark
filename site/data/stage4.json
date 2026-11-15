@@ -1,0 +1,654 @@
+{
+ "generated": "2026-11-15",
+ "model": {
+  "id": "unet_scratch",
+  "rung": "1",
+  "title": "U-Net from scratch",
+  "status": "built",
+  "input": [
+   3,
+   256,
+   256
+  ],
+  "encoder": [
+   {
+    "name": "input conv",
+    "shape": [
+     64,
+     256,
+     256
+    ]
+   },
+   {
+    "name": "down 1",
+    "shape": [
+     128,
+     128,
+     128
+    ]
+   },
+   {
+    "name": "down 2",
+    "shape": [
+     256,
+     64,
+     64
+    ]
+   },
+   {
+    "name": "down 3",
+    "shape": [
+     512,
+     32,
+     32
+    ]
+   },
+   {
+    "name": "down 4",
+    "shape": [
+     1024,
+     16,
+     16
+    ]
+   }
+  ],
+  "decoder": [
+   {
+    "name": "up 1",
+    "shape": [
+     512,
+     32,
+     32
+    ]
+   },
+   {
+    "name": "up 2",
+    "shape": [
+     256,
+     64,
+     64
+    ]
+   },
+   {
+    "name": "up 3",
+    "shape": [
+     128,
+     128,
+     128
+    ]
+   },
+   {
+    "name": "up 4",
+    "shape": [
+     64,
+     256,
+     256
+    ]
+   }
+  ],
+  "output": [
+   1,
+   256,
+   256
+  ],
+  "params": {
+   "total": 31037633,
+   "encoder": 18847168,
+   "decoder": 12190400,
+   "head": 65
+  },
+  "note": "Measured by a forward pass of a 256 x 256 input. Same function as milesial."
+ },
+ "timing": {
+  "device": "mps",
+  "batch": 16,
+  "size": 256,
+  "steps": 12,
+  "variants": [
+   {
+    "variant": "U-Net 64-1024",
+    "parameters": 31037633,
+    "gflops_per_image": 96.334774272,
+    "images_per_second": 5.1218409603551605,
+    "seconds_per_epoch": 252.25304924548257,
+    "peak_mb": 5867.918701171875,
+    "finite_loss": true
+   },
+   {
+    "variant": "U-Net 64-1024, channels-last",
+    "parameters": 31037633,
+    "gflops_per_image": 96.334774272,
+    "images_per_second": 2.1828765327584194,
+    "seconds_per_epoch": 591.8795592013388,
+    "peak_mb": 5869.543701171875,
+    "finite_loss": true
+   },
+   {
+    "variant": "U-Net 64-1024, float16 autocast",
+    "parameters": 31037633,
+    "gflops_per_image": 96.334774272,
+    "images_per_second": 5.2218110956437,
+    "seconds_per_epoch": 247.4237340906208,
+    "peak_mb": 6379.119384765625,
+    "finite_loss": true
+   },
+   {
+    "variant": "U-Net 64-1024, bfloat16 autocast",
+    "parameters": 31037633,
+    "gflops_per_image": 96.334774272,
+    "images_per_second": 5.398590255168363,
+    "seconds_per_epoch": 239.321737515289,
+    "peak_mb": 6377.494384765625,
+    "finite_loss": true
+   },
+   {
+    "variant": "U-Net 32-512 (nnU-Net widths)",
+    "parameters": 7763041,
+    "gflops_per_image": 24.142413824,
+    "images_per_second": 11.890427420101625,
+    "seconds_per_epoch": 108.65883574679417,
+    "peak_mb": 2855.398193359375,
+    "finite_loss": true
+   },
+   {
+    "variant": "ResNet-34 U-Net (rung 2, anchor)",
+    "parameters": 24436369,
+    "gflops_per_image": 15.627976704,
+    "images_per_second": 19.770391614561703,
+    "seconds_per_epoch": 65.35024824942714,
+    "peak_mb": 1860.7548828125,
+    "finite_loss": true
+   }
+  ]
+ },
+ "runs": [
+  {
+   "lr": "1e-4",
+   "seed": 0,
+   "status": "done",
+   "epochs": 50,
+   "curve": [
+    {
+     "epoch": 1,
+     "dice": 0.4485,
+     "biou": 0.1169,
+     "seconds": 432
+    },
+    {
+     "epoch": 2,
+     "dice": 0.5189,
+     "biou": 0.1287,
+     "seconds": 294
+    },
+    {
+     "epoch": 3,
+     "dice": 0.5361,
+     "biou": 0.1559,
+     "seconds": 1890
+    },
+    {
+     "epoch": 4,
+     "dice": 0.5779,
+     "biou": 0.1829,
+     "seconds": 562
+    },
+    {
+     "epoch": 5,
+     "dice": 0.6272,
+     "biou": 0.2003,
+     "seconds": 1212
+    },
+    {
+     "epoch": 6,
+     "dice": 0.5884,
+     "biou": 0.1954,
+     "seconds": 303
+    },
+    {
+     "epoch": 7,
+     "dice": 0.5919,
+     "biou": 0.1954,
+     "seconds": 310
+    },
+    {
+     "epoch": 8,
+     "dice": 0.7223,
+     "biou": 0.3082,
+     "seconds": 300
+    },
+    {
+     "epoch": 9,
+     "dice": 0.6972,
+     "biou": 0.2873,
+     "seconds": 326
+    },
+    {
+     "epoch": 10,
+     "dice": 0.6899,
+     "biou": 0.2728,
+     "seconds": 299
+    },
+    {
+     "epoch": 11,
+     "dice": 0.7312,
+     "biou": 0.3726,
+     "seconds": 298
+    },
+    {
+     "epoch": 12,
+     "dice": 0.7825,
+     "biou": 0.4152,
+     "seconds": 378
+    },
+    {
+     "epoch": 13,
+     "dice": 0.7636,
+     "biou": 0.4223,
+     "seconds": 284
+    },
+    {
+     "epoch": 14,
+     "dice": 0.7834,
+     "biou": 0.4352,
+     "seconds": 327
+    },
+    {
+     "epoch": 15,
+     "dice": 0.8124,
+     "biou": 0.4535,
+     "seconds": 369
+    },
+    {
+     "epoch": 16,
+     "dice": 0.8253,
+     "biou": 0.4899,
+     "seconds": 300
+    },
+    {
+     "epoch": 17,
+     "dice": 0.7837,
+     "biou": 0.4287,
+     "seconds": 285
+    },
+    {
+     "epoch": 18,
+     "dice": 0.8019,
+     "biou": 0.4353,
+     "seconds": 294
+    },
+    {
+     "epoch": 19,
+     "dice": 0.8266,
+     "biou": 0.4785,
+     "seconds": 311
+    },
+    {
+     "epoch": 20,
+     "dice": 0.807,
+     "biou": 0.4754,
+     "seconds": 574
+    },
+    {
+     "epoch": 21,
+     "dice": 0.755,
+     "biou": 0.4051,
+     "seconds": 693
+    },
+    {
+     "epoch": 22,
+     "dice": 0.8263,
+     "biou": 0.4984,
+     "seconds": 711
+    },
+    {
+     "epoch": 23,
+     "dice": 0.8186,
+     "biou": 0.4993,
+     "seconds": 795
+    },
+    {
+     "epoch": 24,
+     "dice": 0.843,
+     "biou": 0.5242,
+     "seconds": 414
+    },
+    {
+     "epoch": 25,
+     "dice": 0.8281,
+     "biou": 0.5139,
+     "seconds": 435
+    },
+    {
+     "epoch": 26,
+     "dice": 0.7925,
+     "biou": 0.4557,
+     "seconds": 315
+    },
+    {
+     "epoch": 27,
+     "dice": 0.8448,
+     "biou": 0.5321,
+     "seconds": 317
+    },
+    {
+     "epoch": 28,
+     "dice": 0.818,
+     "biou": 0.4872,
+     "seconds": 300
+    },
+    {
+     "epoch": 29,
+     "dice": 0.8338,
+     "biou": 0.5178,
+     "seconds": 296
+    },
+    {
+     "epoch": 30,
+     "dice": 0.8355,
+     "biou": 0.5303,
+     "seconds": 295
+    },
+    {
+     "epoch": 31,
+     "dice": 0.8203,
+     "biou": 0.5017,
+     "seconds": 292
+    },
+    {
+     "epoch": 32,
+     "dice": 0.8396,
+     "biou": 0.531,
+     "seconds": 293
+    },
+    {
+     "epoch": 33,
+     "dice": 0.8321,
+     "biou": 0.5215,
+     "seconds": 294
+    },
+    {
+     "epoch": 34,
+     "dice": 0.8268,
+     "biou": 0.5077,
+     "seconds": 293
+    },
+    {
+     "epoch": 35,
+     "dice": 0.839,
+     "biou": 0.5253,
+     "seconds": 292
+    },
+    {
+     "epoch": 36,
+     "dice": 0.8407,
+     "biou": 0.5243,
+     "seconds": 296
+    },
+    {
+     "epoch": 37,
+     "dice": 0.8457,
+     "biou": 0.5392,
+     "seconds": 293
+    },
+    {
+     "epoch": 38,
+     "dice": 0.8412,
+     "biou": 0.5301,
+     "seconds": 296
+    },
+    {
+     "epoch": 39,
+     "dice": 0.8492,
+     "biou": 0.5425,
+     "seconds": 294
+    },
+    {
+     "epoch": 40,
+     "dice": 0.8466,
+     "biou": 0.5403,
+     "seconds": 291
+    },
+    {
+     "epoch": 41,
+     "dice": 0.8519,
+     "biou": 0.5424,
+     "seconds": 291
+    },
+    {
+     "epoch": 42,
+     "dice": 0.8444,
+     "biou": 0.5338,
+     "seconds": 291
+    },
+    {
+     "epoch": 43,
+     "dice": 0.8395,
+     "biou": 0.5301,
+     "seconds": 289
+    },
+    {
+     "epoch": 44,
+     "dice": 0.8463,
+     "biou": 0.5384,
+     "seconds": 297
+    },
+    {
+     "epoch": 45,
+     "dice": 0.8538,
+     "biou": 0.551,
+     "seconds": 296
+    },
+    {
+     "epoch": 46,
+     "dice": 0.8471,
+     "biou": 0.5394,
+     "seconds": 303
+    },
+    {
+     "epoch": 47,
+     "dice": 0.8457,
+     "biou": 0.5385,
+     "seconds": 317
+    },
+    {
+     "epoch": 48,
+     "dice": 0.843,
+     "biou": 0.5343,
+     "seconds": 293
+    },
+    {
+     "epoch": 49,
+     "dice": 0.8428,
+     "biou": 0.5333,
+     "seconds": 293
+    },
+    {
+     "epoch": 50,
+     "dice": 0.8417,
+     "biou": 0.5345,
+     "seconds": 295
+    }
+   ]
+  },
+  {
+   "lr": "3e-4",
+   "seed": 0,
+   "status": "running",
+   "epochs": 50,
+   "curve": [
+    {
+     "epoch": 1,
+     "dice": 0.4447,
+     "biou": 0.0995,
+     "seconds": 226
+    },
+    {
+     "epoch": 2,
+     "dice": 0.5262,
+     "biou": 0.1149,
+     "seconds": 259
+    },
+    {
+     "epoch": 3,
+     "dice": 0.5115,
+     "biou": 0.1409,
+     "seconds": 270
+    },
+    {
+     "epoch": 4,
+     "dice": 0.5282,
+     "biou": 0.1698,
+     "seconds": 277
+    },
+    {
+     "epoch": 5,
+     "dice": 0.676,
+     "biou": 0.2494,
+     "seconds": 263
+    },
+    {
+     "epoch": 6,
+     "dice": 0.7094,
+     "biou": 0.3077,
+     "seconds": 283
+    },
+    {
+     "epoch": 7,
+     "dice": 0.7508,
+     "biou": 0.3544,
+     "seconds": 282
+    },
+    {
+     "epoch": 8,
+     "dice": 0.7624,
+     "biou": 0.3999,
+     "seconds": 280
+    },
+    {
+     "epoch": 9,
+     "dice": 0.77,
+     "biou": 0.3689,
+     "seconds": 275
+    },
+    {
+     "epoch": 10,
+     "dice": 0.7854,
+     "biou": 0.4206,
+     "seconds": 288
+    },
+    {
+     "epoch": 11,
+     "dice": 0.7697,
+     "biou": 0.3951,
+     "seconds": 302
+    },
+    {
+     "epoch": 12,
+     "dice": 0.8228,
+     "biou": 0.4809,
+     "seconds": 302
+    },
+    {
+     "epoch": 13,
+     "dice": 0.8073,
+     "biou": 0.4855,
+     "seconds": 321
+    },
+    {
+     "epoch": 14,
+     "dice": 0.8184,
+     "biou": 0.4848,
+     "seconds": 1002
+    },
+    {
+     "epoch": 15,
+     "dice": 0.8319,
+     "biou": 0.4971,
+     "seconds": 2567
+    },
+    {
+     "epoch": 16,
+     "dice": 0.8286,
+     "biou": 0.5198,
+     "seconds": 3372
+    },
+    {
+     "epoch": 17,
+     "dice": 0.8338,
+     "biou": 0.51,
+     "seconds": 2031
+    },
+    {
+     "epoch": 18,
+     "dice": 0.8257,
+     "biou": 0.4995,
+     "seconds": 2157
+    },
+    {
+     "epoch": 19,
+     "dice": 0.8349,
+     "biou": 0.5207,
+     "seconds": 1057
+    },
+    {
+     "epoch": 20,
+     "dice": 0.8414,
+     "biou": 0.5303,
+     "seconds": 2332
+    },
+    {
+     "epoch": 21,
+     "dice": 0.8325,
+     "biou": 0.5205,
+     "seconds": 2465
+    },
+    {
+     "epoch": 22,
+     "dice": 0.8363,
+     "biou": 0.5293,
+     "seconds": 2193
+    },
+    {
+     "epoch": 23,
+     "dice": 0.8477,
+     "biou": 0.5404,
+     "seconds": 1957
+    },
+    {
+     "epoch": 24,
+     "dice": 0.8423,
+     "biou": 0.5315,
+     "seconds": 1899
+    },
+    {
+     "epoch": 25,
+     "dice": 0.8394,
+     "biou": 0.5241,
+     "seconds": 712
+    }
+   ]
+  },
+  {
+   "lr": "1e-3",
+   "seed": 0,
+   "status": "waiting",
+   "epochs": 50,
+   "curve": []
+  },
+  {
+   "lr": null,
+   "seed": 1,
+   "status": "waiting",
+   "epochs": 50,
+   "curve": []
+  },
+  {
+   "lr": null,
+   "seed": 2,
+   "status": "waiting",
+   "epochs": 50,
+   "curve": []
+  }
+ ],
+ "best_lr": null
+}

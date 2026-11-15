@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Polyp Segmentation Benchmark</title>
+  <meta name="description" content="A strict, reproducible benchmark of polyp segmentation: U-Net from scratch, U-Net with a pretrained encoder and a frozen foundation model, with quality next to cost.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230066cc' stroke-width='1.8'%3E%3Crect x='2.5' y='2.5' width='19' height='19' rx='5.5'/%3E%3Cpath d='M8 15.5c-1.6-2.4-.4-6 2.6-6.6 2.1-.4 2.7 1.1 4.3 1.1 2 0 3 2.2 1.8 4-1.4 2.2-6.9 4.3-8.7 1.5z' fill='%230066cc' fill-opacity='.25'/%3E%3C/svg%3E">
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')==='dark'?'dark':'light'}catch(e){document.documentElement.dataset.theme='light'}</script>
+  <link rel="stylesheet" href="assets/style.css?v=9">
+</head>
+<body>
+  <a class="visually-hidden" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html"><svg class="icon brand-mark" aria-hidden="true"><use href="assets/icons.svg?v=6#i-mark"/></svg>Polyp segmentation benchmark</a>
+      <div class="header-actions">
+        <button class="theme-toggle" type="button" aria-label="Switch to dark theme" title="Switch theme"><svg class="icon icon-moon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-moon"/></svg><svg class="icon icon-sun" aria-hidden="true"><use href="assets/icons.svg?v=6#i-sun"/></svg></button>
+        <nav aria-label="Primary">
+        <button class="menu-button" type="button" popovertarget="site-menu" aria-controls="site-menu">
+          <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-menu"/></svg><span>Menu</span>
+        </button>
+        <ul id="site-menu" class="nav-list" popover="auto">
+          <li><a href="index.html" aria-current="page">Overview</a></li>
+          <li><a href="journal.html">Journal</a></li>
+          <li><a href="stage-1.html">Stage 1</a></li>
+          <li><a href="stage-2.html">Stage 2</a></li>
+          <li><a href="stage-3.html">Stage 3</a></li>
+          <li><a href="stage-4.html">Stage 4</a></li>
+        </ul>
+      </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap">
+        <h1>How much of the progress in polyp segmentation survives a strict test?</h1>
+        <p class="lead">Polyps are small growths in the bowel that doctors look for during a colonoscopy. Computer models can outline them in the video. Papers say newer models are much better than the classic U-Net. We test whether that is still true when every model is trained and measured the same fair way, on one laptop, with the cost shown next to the quality.</p>
+        <div class="actions">
+          <a class="btn" href="stage-1.html">Start with stage 1<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-arrow"/></svg></a>
+          <a class="btn secondary" href="journal.html"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-journal"/></svg>Open the journal</a>
+          <a class="btn secondary" href="../research/decisions.md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>Read the decisions</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="wrap">
+        <h2>The starting point</h2>
+        <p class="section-lead">On hospitals the models never saw, the published gap between U-Net and newer models grows from about <span class="key">0.1</span> to as much as <span class="key">0.39</span> Dice. Is that the architecture, or a weak baseline and a loose protocol?</p>
+        <figure class="panel reveal" style="margin-top:40px">
+          <picture>
+            <source srcset="../research/figures/published_dice_dark.png" media="(prefers-color-scheme: dark)">
+            <img src="../research/figures/published_dice_light.png" width="1800" height="919" loading="lazy"
+                 alt="Dot plot of published mean Dice per test set. Seen hospitals: Kvasir, U-Net 0.818, PraNet 0.898, Polyp-PVT 0.917; CVC-ClinicDB, 0.823, 0.899, 0.937. Unseen hospitals: CVC-ColonDB, 0.512, 0.709, 0.808; ETIS, 0.398, 0.628, 0.787; CVC-300, U-Net 0.710, PraNet 0.871.">
+          </picture>
+          <figcaption>Numbers as printed in the PraNet (MICCAI 2020) and Polyp-PVT (CAAI AIR 2023) papers. Data: <a class="doc-link" href="../research/published_results.csv"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>published_results.csv</a></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2>The plan</h2>
+        <p class="section-lead">Nine stages, done one at a time. Each one ends with a page like this that explains what was done and why.</p>
+        <ol class="roadmap">
+          <li class="stage reveal" data-status="done">
+            <span class="stage-num">1</span>
+            <div><h3><a class="stretched" href="stage-1.html" style="color:inherit">Study of real projects</a></h3><p>Ten repositories read at pinned commits, published numbers collected, project rules fixed.</p></div>
+            <span class="status"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-done"/></svg>Done</span>
+          </li>
+          <li class="stage reveal" data-status="done">
+            <span class="stage-num">2</span>
+            <div><h3><a class="stretched" href="stage-2.html" style="color:inherit">Skeleton and data</a></h3><p>Environment, data audit and saved split, tested metrics, data loader, training loop.</p></div>
+            <span class="status"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-done"/></svg>Done</span>
+          </li>
+          <li class="stage reveal" data-status="done">
+            <span class="stage-num">3</span>
+            <div><h3><a class="stretched" href="stage-3.html" style="color:inherit">Reproduce the reference</a></h3><p>PraNet's published numbers reproduced from the authors' maps and from the released weights, run on the Mac.</p></div>
+            <span class="status"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-done"/></svg>Done</span>
+          </li>
+          <li class="stage reveal" data-status="next">
+            <span class="stage-num">4</span>
+            <div><h3><a class="stretched" href="stage-4.html" style="color:inherit">U-Net from scratch</a></h3><p>Our own U-Net, checked against a widely used version, now training: five runs on the laptop.</p></div>
+            <span class="status"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-next"/></svg>In progress</span>
+          </li>
+          <li class="stage reveal" data-status="planned">
+            <span class="stage-num">5</span>
+            <div><h3>U-Net with a pretrained encoder</h3><p>ResNet-34 from segmentation_models.pytorch, same recipe, only the model changes.</p></div>
+            <span class="status"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-planned"/></svg>Planned</span>
+          </li>
+          <li class="stage reveal" data-status="planned">
+            <span class="stage-num">6</span>
+            <div><h3>Frozen foundation model</h3><p>A linear head on DINOv3 ViT-S features, trained in minutes.</p></div>
+            <span class="status"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-planned"/></svg>Planned</span>
+          </li>
+          <li class="stage reveal" data-status="planned">
+            <span class="stage-num">7</span>
+            <div><h3>Experiments</h3><p>Test-set selection bias, label fraction, unseen hospitals, ablations, error analysis, on-device latency.</p></div>
+            <span class="status"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-planned"/></svg>Planned</span>
+          </li>
+          <li class="stage reveal" data-status="planned">
+            <span class="stage-num">8</span>
+            <div><h3>Demo, report, publication</h3><p>Gradio demo, a short technical report, the public repository.</p></div>
+            <span class="status"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-planned"/></svg>Planned</span>
+          </li>
+          <li class="stage reveal" data-status="planned">
+            <span class="stage-num">9</span>
+            <div><h3>Server stage</h3><p>nnU-Net, EoMT and SAM 3 pseudo-labels on university GPUs.</p></div>
+            <span class="status"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-planned"/></svg>Planned</span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="wrap">
+        <h2>What makes it different</h2>
+        <div class="cards">
+          <div class="card reveal">
+            <svg class="icon card-icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-protocol"/></svg>
+            <h3>A strict protocol</h3>
+            <p>A saved validation split, checkpoints chosen on validation only, three seeds and confidence intervals on every number.</p>
+          </div>
+          <div class="card reveal">
+            <svg class="icon card-icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-ruler"/></svg>
+            <h3>Quality next to cost</h3>
+            <p>Training minutes, memory and latency sit in the same table as Dice, so every step up the ladder shows its price.</p>
+          </div>
+          <div class="card reveal">
+            <svg class="icon card-icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-code"/></svg>
+            <h3>Reproducible</h3>
+            <p>Every table and chart is produced by a script from saved results. Splits and configs live in the repository.</p>
+          </div>
+          <div class="card reveal">
+            <svg class="icon card-icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>
+            <h3>Explained step by step</h3>
+            <p>Each stage links every claim to a paper table or a line of code, and ends with the questions an interviewer would ask.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Built on a MacBook Air M3. Every published number links to its source in the <a href="../research/01_polyp_protocol.md">research notes</a>.</p>
+    </div>
+  </footer>
+  <script src="assets/site.js?v=10" defer></script>
+</body>
+</html>

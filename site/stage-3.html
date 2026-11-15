@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stage 3 · Reproducing PraNet</title>
+  <meta name="description" content="Stage 3 of the polyp segmentation benchmark: our evaluation reproduces PraNet's published numbers from the authors' own maps, and the released weights reproduce them on a Mac.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230066cc' stroke-width='1.8'%3E%3Crect x='2.5' y='2.5' width='19' height='19' rx='5.5'/%3E%3Cpath d='M8 15.5c-1.6-2.4-.4-6 2.6-6.6 2.1-.4 2.7 1.1 4.3 1.1 2 0 3 2.2 1.8 4-1.4 2.2-6.9 4.3-8.7 1.5z' fill='%230066cc' fill-opacity='.25'/%3E%3C/svg%3E">
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')==='dark'?'dark':'light'}catch(e){document.documentElement.dataset.theme='light'}</script>
+  <link rel="stylesheet" href="assets/style.css?v=9">
+</head>
+<body>
+  <a class="visually-hidden" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html"><svg class="icon brand-mark" aria-hidden="true"><use href="assets/icons.svg?v=6#i-mark"/></svg>Polyp segmentation benchmark</a>
+      <div class="header-actions">
+        <button class="theme-toggle" type="button" aria-label="Switch to dark theme" title="Switch theme"><svg class="icon icon-moon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-moon"/></svg><svg class="icon icon-sun" aria-hidden="true"><use href="assets/icons.svg?v=6#i-sun"/></svg></button>
+        <nav aria-label="Primary">
+        <button class="menu-button" type="button" popovertarget="site-menu" aria-controls="site-menu">
+          <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-menu"/></svg><span>Menu</span>
+        </button>
+        <ul id="site-menu" class="nav-list" popover="auto">
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="journal.html">Journal</a></li>
+          <li><a href="stage-1.html">Stage 1</a></li>
+          <li><a href="stage-2.html">Stage 2</a></li>
+          <li><a href="stage-3.html" aria-current="page">Stage 3</a></li>
+          <li><a href="stage-4.html">Stage 4</a></li>
+        </ul>
+      </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- 1. What we did -->
+    <section class="hero">
+      <div class="wrap">
+        <h1>Stage 3. Can we trust our ruler?</h1>
+        <p class="lead">Before any of our own numbers count, our code has to give PraNet's published numbers from PraNet's own files. It does: first from the prediction maps the authors released, then from their released weights, run on a MacBook Air.</p>
+        <div class="stats">
+          <div class="stat"><span class="stat-value" data-s3="hero.pub">20 of 20</span><span class="stat-label">published numbers reproduced from the authors' maps</span></div>
+          <div class="stat"><span class="stat-value" data-s3="hero.run">5 of 5</span><span class="stat-label">test sets reproduced from the released weights</span></div>
+          <div class="stat"><span class="stat-value" data-s3="hero.maps">698</span><span class="stat-label">of 698 maps on four test sets within one 8-bit level of the authors'</span></div>
+          <div class="stat"><span class="stat-value" data-s3="hero.ms">31 ms</span><span class="stat-label">per image on the Apple GPU</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="wrap">
+        <h2>Three steps, one commit each</h2>
+        <p class="section-lead">The rule, fixed in stage 1 as decision D13: every number must land within <span class="key">0.005</span> mDice of the paper.</p>
+        <div class="cards">
+          <a class="card reveal" href="../scripts/fetch_pranet.py">
+            <svg class="icon card-icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-download"/></svg>
+            <h3>3.1 Fetch the reference</h3>
+            <p>PraNet's code at a pinned commit, its released weights, and the prediction maps the authors published for PraNet and three baselines.</p>
+            <span class="card-foot"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>fetch_pranet.py</span>
+          </a>
+          <a class="card reveal" href="../reports/stage3_published_maps.md">
+            <svg class="icon card-icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-ruler"/></svg>
+            <h3>3.2 Check the ruler</h3>
+            <p>Score the authors' own maps with our port of their evaluation. Same files, so only the evaluation code can differ.</p>
+            <span class="card-foot"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>Published maps report</span>
+          </a>
+          <a class="card reveal" href="../reports/stage3_pranet_weights.md">
+            <svg class="icon card-icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-chip"/></svg>
+            <h3>3.3 Run the whole pipeline</h3>
+            <p>Run the released weights on the Apple GPU and on the CPU, following the authors' test script step by step, and score the output.</p>
+            <span class="card-foot"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>Released weights report</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 and 3. Why, and how it works -->
+    <section>
+      <div class="wrap">
+        <h2>Why two checks, not one</h2>
+        <p class="section-lead">A number in a paper is the end of a long path. If we only ran the weights and the numbers disagreed, we would not know which step was wrong. So we checked the path in two halves.</p>
+        <div class="panel reveal" style="margin-top:40px">
+          <h3>From a colonoscopy frame to one number</h3>
+          <p class="note">Choose a check to see which steps run in our code. The rest come from the authors' files.</p>
+          <div class="segmented" role="group" aria-label="Choose a check" style="margin-top:16px">
+            <button type="button" data-check="pub" aria-pressed="true">3.2 Authors' maps</button>
+            <button type="button" data-check="run" aria-pressed="false">3.3 Released weights</button>
+          </div>
+          <div id="flow" data-check="pub">
+            <p class="flow-title">The authors' test script, MyTest.py</p>
+            <ol class="flow">
+              <li data-in="run"><span class="step-num">1</span><strong>Read the image</strong><span class="what">Decode the PNG or JPEG file into pixels.</span></li>
+              <li data-in="run"><span class="step-num">2</span><strong>Resize and normalise</strong><span class="what">352 × 352, bilinear, ImageNet mean and spread.</span></li>
+              <li data-in="run"><span class="step-num">3</span><strong>Forward pass</strong><span class="what">PraNet with the released weights. Keep the last of its four outputs.</span></li>
+              <li data-in="run"><span class="step-num">4</span><strong>Back to full size</strong><span class="what">Upsample to the mask's size, then a sigmoid gives 0-1.</span></li>
+              <li data-in="run"><span class="step-num">5</span><strong>Save as 8 bits</strong><span class="what">Stretch to 0-1 and write a PNG with levels 0-255.</span></li>
+            </ol>
+            <p class="flow-title">The authors' evaluation, eval/main.m</p>
+            <ol class="flow" start="6">
+              <li data-in="run pub"><span class="step-num">6</span><strong>Stretch and threshold</strong><span class="what">Stretch again, then cut the map at 256 thresholds.</span></li>
+              <li data-in="run pub"><span class="step-num">7</span><strong>Average</strong><span class="what">Dice at each threshold, mean over thresholds, mean over images.</span></li>
+            </ol>
+          </div>
+          <div class="flow-groups"><span><i class="ours"></i>Runs in our code</span><span><i></i>Taken from the authors' files</span></div>
+          <p class="note" id="flow-note" style="margin-top:16px" aria-live="polite">With the authors' maps, steps 1-5 are already done: the files are their output. Only our evaluation runs, so any difference is our evaluation's fault.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Results -->
+    <section class="alt">
+      <div class="wrap">
+        <h2>Both checks pass</h2>
+        <p class="section-lead">Each mark is one result, drawn as its distance from the number printed in the paper. The band is the 0.005 tolerance. Hover a mark for its value.</p>
+        <div class="panel reveal" style="margin-top:40px">
+          <h3>PraNet's mDice, ours against the paper</h3>
+          <ul class="legend" aria-label="Legend">
+            <li><svg aria-hidden="true" style="fill:var(--s1)"><use href="assets/icons.svg?v=6#m-square"/></svg>3.2 Authors' maps, our evaluation</li>
+            <li><svg aria-hidden="true" style="fill:var(--s2)"><use href="assets/icons.svg?v=6#m-circle"/></svg>3.3 Released weights, our whole pipeline</li>
+          </ul>
+          <div class="chart" id="s3-tolerance" role="img" aria-label="Difference from the paper's mDice for each test set, for both checks"></div>
+          <div class="table-wrap" id="s3-table"></div>
+          <figcaption>The baselines (U-Net, U-Net++, SFA) were checked the same way in 3.2: 15 of 15 within the tolerance. Data: <a class="doc-link" href="../reports/stage3_published_maps.md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>stage3_published_maps.md</a> <a class="doc-link" href="../reports/stage3_pranet_weights.md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>stage3_pranet_weights.md</a></figcaption>
+        </div>
+
+        <figure class="panel reveal">
+          <h3>Our maps next to the authors'</h3>
+          <p class="note">One image per test set, the one with the set's median score, and the Kvasir image where the two maps differ most. On four test sets the difference column is empty: the maps are the same to within one level out of 255.</p>
+          <img class="figure-img" src="../reports/figures/stage3_maps.png" width="1680" height="2100" loading="lazy"
+               alt="Six rows of four panels: image with true outline, our map, the authors' map, and the difference. Median images: Kvasir mean difference 0.02 levels, CVC-ClinicDB 0, CVC-ColonDB 0, ETIS 0, CVC-300 0 with a maximum of 1. Last row, the Kvasir image with the largest difference: mean 13.75 levels, maximum 243; our map marks a second, false region more strongly than the authors' map.">
+          <figcaption>Generated by <code>make stage3-figures</code> from the maps saved by <code>make pranet-run</code>.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2>The one open question: Kvasir</h2>
+        <p class="section-lead">On Kvasir, and only there, every one of our maps differs a little from the authors'. The mean is still within the tolerance against the paper, but the gap to the authors' maps is larger than chance.</p>
+        <div class="panel reveal" style="margin-top:40px">
+          <h3>Each Kvasir image, our score minus the authors'</h3>
+          <p class="note">Kvasir is the only test set that started as JPEG photos, so the first suspect was the JPEG decoder. Switch the decoder and watch the dots.</p>
+          <div class="segmented" role="group" aria-label="JPEG decoder" style="margin-top:16px">
+            <button type="button" data-dec="pillow" aria-pressed="true">Pillow, as in the authors' script</button>
+            <button type="button" data-dec="apple" aria-pressed="false">Apple's decoder</button>
+          </div>
+          <div class="chart" id="s3-kvasir" role="img" aria-label="Per-image difference in mDice between our maps and the authors' maps on Kvasir"></div>
+          <div class="result-row" aria-live="polite">
+            <div class="result"><span class="result-value" id="kv-mean">–</span><span class="result-label">Mean difference</span></div>
+            <div class="result"><span class="result-value" id="kv-big">–</span><span class="result-label">Images off by more than 0.01</span></div>
+            <div class="result"><span class="result-value" id="kv-worst">–</span><span class="result-label">Largest single difference</span></div>
+          </div>
+          <p class="note" style="margin-top:16px">A different decoder moves single images a lot but leaves the mean where it was, and takes the maps further from the authors'. So the decoder is not the explanation. Paired bootstrap against the authors' maps: <span class="key" id="kv-ci">–</span>.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <caption>What was ruled out</caption>
+            <thead><tr><th scope="col">Suspect</th><th scope="col">Test</th><th scope="col">Result</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">The model or our code</th><td data-label="Test">The other four test sets</td><td data-label="Result">All 698 maps within one level</td></tr>
+              <tr><th scope="row">The Apple GPU</th><td data-label="Test">Same run on the CPU</td><td data-label="Result">Same scores within 0.00001</td></tr>
+              <tr><th scope="row">Our copy of the images</th><td data-label="Test">Original Kvasir-SEG download</td><td data-label="Result">Pixel for pixel the same</td></tr>
+              <tr><th scope="row">The JPEG decoder</th><td data-label="Test">Apple's decoder instead of Pillow</td><td data-label="Result">Mean moves by 0.0001</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="wrap">
+        <h2>The same model on two processors</h2>
+        <p class="section-lead">PraNet was trained and published on NVIDIA GPUs. Here it runs on Apple's GPU and on the CPU, and the scores agree to the fifth decimal on every image.</p>
+        <div class="panel reveal" style="margin-top:40px">
+          <h3>Forward pass per image, median</h3>
+          <p class="note">Test sets in the order they ran. After five warm-up passes, timed with the GPU synchronised. Hover a bar for its value.</p>
+          <ul class="legend" aria-label="Legend">
+            <li><svg aria-hidden="true" style="fill:var(--s1)"><use href="assets/icons.svg?v=6#m-square"/></svg>Apple GPU</li>
+            <li><svg aria-hidden="true" style="fill:var(--s2)"><use href="assets/icons.svg?v=6#m-circle"/></svg>CPU</li>
+          </ul>
+          <div class="chart" id="s3-speed" role="img" aria-label="Median forward-pass time per test set on the Apple GPU and the CPU"></div>
+          <figcaption>The Apple GPU slowed from 31 ms to 44-49 ms on the last two test sets with the same input size. Heat on the fanless laptop is the likely cause; it was not verified. Stage 7 will alternate models and rest between runs.</figcaption>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Code walkthrough -->
+    <section>
+      <div class="wrap">
+        <h2>In the code</h2>
+        <p class="section-lead">Three details that decide the last digits.</p>
+        <div class="panel reveal" style="margin-top:40px">
+          <h3>Saving the map: one stretch you can see, one you cannot</h3>
+          <div class="code-block"><pre>res = (res - res.min()) / (res.max() - res.min() + 1e-8)   # MyTest.py:37
+lo, hi = res.min(), res.max()
+<span class="hl">levels = (np.clip((res - lo) * (255.0 / (hi - lo)), 0, 255) + 0.5).astype(np.uint8)</span></pre></div>
+          <p class="note" style="margin-top:12px">The authors' script stretches the map once, then saves it with an old SciPy function that stretches it again and rounds by adding 0.5. Our version does both. A plain <code>(res * 255).astype(np.uint8)</code> would cut off the fraction instead of rounding, and put many pixels one level below the authors' files.</p>
+          <p class="source"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-code"/></svg><a href="https://github.com/DengPingFan/PraNet/blob/95f12bd4e32ec954b5069654abae7de9473fd1f5/MyTest.py#L37">PraNet MyTest.py, line 37</a> · <a href="../src/seg/metrics.py">seg.metrics.pranet_save_levels</a></p>
+        </div>
+        <div class="panel reveal">
+          <h3>MATLAB's thresholds, to the last bit</h3>
+          <div class="code-block"><pre>n = int(round((stop - start) / step))
+k = np.arange(n + 1)
+<span class="hl">out = np.where(k &lt;= n // 2, start + k * step, stop - (n - k) * step)</span></pre></div>
+          <p class="note" style="margin-top:12px">The evaluation cuts each map at <code>1:-1/255:0</code>. MATLAB builds the first half of that list forward from 1 and the second half backward from 0, so its values differ from the obvious formula in the last bits. Those bits decide ties when a pixel sits exactly on a threshold. The effect turned out to be tiny, at most 0.0001 mDice, but now it is measured, not assumed.</p>
+          <p class="source"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-code"/></svg><a href="https://github.com/DengPingFan/PraNet/blob/95f12bd4e32ec954b5069654abae7de9473fd1f5/eval/main.m#L30">PraNet eval/main.m, line 30</a> · <a href="../src/seg/metrics.py">seg.metrics.matlab_colon</a></p>
+        </div>
+        <div class="panel reveal">
+          <h3>Boundary IoU in 3 ms instead of 100 s</h3>
+          <div class="code-block"><pre>m, w = x, 1
+while 2 * w &lt;= k:
+    n = m.shape[dim] - w
+<span class="hl">    m = m.narrow(dim, 0, n) | m.narrow(dim, w, n)</span>
+    w *= 2
+return m.narrow(dim, 0, out_len) | m.narrow(dim, k - w, out_len)</pre></div>
+          <p class="note" style="margin-top:12px">On ETIS's 1225 × 966 images, PyTorch's CPU max-pool took 50 s per pass. Doubling the window at each step covers a 63-pixel window in 5 steps and two overlapping halves. A test checks it against the max-pool on 200 random cases.</p>
+          <p class="source"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-code"/></svg><a href="../src/seg/metrics.py">seg.metrics._sliding_any</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. What can go wrong -->
+    <section class="alt">
+      <div class="wrap">
+        <h2>What is still open</h2>
+        <ul class="risk-list">
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-search"/></svg><div><strong>The Kvasir gap</strong><span>0.0038 below the authors' maps, driven by a handful of images. Within the tolerance against the paper, recorded as open, and named in every table that shows Kvasir.</span></div></li>
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-history"/></svg><div><strong>PraNet on CVC-ColonDB: 0.709 or 0.712</strong><span>The PraNet paper prints 0.709. The released maps and weights both give 0.7115, the number the Polyp-PVT paper reports. We use the measured value and say so.</span></div></li>
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-file-skip"/></svg><div><strong>Baselines scored on 359 of 380 images</strong><span>Some released baseline maps are .tif files, and the evaluation reads only .png. With all 380 maps the baselines drop by up to 0.013. Our own models are always scored on every image.</span></div></li>
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-decode"/></svg><div><strong>Image decoding changes single scores</strong><span>Another JPEG decoder moved one Kvasir image by 0.17 mDice. Every run uses the same decoder, Pillow, and the lock file pins its version.</span></div></li>
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-heat"/></svg><div><strong>Speed depends on heat</strong><span>One median per run hides throttling. Later speed tables will show the spread over repeated, alternating runs.</span></div></li>
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-port"/></svg><div><strong>MATLAB itself never ran</strong><span>We ported the evaluation to Python. It reproduces all 20 published numbers, which is strong evidence, but not a run of the original code.</span></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 7. Interview questions -->
+    <section>
+      <div class="wrap">
+        <h2 id="questions">Questions you should be ready for</h2>
+        <div class="accordion" aria-labelledby="questions">
+          <details><summary>Why reproduce a paper before training anything?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>Our results will sit next to published ones. If our evaluation measured differently, every comparison would mix model differences with measurement differences. Matching the paper from the authors' own files shows the ruler is the same.</p></div></details>
+          <details><summary>Why score the authors' maps first, and not just run the weights?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>It splits the problem in two. With the authors' maps, only our evaluation can be wrong. Once that matches, running the weights tests everything before it: loading, preprocessing, inference and saving. A mismatch then points to one half.</p></div></details>
+          <details><summary>Your Kvasir number is 0.0036 below the paper. Is that a failure?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>Against the rule we set before looking, no: it is within 0.005. But against the authors' own maps the gap is 0.0038, and a paired bootstrap puts it below zero. So it is a real difference, and we say so instead of rounding it away. Four suspects are ruled out; the cause is still open.</p></div></details>
+          <details><summary>What is a paired bootstrap, and why use it here?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>Both results are on the same 100 images, so we look at the per-image differences. We resample those 100 differences with replacement 10,000 times and take the middle 95% of the means. Pairing removes the spread between easy and hard images, which is much larger than the effect.</p></div></details>
+          <details><summary>How do you know the Apple GPU gives correct results?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>The same run on the CPU agrees within 0.00001 mDice on every image, and on four test sets the maps match what the authors produced on an NVIDIA GPU to within one level out of 255.</p></div></details>
+          <details><summary>Why do you report Dice at 0.5 next to mDice?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>mDice averages over 256 thresholds after stretching each map, so it is only comparable with other mDice numbers. Dice at a fixed 0.5 threshold is what a deployed model would use. For PraNet they are close, 0.894 and 0.899 on Kvasir, but stage 2 showed they can come apart.</p></div></details>
+          <details><summary>Your first speed number was 56 ms and now it is 31 ms. Which is right?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>31 ms. The 56 ms came from a quick check right after loading, without warm-up, so it included one-time setup. The run script warms up, synchronises the GPU before reading the clock, and takes the median over 798 images. The old number stays in the journal as history.</p></div></details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Glossary -->
+    <section class="alt">
+      <div class="wrap">
+        <h2>Glossary</h2>
+        <dl class="glossary">
+          <div><dt>Released weights</dt><dd>The trained model parameters the authors published, so anyone can run their model without training it.</dd></div>
+          <div><dt>Prediction map</dt><dd>The model's output for one image: a grey picture where brighter means more likely to be polyp.</dd></div>
+          <div><dt>8-bit level</dt><dd>One of 256 grey values, 0 to 255, in a saved PNG. "Within one level" means nearly identical.</dd></div>
+          <div><dt>mDice</dt><dd>PraNet's score: Dice averaged over 256 thresholds on a stretched map, then over images.</dd></div>
+          <div><dt>Tolerance</dt><dd>The largest gap to the paper we accept: 0.005 mDice, fixed in decision D13 before any run.</dd></div>
+          <div><dt>Paired bootstrap</dt><dd>Resampling per-image differences between two results to get a confidence interval for their mean gap.</dd></div>
+          <div><dt>JPEG decoder</dt><dd>The software that turns a compressed JPEG file into pixels. Different decoders can give slightly different pixels.</dd></div>
+          <div><dt>Throttling</dt><dd>A chip slowing itself down when it gets hot. The MacBook Air has no fan, so long runs can slow down.</dd></div>
+        </dl>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="pager">
+        <a class="doc-link" href="stage-2.html"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-arrow-left"/></svg>Stage 2. Skeleton and data</a>
+        <a class="doc-link" href="stage-4.html">Stage 4. U-Net from scratch<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-arrow"/></svg></a>
+      </div>
+    </div>
+  </footer>
+  <script src="assets/site.js?v=10" defer></script>
+</body>
+</html>

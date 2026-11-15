@@ -1,0 +1,548 @@
+# Project journal: one entry per iteration (sub-step).
+#
+# The source of truth for the Journal page. Numbers that change with the code (test counts,
+# model sizes, audit results) are measured by scripts/build_site_data.py, not typed here.
+# "tests" is the size of the test suite when the iteration was finished, as reported by pytest.
+#
+# Problem kinds:
+#   ours       a mistake of ours, caught by a check before it could affect a result
+#   published  a problem in published papers or code
+#   library    surprising behaviour of a library we depend on
+#   data       a property of the data that changes how it must be used
+
+iterations:
+  - id: "1.1"
+    stage: 1
+    date: 2026-11-13
+    title: How the polyp benchmark really works
+    summary: Read the code and papers of Kvasir-SEG, PraNet and Polyp-PVT, the benchmark every later paper reports on.
+    why: Published numbers can only be compared if they were measured the same way; the code shows how they were measured.
+    results:
+      - {label: Findings in the benchmark code, value: "6"}
+      - {label: Published rows collected later in 1.4, value: "45"}
+    problems:
+      - kind: published
+        what: Polyp-PVT picks its saved checkpoint by Dice on a test folder; PraNet has no validation set at all.
+        found: Reading Train.py lines 109-121 and MyTrain.py lines 67-69.
+        fix: Our protocol keeps a saved validation split and touches test sets once (decision D3).
+      - kind: published
+        what: The headline "mDice" averages Dice over 256 thresholds of a per-image stretched map; it is not Dice at 0.5.
+        found: Reading MyTest.py line 37 and eval/main.m.
+        fix: We report Dice at 0.5 and PraNet-style mDice side by side (decision D4).
+      - kind: published
+        what: The PraNet paper describes a random 80/10/10 split; the released data uses fixed folders.
+        found: Comparing paper Section 3.1 with the README data section.
+        fix: We follow the released folders, which is what later papers did.
+    files: [research/01_polyp_protocol.md]
+
+  - id: "1.2"
+    stage: 1
+    date: 2026-11-13
+    title: The U-Net lineage
+    summary: Compared the 2015 U-Net paper with three implementations (milesial, SMP, nnU-Net) and read nnU-Net Revisited.
+    why: Our first two models are U-Nets; knowing which details came from where lets us explain every design choice.
+    results:
+      - {label: Code links pinned and checked, value: "23"}
+      - {label: Validation pitfalls named by nnU-Net Revisited, value: "4"}
+    problems:
+      - kind: published
+        what: milesial evaluates with drop_last=True and averages Dice per batch, so results depend on batch size and skip images.
+        found: Reading train.py line 55 and evaluate.py lines 30 and 40.
+        fix: We score every image and average per image.
+      - kind: ours
+        what: The plan said the SMP author works at Hugging Face; his profile says formerly.
+        found: Checking the GitHub profile before writing the note.
+        fix: Corrected in the note before it was saved.
+    files: [research/02_unet_lineage.md]
+
+  - id: "1.3"
+    stage: 1
+    date: 2026-11-13
+    title: Beyond U-Net
+    summary: Read Mask2Former, SegFormer, EoMT, DINOv3 and MONAI at code level and sorted every model into three designs.
+    why: Rung 3 uses a frozen DINOv3 backbone, and the server stage uses mask transformers; we need to know where each is weak.
+    results:
+      - {label: "EoMT gap to Mask2Former, ViT-S vs ViT-g", value: "5.8 vs 0.7 PQ"}
+      - {label: "DINOv3 vs DINOv2 ViT-S, ADE20K", value: "47.0 vs 45.5 mIoU"}
+    problems:
+      - kind: ours
+        what: The plan named NVIDIA and King's College London as MONAI's founders without a source.
+        found: The MONAI paper page lists no affiliations.
+        fix: Confirmed from the full paper ("initially led by NVIDIA and King's College London") before using it.
+    files: [research/03_foundation_models.md]
+
+  - id: "1.4"
+    stage: 1
+    date: 2026-11-13
+    title: Published numbers and the project's rules
+    summary: Collected 45 published results with their source tables, drew the first chart, and wrote fifteen decisions.
+    why: Every later stage follows these rules, so each one needed a reason and a source.
+    results:
+      - {label: Published results, value: "45"}
+      - {label: Decisions, value: "15"}
+      - {label: "U-Net to best model gap, unseen hospitals", value: "up to 0.39 Dice"}
+    problems:
+      - kind: ours
+        what: The first chart title said the gap is "3x larger on unseen hospitals", which overstates CVC-300 (0.16).
+        found: Looking at the rendered chart before sharing it.
+        fix: Rewrote the title to state the actual range, 0.1 to 0.39.
+      - kind: ours
+        what: The "(vs PraNet)" label was cut off at the chart's right edge.
+        found: Looking at the rendered chart.
+        fix: Shortened to an asterisk with a footnote.
+    files: [research/published_results.csv, research/decisions.md, research/plot_published.py]
+
+  - id: "1.5"
+    stage: 1
+    date: 2026-11-13
+    title: The explainer site
+    summary: Built the site shell, the home page and the stage 1 page with an interactive chart and two hands-on demos.
+    why: You should be able to explain every step as your own; the site is the study guide and the showcase.
+    results:
+      - {label: Widths checked, value: "1440, 834, 390"}
+      - {label: Console errors, value: "0"}
+    problems:
+      - kind: ours
+        what: The note claimed boundary pixels get up to 6x weight in PraNet's loss; at a straight edge it is about 3.5x.
+        found: Building the weight-map demo, which computes the weights.
+        fix: Corrected the note, the page and the colour scale.
+      - kind: ours
+        what: The home-page chart image was stretched vertically.
+        found: Checking the page at 834 px.
+        fix: Added height auto so images keep their aspect ratio.
+      - kind: ours
+        what: In dark mode the weight colours were reversed and a chart label ran off the left edge on phones.
+        found: Checking the page in dark mode and at 390 px.
+        fix: One colour scale for both themes; group labels moved to the left margin.
+    files: [site/index.html, site/stage-1.html]
+
+  - id: "2.1"
+    stage: 2
+    date: 2026-11-13
+    title: Environment
+    summary: Python 3.11 environment with exact pinned versions, one-command setup, and helpers for device, seeds and cost.
+    why: Anyone must be able to rebuild the same environment, and cost needs a reliable memory measurement.
+    tests: 10
+    results:
+      - {label: PyTorch, value: "2.15.0 on MPS"}
+      - {label: Memory counter checked, value: "256 MB read as 256.0 MB"}
+    problems:
+      - kind: library
+        what: torch.mps has no peak-memory counter in PyTorch 2.15, and the driver total grows in 1 GB steps.
+        found: Listing the available functions and testing them on known allocations.
+        fix: Use torch.accelerator's peak counter, which reads known allocations exactly (decision D15).
+      - kind: ours
+        what: Eight lint findings, including two unchecked zip() calls in the chart script.
+        found: Running the linter.
+        fix: All fixed; lint now runs on every change.
+    files: [src/seg/env.py, scripts/check_env.py, requirements-lock.txt]
+
+  - id: "2.2"
+    stage: 2
+    date: 2026-11-13
+    title: Data and the validation split
+    summary: Downloaded the benchmark with checksums, audited it, and saved a validation split made of whole videos.
+    why: A validation set that shares videos with training measures memory, not generalisation.
+    tests: 32
+    results:
+      - {label: Validation images, value: "158"}
+      - {label: "Sequence table vs images, AUC", value: "0.965"}
+      - {label: Exact train/test duplicates, value: "0"}
+    problems:
+      - kind: data
+        what: The CVC-ClinicDB test set takes its frames from 26 videos that also have training frames.
+        found: Mapping every frame to its video with the dataset's own table.
+        fix: Validation uses the only three videos with no test frame; CVC-ClinicDB results are labelled as near-copy performance.
+      - kind: ours
+        what: The plan was to recover video boundaries from image similarity, but only 15 of the 28 most dissimilar pairs were true boundaries.
+        found: Comparing the similarity signal with the official sequence table.
+        fix: Used the published table, and kept the images only as a check of it.
+      - kind: published
+        what: The PraNet paper says 31 clips; the dataset's own table has 29 sequences.
+        found: Reading the CVC-ClinicDB table.
+        fix: The table is used; the difference is noted.
+      - kind: data
+        what: The training archive uses an image/ folder (test sets use images/) and contains six macOS .DS_Store files.
+        found: Counting files after extraction.
+        fix: Paths handled explicitly; the extractor skips macOS metadata.
+    files: [scripts/download_data.py, scripts/make_splits.py, reports/data_inventory.md, data/splits/val_seed0.json]
+
+  - id: "2.3"
+    stage: 2
+    date: 2026-11-13
+    title: Metrics we can trust
+    summary: Dice, IoU, Boundary IoU and PraNet-style mDice, each checked against an implementation we did not write.
+    why: If the ruler is wrong, every comparison is wrong.
+    tests: 66
+    results:
+      - {label: Agreement with SMP and MONAI, value: exact}
+      - {label: Agreement with official Boundary IoU code, value: pixel-identical}
+      - {label: "Effect of float threshold ties on mDice", value: "at most 0.0016"}
+    problems:
+      - kind: ours
+        what: All metrics crashed on GPU tensors, because Apple's MPS backend has no float64.
+        found: Running the metrics on MPS, a case the CPU tests could not reach.
+        fix: Count on the GPU, divide on the CPU; a GPU test keeps it fixed.
+      - kind: ours
+        what: The slow port and the fast version disagreed at 66 of 256 thresholds.
+        found: The literal-port test failed.
+        fix: The cause was float ties at a threshold; measured the effect (at most 0.0016) and kept exact integer thresholds.
+    files: [src/seg/metrics.py, tests/test_metrics.py, tests/reference/boundary_iou_official.py]
+
+  - id: "2.4"
+    stage: 2
+    date: 2026-11-13
+    title: Data loader
+    summary: One augmentation for every model, with image and mask proven to move together.
+    why: An augmentation that moves the image but not its mask silently trains on wrong labels.
+    tests: 82
+    results:
+      - {label: "Image-mask agreement, worst of 160 draws", value: "0.935 IoU"}
+      - {label: "Same check on a broken pipeline", value: "0.257 median"}
+      - {label: "Loading speed, 4 workers", value: "746 images/s"}
+    problems:
+      - kind: ours
+        what: A helper named test_items, then testset_items, was collected by pytest as a test.
+        found: The test run reported an error for a fixture.
+        fix: Renamed to items_for_testset.
+    files: [src/seg/data.py, tests/test_data.py, reports/figures/augmentations.png]
+
+  - id: "2.5"
+    stage: 2
+    date: 2026-11-13
+    title: Losses and the training loop
+    summary: Losses, one training loop for every model, an overfit check, and a timed epoch that set the budget.
+    why: Every model must be trained by exactly the same procedure, and the budget must fit the laptop.
+    tests: 103
+    results:
+      - {label: "Overfit check, 32 images", value: "Dice 0.980"}
+      - {label: Speed-up after profiling, value: "2.3x"}
+      - {label: Epoch budget, value: "50 epochs"}
+    problems:
+      - kind: published
+        what: PraNet's structure loss passes reduce='none', which PyTorch reads as true; the boundary weights cancel out of the BCE term.
+        found: Testing what that argument returns.
+        fix: Both versions exist; the ablation tests whether the weighting matters.
+      - kind: library
+        what: albumentations 2 ignores the global seed, and loader workers repeated each other's draws (4 of 8 distinct with 2 workers).
+        found: Testing reproducibility with and without workers.
+        fix: Each worker gets its own seed; a test checks distinct and repeatable draws.
+      - kind: ours
+        what: "--set lr=3e-4 would have passed the learning rate as text: YAML 1.1 reads 3e-4 as a string."
+        found: A config test failed.
+        fix: Every setting is converted to its declared type.
+      - kind: ours
+        what: The first timed epoch took 65 s + 25 s, more than twice the bare compute.
+        found: Profiling a bare training step and validation separately.
+        fix: Workers now persist across epochs, and the loss is read once per epoch.
+    files: [src/seg/losses.py, src/seg/train.py, src/seg/models.py]
+
+  - id: "2.6"
+    stage: 2
+    date: 2026-11-14
+    title: Stage 2 explainer page
+    summary: Page with an overlap calculator, a threshold sweep, and charts filled from saved results.
+    why: The checks are only useful if they can be explained.
+    tests: 103
+    results:
+      - {label: "2-pixel shift: IoU vs Boundary IoU", value: "0.92 vs 0.505"}
+      - {label: "Biased model: raw Dice vs mDice", value: "0.000 vs 0.835"}
+    problems:
+      - kind: ours
+        what: Peak memory was quoted as 1.86 GB next to an 11.84 GB limit counted in different units; it is 1.82 GB.
+        found: The page computed the value from the saved results.
+        fix: One unit everywhere.
+      - kind: ours
+        what: The decisions said "about 34 minutes" and "2.2x" from a rough average including the first epoch.
+        found: The collector script computed steady-state epochs.
+        fix: Now 32 minutes and 2.3x, from the script.
+      - kind: ours
+        what: The demo text claimed low confidence alone breaks Dice at 0.5; it takes a bias as well.
+        found: Testing the demo's settings before publishing the text.
+        fix: Rewrote the explanation to match what the demo shows.
+    files: [site/stage-2.html, reports/stage2_checks.json]
+
+  - id: "3.1"
+    stage: 3
+    date: 2026-11-14
+    title: The PraNet reference
+    summary: Fetched PraNet's code at the pinned commit, its released weights and the authors' own prediction maps, and loaded the model on the Mac.
+    why: Stage 3 must reproduce PraNet's published numbers before any of our own results count (decision D13).
+    tests: 105
+    results:
+      - {label: Weights matched, value: "all, strict"}
+      - {label: "Speed on the Mac GPU", value: "56 ms per image"}
+      - {label: Published maps included, value: "PraNet, U-Net, U-Net++, SFA"}
+    problems:
+      - kind: published
+        what: PraNet's constructor loads its backbone from a hard-coded path on the authors' own machine.
+        found: The first load failed with that path in the error.
+        fix: Our loader builds the backbone without it; the released weights contain every parameter.
+      - kind: ours
+        what: The first workaround used functools.partial, which an explicit pretrained=True in PraNet's code overrides.
+        found: The load still failed with the same path.
+        fix: A small wrapper that always forces pretrained off.
+    files: [src/seg/pranet.py, scripts/fetch_pranet.py]
+
+  - id: "J.1"
+    stage: 3
+    date: 2026-11-14
+    title: The project journal
+    summary: A bright, data-driven page with every iteration, its results, every problem and its fix, analytics charts and model diagrams.
+    why: The work has to be easy to review and to present; everything on the page is generated from the project's data and models.
+    tests: 108
+    results:
+      - {label: Iterations recorded, value: "13"}
+      - {label: Images in the similarity chart, value: "956"}
+      - {label: Model shapes measured by forward passes, value: "2 built, 2 planned"}
+    problems:
+      - kind: ours
+        what: The browser served stale copies of the data and stylesheet after they changed, so half the charts failed to draw.
+        found: The page showed an error instead of the charts.
+        fix: Data is fetched without the cache, and every asset reference carries a version number.
+      - kind: ours
+        what: Tooltips in two charts were created once and wiped by every redraw, so they would never have appeared.
+        found: Reading the code before testing it in the browser.
+        fix: Each redraw creates its own tooltip.
+      - kind: ours
+        what: The "current stage" bar used a hard-stop CSS gradient, which the design rules exclude.
+        found: Reviewing the styles against the design rules.
+        fix: A solid half-width fill instead.
+      - kind: ours
+        what: The image count for the similarity chart was quoted as 1,056; the data has 956.
+        found: The chart counted its own dots.
+        fix: The page shows the count computed from the data.
+      - kind: ours
+        what: A long caption inside each model diagram ran past the screen edge on phones.
+        found: Checking every chart element's position at 390 px.
+        fix: The caption moved out of the diagram into text that wraps.
+    files: [site/journal.html, site/assets/journal.js, scripts/build_site_data.py, research/journal.yaml]
+
+  - id: "3.2"
+    stage: 3
+    date: 2026-11-14
+    title: Checking our ruler on the authors' own maps
+    summary: Scored the prediction maps the authors released for PraNet, U-Net, U-Net++ and SFA with our port of their evaluation, and compared every number with PraNet's Tables 1-2.
+    why: Same files, so only the evaluation code can differ. If our numbers match theirs, later differences between our models and the literature are about the models, not the measurement (decision D13).
+    tests: 125
+    results:
+      - {label: Published numbers reproduced, value: "20 of 20 within 0.005"}
+      - {label: Matching to the third decimal, value: "19 of 20"}
+      - {label: Largest gap, value: "+0.0025, PraNet on CVC-ColonDB"}
+      - {label: Baseline maps the evaluation skips, value: "21 of 380 on CVC-ColonDB"}
+      - {label: "Effect of MATLAB's float thresholds", value: "at most 0.0001"}
+      - {label: "Boundary IoU, one 1225 x 966 image on the CPU", value: "about 100 s to 3 ms"}
+    problems:
+      - kind: published
+        what: "In the released U-Net, U-Net++ and SFA maps, CVC-ColonDB images 77-97 are saved as .tif, and the evaluation lists only .png files. Those baselines were scored on 359 images, PraNet on all 380."
+        found: Our scores matched the published ones only when the 21 .tif maps were left out.
+        fix: We report both. With all 380 maps the baselines drop by 0.001 to 0.013 (research finding 9).
+      - kind: published
+        what: "PraNet on CVC-ColonDB is 0.709 in the PraNet paper, but its released maps give 0.7115, which is the 0.712 the Polyp-PVT paper reports."
+        found: The only one of 20 rows outside rounding.
+        fix: Recorded as finding 4, resolved; still within the 0.005 tolerance.
+      - kind: library
+        what: "PyTorch's CPU max-pool with stride 1 is slow for wide windows: one 63 x 63 pool on a 1225 x 966 image took 50 s, and Boundary IoU needs two."
+        found: The first full run had printed nothing after ten minutes; timing each step pointed to the pool.
+        fix: "A window-doubling sliding max (about log2 of the window in element-wise steps); identical to the max-pool on 200 random cases, now a test."
+      - kind: ours
+        what: "Our port of MATLAB's mapminmax handled a constant map wrongly: for a zero range it replaces both the gain and the offset, and we replaced only the gain."
+        found: A new test with a constant map failed.
+        fix: Both replaced, as in mapminmax.m. None of the 3,129 released .png maps is constant, so no number changed.
+      - kind: ours
+        what: The first run crashed on a blank mIoU cell in our table of published numbers (ResUNet-mod has no mIoU in the paper).
+        found: The script stopped with a conversion error.
+        fix: Blank cells are read as missing values.
+      - kind: data
+        what: The U-Net and U-Net++ Kvasir folders hold 200 files for 100 images, an extra 256 x 256 .jpg next to each full-size .png.
+        found: Counting files against the ground truth.
+        fix: The evaluation reads only the .png maps, as main.m does.
+    files: [scripts/eval_published_maps.py, src/seg/metrics.py, src/seg/stats.py, reports/stage3_published_maps.md, tests/test_metrics.py, tests/test_stats.py]
+
+  - id: "3.3"
+    stage: 3
+    date: 2026-11-14
+    title: The released weights, run on the Mac
+    summary: Ran the released PraNet weights on all five test sets, on the Apple GPU and on the CPU, following the authors' test script step by step, and scored the output with the evaluation checked in 3.2.
+    why: "3.2 checked the ruler; this checks the whole pipeline: loading, preprocessing, inference on a non-CUDA device, saving and scoring. It is the second half of decision D13."
+    tests: 131
+    results:
+      - {label: Published numbers reproduced, value: "5 of 5 within 0.005"}
+      - {label: "Maps equal to the authors' (4 lossless sets)", value: "698 of 698 within one 8-bit level"}
+      - {label: "Kvasir, against the authors' maps", value: "-0.0038 mDice, every image differs"}
+      - {label: Apple GPU against CPU, value: "at most 0.00001 per image"}
+      - {label: "Forward pass, Apple GPU", value: "31 ms, rising to 44-49 ms late in the run"}
+      - {label: "Forward pass, CPU", value: "50-59 ms"}
+    problems:
+      - kind: data
+        what: "On Kvasir, and only there, our maps differ from the authors' on every image (mean 0.6 levels, up to 243 at polyp edges) and mDice is 0.0038 lower (paired bootstrap interval -0.0085 to -0.0003). Kvasir is the only test set whose originals are JPEG."
+        found: Comparing our maps with the authors' image by image; the other four sets agree within one level.
+        fix: "Not explained yet, and recorded as open. Ruled out: the model and code (four sets match), the device (CPU equals GPU), our copy of the images (the benchmark's PNGs equal the original Kvasir-SEG JPEGs pixel for pixel). Decoding the JPEGs with Apple's decoder instead of Pillow moves single images by up to 0.17 mDice but the mean by only 0.0001. Still inside the 0.005 tolerance against the paper (-0.0036)."
+      - kind: ours
+        what: "3.1 quoted 56 ms per image on the Apple GPU. That came from a smoke test: one batch of 2 timed straight after loading, with no warm-up."
+        found: The proper measurement here (5 warm-up passes, synchronised timing, median over 798 images) gave 31 ms.
+        fix: Speeds are now measured only by the run scripts, with warm-up and synchronisation; 3.1's number stays in its entry as history.
+      - kind: ours
+        what: "On the Apple GPU the forward pass slowed from 31 ms to 44-49 ms over the last two test sets, with the same input size. The likely cause is heat on the fanless MacBook Air, not verified."
+        found: The per-set medians in the report.
+        fix: Stage 7's latency numbers will alternate models and rest between runs, and report the spread, not one median.
+      - kind: ours
+        what: "Three labels in two older Journal charts (set sizes, parameters) ran past the left edge on phones; the J.1 check had measured only the newest charts."
+        found: Checking every text element of every chart at 375 and 390 px, not just the new ones.
+        fix: Shorter labels on narrow screens and a wider label column; every chart is now checked on each change.
+    files: [scripts/run_pranet_weights.py, scripts/check_kvasir_decoding.py, src/seg/evaluate.py, src/seg/metrics.py, reports/stage3_pranet_weights.md, reports/stage3_kvasir_decoding.json, tests/test_evaluate.py, site/assets/journal.js]
+
+  - id: "3.4"
+    stage: 3
+    date: 2026-11-14
+    title: The stage 3 page
+    summary: "An explainer page for stage 3: why the reproduction was split into two checks, both results against the paper's tolerance, our maps next to the authors', the open Kvasir question with a decoder switch, speed on the Apple GPU and the CPU, three pieces of code, open risks and interview questions."
+    why: Every stage ends with a page that lets the work be reviewed and defended. Every number on it is read from the stage 3 reports, through one small data file.
+    tests: 142
+    results:
+      - {label: Interactive charts, value: "3, plus a step diagram"}
+      - {label: "Kvasir images off by more than 0.01, Pillow / Apple decoder", value: "8 / 14 of 100"}
+      - {label: New tests, value: "11: local links, menus, page data against reports"}
+      - {label: Checked at, value: "1440, 834 and 390 px, light and dark"}
+    problems:
+      - kind: ours
+        what: "In the tolerance chart, the mark for the authors' maps and the mark for our run sat on the same spot for four test sets, so one hid the other and the chart looked like it had only one result."
+        found: Looking at the rendered chart next to the table.
+        fix: Each result gets its own lane in the row, joined by a short line.
+      - kind: ours
+        what: "A draft note under the saving code said that without the hidden second stretch the maps would differ by one level in many pixels. That effect had never been measured."
+        found: Checking each claim on the page against a report or the code before publishing.
+        fix: The note now describes what a plain truncating save does, which follows from the code, and makes no measured claim.
+      - kind: ours
+        what: The CVC-ClinicDB and CVC-ColonDB labels in two new charts ran 4-5 px past the left edge at 390 px.
+        found: The script that measures every chart element against its chart's edges.
+        fix: A wider label column on narrow screens.
+      - kind: ours
+        what: The seven-step diagram left an empty slot at 1440 px and became one long column on phones.
+        found: Screenshots at the three widths.
+        fix: Steps grouped into the authors' test script and their evaluation, two per row on phones.
+    files: [site/stage-3.html, site/assets/site.js, site/assets/style.css, scripts/make_stage3_figures.py, scripts/build_site_data.py, tests/test_site.py]
+
+  - id: "4.1"
+    stage: 4
+    date: 2026-11-14
+    title: A U-Net written from scratch
+    summary: "Our own U-Net after the 2015 paper, with the milesial-style changes fixed in decision D12: padded convolutions, BatchNorm, transposed-convolution upsampling, 64 channels doubling to 1,024, He initialisation. Checked against milesial/Pytorch-UNet by copying weights across."
+    why: "Rung 1 of the ladder has to be a real U-Net, not a weak strawman, and it has to be our code. Matching a widely used implementation exactly shows both."
+    tests: 153
+    results:
+      - {label: Parameters, value: "31,037,633, equal to a hand count"}
+      - {label: "Output against milesial, same weights", value: "bit-identical, in eval and train mode"}
+      - {label: "Gradients against milesial", value: "equal within 1e-5"}
+      - {label: Input sizes, value: "any, including odd sizes such as 33 x 47"}
+    problems:
+      - kind: published
+        what: "milesial's train.py catches a CUDA out-of-memory error and calls model.use_checkpointing() to retry with less memory. That method calls torch.utils.checkpoint, which is a module, not a function, so the retry itself crashes with a TypeError."
+        found: Reading the reference code before the comparison test, then calling the method in a test.
+        fix: "Nothing to fix on our side: our loop does not retry on out-of-memory. A test pins the behaviour, and the finding is recorded in the lineage notes."
+    files: [src/seg/unet.py, src/seg/models.py, scripts/fetch_milesial.py, tests/test_unet.py, configs/unet.yaml]
+
+  - id: "4.2"
+    stage: 4
+    date: 2026-11-14
+    title: What the U-Net costs, and the training queue
+    summary: "Timed the from-scratch U-Net in the real training loop and in a step benchmark against cheaper variants, fixed its budget, and started decision D7's five runs through a resumable queue."
+    why: "Decision D8 says rung 1's epoch time is measured before its runs start. At the paper's widths one run takes hours, so the budget and the cheaper options had to be measured, not guessed."
+    tests: 153
+    results:
+      - {label: "Training time per epoch, real loop", value: "302-491 s (3 epochs)"}
+      - {label: "One 50-epoch run / five runs", value: "about 4-7 h / 20-35 h"}
+      - {label: "Forward pass per 256 px image", value: "96.3 GFLOP, vs 15.6 for the ResNet-34 U-Net"}
+      - {label: "Half precision (float16 / bfloat16)", value: "2% / 5% faster, not used"}
+      - {label: "nnU-Net widths (32-512)", value: "2.3x faster, kept for a stage 7 ablation"}
+      - {label: Peak memory, value: "5.7 GB of 11.84 GB"}
+    problems:
+      - kind: library
+        what: "Switching the U-Net to channels-last memory, which speeds up convolutions on NVIDIA GPUs, made each training step 2.3 times slower on Apple's GPU."
+        found: The step benchmark.
+        fix: Not used. Recorded in decision D8 with the benchmark file.
+      - kind: ours
+        what: "In the step benchmark the ResNet-34 U-Net came out at 65 s per epoch, against 37 s measured in 2.5. The benchmark ran straight after 20 minutes of training, on a hot laptop."
+        found: Comparing the anchor row with the number already in decision D8.
+        fix: "Only ratios between variants timed back to back are used from the benchmark; absolute run times come from each run's own log."
+    files: [scripts/time_unet.py, scripts/run_queue.py, reports/stage4_timing.json, configs/unet.yaml, Makefile]
+
+  - id: "4.3"
+    stage: 4
+    date: 2026-11-14
+    title: Scoring a trained model on the test sets
+    summary: "A script that takes a run's validation-chosen checkpoint and scores it on the five test sets: Dice, IoU and Boundary IoU at 0.5 on the raw probability, and PraNet-style mDice on the 8-bit map PraNet's test script would have saved, with bootstrap intervals."
+    why: "Our models must be scored on test by the same rule that picked their checkpoint on validation, and with PraNet's own metric for the comparison with published numbers."
+    tests: 156
+    results:
+      - {label: "Validation Dice, test path vs training loop", value: "0.564492 vs 0.564491"}
+      - {label: Per test set, value: "mDice, Dice at 0.5 with 95% interval, IoU, Boundary IoU, per-image rows"}
+    problems:
+      - kind: ours
+        what: "The first smoke test scored every image as 0. Our loader returns masks as 0 and 1; the scoring code, written for the authors' 0-255 PNGs, counts a pixel as polyp above 128, so every mask was empty."
+        found: "A 3-epoch checkpoint that reached 0.56 validation Dice scored 0.00 on every test set."
+        fix: "Masks are passed as booleans, and the scoring code now refuses an integer mask whose largest value is 1 instead of reading it as empty. A test covers both."
+      - kind: ours
+        what: "The fix to the script did not land at first: the formatter had already rewritten the line the edit was looking for, so the second smoke test failed with the new error."
+        found: The new check raised on the next run, which is what it was added for.
+        fix: Re-applied to the reformatted line and checked that it took effect before rerunning.
+      - kind: ours
+        what: "PraNet's \"Dice at 0.5\" in 3.3 was taken on the stretched saved map; ours is on the raw probability. The two are not the same quantity."
+        found: Writing the scoring path for our own models next to the one used in 3.3.
+        fix: "Recorded under decision D4. PraNet's Dice at 0.5 is recomputed on its raw probability before it appears in a table next to our models; mDice is unaffected."
+      - kind: ours
+        what: "Running the test suite and the smoke tests while the first U-Net run was training made its epoch 3 take 1,890 s instead of about 300 s. The scores are unaffected, but that run's total training time is inflated by about 26 minutes."
+        found: The per-epoch times in the run's own log.
+        fix: "Training cost is reported as the median epoch time, which one disturbed epoch does not move, and nothing else heavy runs on the laptop during the remaining runs."
+    files: [scripts/eval_run.py, src/seg/evaluate.py, src/seg/metrics.py, tests/test_evaluate.py]
+
+  - id: "4.4"
+    stage: 4
+    date: 2026-11-15
+    title: Training under way, and the stage 4 page
+    summary: "The first U-Net run is training. A stage 4 page in plain language explains the model with a clickable diagram drawn from its measured shapes, how we checked it, what it costs, and a snapshot of training so far."
+    why: "The page has to be easy to follow for someone who has never trained a model, and every number on it still comes from saved data."
+    tests: 158
+    results:
+      - {label: "Run 1, best validation Dice after 12 of 50 passes", value: "0.783"}
+      - {label: Typical time per pass, value: "about 5 minutes"}
+      - {label: Runs finished, value: "0 of 5"}
+    problems:
+      - kind: ours
+        what: "The training queue was stopped from outside after 12 passes of run 1 and stayed stopped overnight. Its log has no error, only clean-up messages, so it was ended rather than crashed; it had been started from this working session."
+        found: "The next morning no training process was running and the log ended at pass 12."
+        fix: "It resumed from the checkpoint saved after pass 12, now fully detached from the session and kept awake with caffeinate, so the Mac does not sleep during a run."
+    files: [site/stage-4.html, site/assets/site.js, site/assets/style.css, scripts/build_site_data.py]
+
+  - id: "4.5"
+    stage: 4
+    date: 2026-11-15
+    title: Project check, and run 1 finished
+    summary: "A full check of the project: all tests, lint, the pinned environment, the published files, the live site and the training runs. Run 1 (learning rate 1e-4) finished; run 2 had stopped when the Mac restarted and was resumed."
+    why: "Long unattended runs and a growing code base both drift. A check finds what the tests do not: stopped jobs, stale pages, and behaviour that only shows after an interruption."
+    tests: 159
+    results:
+      - {label: "Run 1, best validation Dice at 0.5", value: "0.854 at epoch 45 of 50"}
+      - {label: "Run 1, median training time per epoch", value: "299 s (5.5 h in total)"}
+      - {label: "Run 2 when it stopped", value: "0.848 after 25 of 50 epochs"}
+      - {label: Tests and lint, value: "158 of 158 passed before the fix, 159 after; lint clean"}
+      - {label: Installed packages against the lock file, value: "identical"}
+      - {label: Personal data in published files, value: "none found"}
+    problems:
+      - kind: ours
+        what: "A resumed run replayed its first epochs' data order. On resume the training loader was seeded with the run's seed again, so from the resume point on it repeated the shuffles and augmentations of epochs 1, 2, 3 and so on. Run 1 was resumed after epoch 12 this way."
+        found: Reading the resume path during the check, after two interruptions.
+        fix: "A resumed run now gets a loader seed of its own, fixed by the run's seed and the resume epoch, and the summary records after which epochs a run was resumed. Run 1's scores stand: the replayed draws were valid training data, only not fresh ones. It is flagged as resumed in every table."
+      - kind: data
+        what: "Training stopped a second time: the Mac restarted at 12:19 with run 2 at epoch 25. The log ends with a GPU error and a terminated loader worker, both from the shutdown."
+        found: "No training process was running, and the system's boot time matched the end of the log."
+        fix: "Resumed from the checkpoint saved after epoch 25. Nothing survives a restart, so the queue has to be started again by hand: make queue CONFIG=configs/unet.yaml."
+      - kind: ours
+        what: "12 of run 2's 25 epochs took over 10 minutes, up to 56, because the laptop was in use. Total training time is therefore not a fair cost number for these runs."
+        found: The per-epoch times in the run log.
+        fix: "The run summary now also stores the median epoch time, and cost tables use median time times the number of epochs."
+      - kind: ours
+        what: "The queue rested 10 minutes after a run it had only skipped as finished."
+        found: Restarting the queue.
+        fix: It now rests only between two runs that actually train.
+    files: [src/seg/train.py, scripts/run_queue.py, tests/test_train.py]

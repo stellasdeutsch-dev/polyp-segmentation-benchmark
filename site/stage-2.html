@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stage 2 · Skeleton and Data</title>
+  <meta name="description" content="Stage 2 of the polyp segmentation benchmark: environment, data audit and split, tested metrics, data loader and training loop, and three problems found on the way.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230066cc' stroke-width='1.8'%3E%3Crect x='2.5' y='2.5' width='19' height='19' rx='5.5'/%3E%3Cpath d='M8 15.5c-1.6-2.4-.4-6 2.6-6.6 2.1-.4 2.7 1.1 4.3 1.1 2 0 3 2.2 1.8 4-1.4 2.2-6.9 4.3-8.7 1.5z' fill='%230066cc' fill-opacity='.25'/%3E%3C/svg%3E">
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')==='dark'?'dark':'light'}catch(e){document.documentElement.dataset.theme='light'}</script>
+  <link rel="stylesheet" href="assets/style.css?v=9">
+</head>
+<body>
+  <a class="visually-hidden" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html"><svg class="icon brand-mark" aria-hidden="true"><use href="assets/icons.svg?v=6#i-mark"/></svg>Polyp segmentation benchmark</a>
+      <div class="header-actions">
+        <button class="theme-toggle" type="button" aria-label="Switch to dark theme" title="Switch theme"><svg class="icon icon-moon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-moon"/></svg><svg class="icon icon-sun" aria-hidden="true"><use href="assets/icons.svg?v=6#i-sun"/></svg></button>
+        <nav aria-label="Primary">
+        <button class="menu-button" type="button" popovertarget="site-menu" aria-controls="site-menu">
+          <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-menu"/></svg><span>Menu</span>
+        </button>
+        <ul id="site-menu" class="nav-list" popover="auto">
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="journal.html">Journal</a></li>
+          <li><a href="stage-1.html">Stage 1</a></li>
+          <li><a href="stage-2.html" aria-current="page">Stage 2</a></li>
+          <li><a href="stage-3.html">Stage 3</a></li>
+          <li><a href="stage-4.html">Stage 4</a></li>
+        </ul>
+      </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- 1. What we did -->
+    <section class="hero">
+      <div class="wrap">
+        <h1>Stage 2. A ruler we can trust</h1>
+        <p class="lead">Before training anything for real, we built the parts every experiment shares: the environment, the data and its split, the metrics, the loader and the training loop. Each one was checked against an independent reference, and the checks found three problems in published code and in libraries.</p>
+        <div class="stats">
+          <div class="stat"><span class="stat-value">158</span><span class="stat-label">validation images, sharing no video with training or test</span></div>
+          <div class="stat"><span class="stat-value">103</span><span class="stat-label">automated tests</span></div>
+          <div class="stat"><span class="stat-value">3</span><span class="stat-label">problems found in published code and libraries</span></div>
+          <div class="stat"><span class="stat-value" data-json="timing.minutes">32</span><span class="stat-label">minutes per 50-epoch run on the laptop</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="wrap">
+        <h2>Five steps, one commit each</h2>
+        <p class="section-lead">Every step ends with tests, and every number below comes from a script, not from typing.</p>
+        <div class="cards">
+          <a class="card reveal" href="../src/seg/env.py">
+            <svg class="icon card-icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-chip"/></svg>
+            <h3>2.1 Environment</h3>
+            <p>Pinned versions, one-command setup, and a reliable way to measure peak GPU memory on the Mac.</p>
+            <span class="card-foot"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>env.py</span>
+          </a>
+          <a class="card reveal" href="../reports/data_inventory.md">
+            <svg class="icon card-icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-download"/></svg>
+            <h3>2.2 Data and split</h3>
+            <p>Download with checksums, a full audit, and a validation split by whole video sequences.</p>
+            <span class="card-foot"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>Data inventory</span>
+          </a>
+          <a class="card reveal" href="../src/seg/metrics.py">
+            <svg class="icon card-icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-ruler"/></svg>
+            <h3>2.3 Metrics</h3>
+            <p>Dice, IoU, Boundary IoU and PraNet-style mDice, each matched against an independent implementation.</p>
+            <span class="card-foot"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>metrics.py</span>
+          </a>
+          <a class="card reveal" href="../src/seg/data.py">
+            <svg class="icon card-icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-images"/></svg>
+            <h3>2.4 Data loader</h3>
+            <p>One augmentation for every model, with image and mask proven to move together.</p>
+            <span class="card-foot"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>data.py</span>
+          </a>
+          <a class="card reveal" href="../src/seg/train.py">
+            <svg class="icon card-icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-loop"/></svg>
+            <h3>2.5 Training loop</h3>
+            <p>Losses, one loop for every model, an overfit check, and a timed epoch that sets the budget.</p>
+            <span class="card-foot"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>train.py</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Why: findings -->
+    <section>
+      <div class="wrap">
+        <h2>What the checks found</h2>
+        <p class="section-lead">None of these would have shown up as an error. Each one would have quietly changed the numbers.</p>
+        <div class="cards">
+          <div class="card reveal">
+            <span class="num">1</span>
+            <h3>The CVC-ClinicDB test set shares videos with training</h3>
+            <p>Its 62 test frames come from 26 of the dataset's 29 videos, and all 26 also have frames in training. Test images sit much closer to training images than any other test set.</p>
+          </div>
+          <div class="card reveal">
+            <span class="num">2</span>
+            <h3>PraNet's structure loss does not weight its BCE term</h3>
+            <p>A deprecated argument, <code>reduce='none'</code>, collapses the BCE to one number, and the boundary weights cancel out. Only the IoU half is weighted. Polyp-PVT copied the same line.</p>
+          </div>
+          <div class="card reveal">
+            <span class="num">3</span>
+            <h3>Loader workers repeated each other's augmentations</h3>
+            <p>albumentations 2 ignores the global seed, and every worker started from the same one. With two workers, only half the augmentations were distinct.</p>
+          </div>
+        </div>
+
+        <figure class="panel reveal" style="margin-top:32px">
+          <h3>How close each evaluation image is to the training set</h3>
+          <p class="note">For every image, the similarity of its features to the most similar training image. CVC-ClinicDB test (orange) stands apart: its frames are near-copies of training frames.</p>
+          <img src="../reports/figures/nearest_train_similarity.png" width="1620" height="909" loading="lazy" style="margin-top:16px;border-radius:12px;background:#fff"
+               alt="Strip plot of nearest-training-image similarity. Medians: validation Kvasir 0.899, validation CVC-ClinicDB 0.874, test Kvasir 0.902, test CVC-ClinicDB 0.942, test CVC-ColonDB 0.851, test ETIS 0.861, test CVC-300 0.845.">
+          <div class="table-wrap" id="similarity-table"></div>
+          <figcaption>ResNet-18 features, cosine similarity. Generated by <code>scripts/make_splits.py</code>. Data: <a class="doc-link" href="../reports/data_inventory.md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>data_inventory.md</a></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 3. How it works -->
+    <section class="alt">
+      <div class="wrap">
+        <h2>Three metrics, seen side by side</h2>
+        <p class="section-lead">Move the prediction and watch the scores. Boundary IoU only counts pixels near the edge, so it punishes a small shift of a large polyp that Dice and IoU barely notice.</p>
+        <div class="panel reveal" style="margin-top:40px">
+          <h3>Overlap calculator</h3>
+          <p class="note">The true polyp is fixed. Shift and resize the prediction. Boundary width here is 3 pixels, 2% of this 120 × 120 grid's diagonal, the same rule as in our evaluation.</p>
+          <div class="controls">
+            <div class="control"><label for="ov-shift">Shift (pixels) <output id="ov-shift-out">2</output></label><input id="ov-shift" type="range" min="0" max="30" step="1" value="2"></div>
+            <div class="control"><label for="ov-scale">Size of the prediction <output id="ov-scale-out">100%</output></label><input id="ov-scale" type="range" min="60" max="140" step="5" value="100"></div>
+          </div>
+          <div class="canvas-pair">
+            <div><canvas id="ov-canvas" width="120" height="120" aria-label="True and predicted masks"></canvas>
+              <ul class="legend" aria-label="Legend" style="justify-content:center">
+                <li><svg aria-hidden="true" style="fill:var(--s1)"><use href="assets/icons.svg?v=6#m-square"/></svg>Overlap</li>
+                <li><svg aria-hidden="true" style="fill:var(--s3)"><use href="assets/icons.svg?v=6#m-square"/></svg>Missed</li>
+                <li><svg aria-hidden="true" style="fill:var(--s2)"><use href="assets/icons.svg?v=6#m-square"/></svg>Extra</li>
+              </ul></div>
+            <div><canvas id="ov-bcanvas" width="120" height="120" aria-label="Boundary regions of both masks"></canvas><p>Only these edge bands count for Boundary IoU</p></div>
+          </div>
+          <div class="result-row" aria-live="polite">
+            <div class="result"><span class="result-value" id="ov-dice">–</span><span class="result-label">Dice</span></div>
+            <div class="result"><span class="result-value" id="ov-iou">–</span><span class="result-label">IoU</span></div>
+            <div class="result"><span class="result-value" id="ov-biou">–</span><span class="result-label">Boundary IoU</span></div>
+          </div>
+        </div>
+
+        <div class="panel reveal">
+          <h3>Why "mDice" is not Dice at 0.5</h3>
+          <p class="note">PraNet stretches every prediction to the full 0-1 range, then averages Dice over 256 thresholds. Lowering the confidence alone changes nothing at 0.5. Add a small bias as well and the whole map slides to one side of 0.5: Dice at 0.5 on the raw output collapses, while the stretched mDice does not move.</p>
+          <div class="controls">
+            <div class="control"><label for="th-conf">Confidence <output id="th-conf-out">100%</output></label><input id="th-conf" type="range" min="10" max="100" step="5" value="100"></div>
+            <div class="control"><label for="th-bias">Bias <output id="th-bias-out">0.00</output></label><input id="th-bias" type="range" min="-40" max="40" step="5" value="0"></div>
+          </div>
+          <div class="chart" id="th-chart" role="img" aria-label="Dice at each of PraNet's 256 thresholds"></div>
+          <div class="result-row" aria-live="polite">
+            <div class="result"><span class="result-value" id="th-raw">–</span><span class="result-label">Dice at 0.5, raw output</span></div>
+            <div class="result"><span class="result-value" id="th-mdice">–</span><span class="result-label">PraNet mDice, stretched</span></div>
+            <div class="result"><span class="result-value" id="th-max">–</span><span class="result-label">PraNet maxDice</span></div>
+          </div>
+          <p class="note" style="margin-top:16px">A synthetic polyp with a simulated prediction, computed in your browser with the same steps as <code>seg.metrics.pranet_curves</code>: stretch, round to 8 bits, threshold 256 times. This is why every table in this project says which Dice it shows.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2>What the models will see</h2>
+        <p class="section-lead">Training images after augmentation, with the mask outline on top. If the outline ever left the polyp, the pipeline would be broken.</p>
+        <figure class="panel reveal" style="margin-top:40px">
+          <img src="../reports/figures/augmentations.png" width="1710" height="1140" loading="lazy" style="border-radius:12px"
+               alt="Four training images, two Kvasir and two CVC-ClinicDB, each shown in the evaluation view and five random training augmentations with flips, rotation, scaling and brightness changes. The yellow mask outline stays on the polyp in every panel.">
+          <figcaption>Flips, scale 0.75-1.25, rotation ±15°, brightness and contrast ±20%, applied to image and mask in one step. A test augments a synthetic image 160 times: image and mask never drop below an IoU of 0.935. With image and mask augmented separately, the same test fails (median 0.257). Generated by <code>make preview</code>.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 4. Code walkthrough -->
+    <section class="alt">
+      <div class="wrap">
+        <h2>In the code</h2>
+        <p class="section-lead">Three short pieces that carry most of the weight.</p>
+        <div class="panel reveal" style="margin-top:40px">
+          <h3>The published loss, and what PyTorch does with it</h3>
+          <div class="code-block"><pre><span class="hl">wbce = F.binary_cross_entropy_with_logits(pred, mask, reduce='none')</span>
+wbce = (weit*wbce).sum(dim=(2, 3)) / weit.sum(dim=(2, 3))</pre></div>
+          <p class="note" style="margin-top:12px"><code>reduce</code> expects true or false, so the string counts as true and the first line returns one averaged number. The second line multiplies it by the weight map and divides by the map's sum, which gives back the same number. The weights do nothing here. A test runs this exact code and pins the behaviour.</p>
+          <p class="source"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-code"/></svg><a href="https://github.com/DengPingFan/PraNet/blob/95f12bd4e32ec954b5069654abae7de9473fd1f5/MyTrain.py#L14-L15">PraNet MyTrain.py, lines 14-15</a></p>
+        </div>
+        <div class="panel reveal">
+          <h3>Boundary IoU as one max-pool</h3>
+          <div class="code-block"><pre>background = (~mask).float().unsqueeze(1)
+padded = F.pad(background, (dilation,) * 4, value=1.0)
+<span class="hl">near_background = F.max_pool2d(padded, kernel_size=2 * dilation + 1, stride=1).squeeze(1) &gt; 0</span>
+return mask &amp; near_background</pre></div>
+          <p class="note" style="margin-top:12px">The official code erodes the mask d times with a 3 × 3 square. One max-pool with a (2d + 1)-wide window over the background gives the same pixels and runs on the GPU for a whole batch. Tests compare it with the official function, pixel by pixel.</p>
+          <p class="source"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-code"/></svg><a href="https://github.com/bowenc0221/boundary-iou-api/blob/37d25586a677b043ed585f10e5c42d4e80176ea9/boundary_iou/utils/boundary_utils.py#L12-L30">Official Boundary IoU code, lines 12-30</a></p>
+        </div>
+        <div class="panel reveal">
+          <h3>One augmentation stream per worker</h3>
+          <div class="code-block"><pre>def worker_init_fn(worker_id: int) -&gt; None:
+    info = torch.utils.data.get_worker_info()
+    transform = getattr(info.dataset, "transform", None)
+<span class="hl">    transform.set_random_seed(info.seed % 2**32)</span></pre></div>
+          <p class="note" style="margin-top:12px">PyTorch gives each worker its own seed, derived from the loader's seed. Handing it to albumentations makes every worker draw different augmentations, and the same seed repeat them exactly.</p>
+          <p class="source"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-code"/></svg><a href="../src/seg/data.py">src/seg/data.py</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Results -->
+    <section>
+      <div class="wrap">
+        <h2>Does the whole pipeline work?</h2>
+        <p class="section-lead">Two checks before any real experiment: can a model memorise 32 images, and how long does an epoch take?</p>
+        <div class="panel reveal" style="margin-top:40px">
+          <h3>Overfit check: 32 images, no augmentation</h3>
+          <p class="note">Trained and scored on the same 32 images. A working pipeline must pass a validation Dice of 0.9. Hover the line for each epoch.</p>
+          <ul class="legend" aria-label="Legend">
+            <li><svg aria-hidden="true" style="fill:var(--s1)"><use href="assets/icons.svg?v=6#m-circle"/></svg>Validation Dice</li>
+            <li><svg aria-hidden="true" style="fill:var(--s2)"><use href="assets/icons.svg?v=6#m-square"/></svg>Validation Boundary IoU</li>
+          </ul>
+          <div class="chart" id="overfit-chart" role="img" aria-label="Validation Dice and Boundary IoU per epoch of the overfit check"></div>
+          <div class="result-row">
+            <div class="result"><span class="result-value" data-json="overfit.dice">–</span><span class="result-label">Best validation Dice</span></div>
+            <div class="result"><span class="result-value" data-json="overfit.biou">–</span><span class="result-label">Boundary IoU at that epoch</span></div>
+            <div class="result"><span class="result-value" data-json="overfit.params">–</span><span class="result-label">Parameters (SMP U-Net, ResNet-34)</span></div>
+          </div>
+        </div>
+        <div class="panel reveal">
+          <h3>One epoch on the full training set</h3>
+          <p class="note">1,292 training and 158 validation images at 256 px, batch 16. The first timing showed two slowdowns: loader workers restarted every epoch, and the CPU waited for the GPU after every step.</p>
+          <div class="chart" id="timing-chart" role="img" aria-label="Seconds per epoch before and after the fixes"></div>
+          <div class="result-row">
+            <div class="result"><span class="result-value" data-json="timing.speedup">–</span><span class="result-label">Faster after the fixes</span></div>
+            <div class="result"><span class="result-value" data-json="timing.peak">–</span><span class="result-label">Peak GPU memory, of 11.84 GB allowed</span></div>
+            <div class="result"><span class="result-value" data-json="timing.minutes2">–</span><span class="result-label">Minutes per 50-epoch run</span></div>
+          </div>
+          <figcaption>The first epoch's loss is identical before and after (<span data-json="timing.same">–</span>), so the fixes changed speed, not results. Data: <a class="doc-link" href="../reports/stage2_checks.json"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>stage2_checks.json</a></figcaption>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <caption class="visually-hidden">Decisions confirmed in stage 2</caption>
+            <thead><tr><th scope="col">Decision</th><th scope="col">Confirmed as</th><th scope="col">Evidence</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Validation split</th><td data-label="Confirmed as">90 Kvasir images; CVC-ClinicDB videos 11, 16 and 29</td><td data-label="Evidence">The only three videos with no test frame</td></tr>
+              <tr><th scope="row">Metrics</th><td data-label="Confirmed as">Dice and IoU at ≥ 0.5 per image, Boundary IoU, PraNet mDice</td><td data-label="Evidence">Match SMP, MONAI, the official Boundary IoU code and a literal PraNet port</td></tr>
+              <tr><th scope="row">Peak memory</th><td data-label="Confirmed as"><code>torch.accelerator</code> peak counter</td><td data-label="Evidence">Reads known allocations exactly on MPS</td></tr>
+              <tr><th scope="row">Epoch budget</th><td data-label="Confirmed as"><span class="key">50</span> epochs for every model</td><td data-label="Evidence">About 32 minutes per run; raised if still improving at the end</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:20px"><a class="doc-link" href="../research/decisions.md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>All decisions with their evidence</a></p>
+      </div>
+    </section>
+
+    <!-- 6. What can go wrong -->
+    <section class="alt">
+      <div class="wrap">
+        <h2>What can still go wrong</h2>
+        <ul class="risk-list">
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-threshold"/></svg><div><strong>MATLAB rounding of thresholds</strong><span>Ties at a threshold change per-image mDice by at most 0.0016 in our measurement. MATLAB itself cannot be run here, so stage 3 is the real test.</span></div></li>
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-copy"/></svg><div><strong>A near-copy inside Kvasir</strong><span>One validation image is 0.999 similar to a training image. One in 90 cannot steer model selection, so it stays, and the report names it.</span></div></li>
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-hospital"/></svg><div><strong>Reading CVC-ClinicDB as a generalisation test</strong><span>Its scores will be reported, but labelled as performance on near-copies of training frames.</span></div></li>
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-clock"/></svg><div><strong>Fifty epochs may be too few</strong><span>If validation Dice still rises at the end of the first full run, the budget goes up for every model before any comparison.</span></div></li>
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-heat"/></svg><div><strong>Throttling in long runs</strong><span>Epoch times were measured over three epochs. A 50-epoch run will show whether the fanless laptop slows down, and the timing table will say so.</span></div></li>
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-lock"/></svg><div><strong>A library update changing results</strong><span>Every package version is pinned in the lock file, and each run records its versions and commit.</span></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 7. Interview questions -->
+    <section>
+      <div class="wrap">
+        <h2 id="questions">Questions you should be ready for</h2>
+        <div class="accordion" aria-labelledby="questions">
+          <details><summary>Why split CVC-ClinicDB by video and not by frame?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>Frames of one video show the same polyp from similar angles. With a frame-level split, validation would contain near-copies of training images and reward memory. Whole videos in validation measure what we care about: new polyps.</p></div></details>
+          <details><summary>How did you know which video each frame came from?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>Guessing from image similarity was not reliable: only 15 of the 28 lowest-similarity pairs were true boundaries. The dataset publishes a frame-range table for its 29 videos, so we used it, and checked it against the images: similarity separates its boundaries with an AUC of 0.965.</p></div></details>
+          <details><summary>How do you know your metrics are right?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>Each one is compared with an implementation we did not write: SMP and MONAI for Dice and IoU, the official code for Boundary IoU, and a line-by-line port of PraNet's MATLAB for mDice. They agree exactly on hundreds of random masks, including empty ones.</p></div></details>
+          <details><summary>Why report Boundary IoU at all?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>For a large polyp, most pixels are interior and easy, so Dice and IoU stay high even when the outline is off. Boundary IoU only counts pixels near the edge. In our calculator a 2-pixel shift leaves IoU at 0.92 but halves Boundary IoU, to about 0.5.</p></div></details>
+          <details><summary>What does the overfit check prove, and what not?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>It proves the plumbing works: images, masks, loss, optimiser and metrics fit together, because a model can memorise 32 images. It says nothing about generalisation, which is what the real runs measure.</p></div></details>
+          <details><summary>Your training got 2.3 times faster. How did you find the cause?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>By measuring parts separately. A bare training step ran at 36 images per second, and validation took 26 ms per image on its own, so the real loop was losing time elsewhere: loader workers restarting each epoch, and a per-step sync between CPU and GPU.</p></div></details>
+          <details><summary>Can a run be repeated exactly?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>Order and augmentations repeat exactly for the same seed, and the overfit run reproduced its best Dice to every printed digit. Apple's GPU backend does not promise bit-for-bit repeatability in general, so conclusions rest on three seeds and confidence intervals.</p></div></details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Glossary -->
+    <section class="alt">
+      <div class="wrap">
+        <h2>Glossary</h2>
+        <dl class="glossary">
+          <div><dt>Data leakage</dt><dd>Test or validation data that is too similar to training data, so scores look better than they should.</dd></div>
+          <div><dt>Video sequence</dt><dd>One colonoscopy recording. CVC-ClinicDB's 612 frames come from 29 of them.</dd></div>
+          <div><dt>Checksum</dt><dd>A fingerprint of a file. If two downloads have the same checksum, they are the same file.</dd></div>
+          <div><dt>Augmentation</dt><dd>Random flips, rotations and colour changes that show the model more variety than the raw images.</dd></div>
+          <div><dt>Loader worker</dt><dd>A background process that reads and augments images while the GPU trains.</dd></div>
+          <div><dt>Overfit check</dt><dd>Training on a tiny set until it is memorised, to prove the pipeline can learn at all.</dd></div>
+          <div><dt>Epoch</dt><dd>One pass over all training images.</dd></div>
+          <div><dt>Lock file</dt><dd>The exact version of every package, so the environment can be rebuilt identically.</dd></div>
+        </dl>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="pager">
+        <a class="doc-link" href="stage-1.html"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-arrow-left"/></svg>Stage 1. Field review</a>
+        <a class="doc-link" href="stage-3.html">Stage 3. Reproducing PraNet<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-arrow"/></svg></a>
+      </div>
+    </div>
+  </footer>
+  <script src="assets/site.js?v=10" defer></script>
+</body>
+</html>

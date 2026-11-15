@@ -1,0 +1,8 @@
+# Rung 1: U-Net written from scratch, seg.unet (decision D12). Values not set here use the
+# defaults in seg.train.TrainConfig: 50 epochs, AdamW, warmup + cosine, Dice + BCE, augmentation.
+name: unet
+model: unet
+pretrained: false
+size: 256
+batch_size: 16
+loss: dice_bce

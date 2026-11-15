@@ -1,0 +1,52 @@
+{
+  "TrainDataset": {
+    "sha256": "30c99744df6770a4f514f8ccfa7404291ba968079ea3b6e3231ae74ad2b247cc",
+    "bytes": 418892179,
+    "drive_id": "1YiGHLw4iTvKdvbT6MgwO9zcCv8zJ_Bnb"
+  },
+  "TestDataset": {
+    "sha256": "b3be6da5b25679bed228dca52ae3d668dd89f329b2505c7b8961aa20dca4a90a",
+    "bytes": 343133116,
+    "drive_id": "1Y2z7FD5p5y31vkZwQQomXFRB0HutHyao"
+  },
+  "PraNet:lib/PraNet_Res2Net.py": {
+    "sha256": "4bc0d9e9f799f0e85902631143030e2fa1e9f585672d449adb4e2e0757fd4c20",
+    "bytes": 8083,
+    "commit": "95f12bd4e32ec954b5069654abae7de9473fd1f5"
+  },
+  "PraNet:lib/Res2Net_v1b.py": {
+    "sha256": "93ba17a7087d3f56f302cd0db2d249cfdcf3ed8b1244cd4efa5bc94baeffdcaa",
+    "bytes": 8159,
+    "commit": "95f12bd4e32ec954b5069654abae7de9473fd1f5"
+  },
+  "PraNet-19.pth": {
+    "sha256": "1e178247113e4b870d2ce1de6b36ef5dcb042a283703d455487d870635c8edf2",
+    "bytes": 130625632,
+    "drive_id": "1lJv8XVStsp3oNKZHaSr42tawdMOq6FLP"
+  },
+  "PraNet-maps": {
+    "sha256": "25e76114c97a1e8325cd0f111eb0c90ba0b7890d9e0fc433c6c8d6cb3c0a8230",
+    "bytes": 64576743,
+    "drive_id": "1CJ6CTUdenumgiKXieuKXFohefRJwyFPY"
+  },
+  "Kvasir-SEG original": {
+    "sha256": "03b30e21d584e04facf49397a2576738fd626815771afbbf788f74a7153478f7",
+    "bytes": 46227172,
+    "url": "https://datasets.simula.no/downloads/kvasir-seg.zip"
+  },
+  "milesial:unet/__init__.py": {
+    "sha256": "2a23e7ccc6f82a84cab822644dfe384c426bef08f81bcd0cc7c1516ee97e83ea",
+    "bytes": 29,
+    "commit": "21d7850f2af30a9695bbeea75f3136aa538cfc4a"
+  },
+  "milesial:unet/unet_parts.py": {
+    "sha256": "4b0441f549caf588642f7e5ef3ba2dfb1032c1ded0ba350e46f96f43caa93ea1",
+    "bytes": 2602,
+    "commit": "21d7850f2af30a9695bbeea75f3136aa538cfc4a"
+  },
+  "milesial:unet/unet_model.py": {
+    "sha256": "f042e977a90ac4b5b0c7529613ade1ebbcdfe6015f80df82e4fcd8f5753368b0",
+    "bytes": 1721,
+    "commit": "21d7850f2af30a9695bbeea75f3136aa538cfc4a"
+  }
+}

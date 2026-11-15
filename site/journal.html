@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project Journal</title>
+  <meta name="description" content="Every iteration of the polyp segmentation benchmark: what was done, the results, every mistake and problem found, and how each was fixed. Built from the project's saved data.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230066cc' stroke-width='1.8'%3E%3Crect x='2.5' y='2.5' width='19' height='19' rx='5.5'/%3E%3Cpath d='M8 15.5c-1.6-2.4-.4-6 2.6-6.6 2.1-.4 2.7 1.1 4.3 1.1 2 0 3 2.2 1.8 4-1.4 2.2-6.9 4.3-8.7 1.5z' fill='%230066cc' fill-opacity='.25'/%3E%3C/svg%3E">
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')==='dark'?'dark':'light'}catch(e){document.documentElement.dataset.theme='light'}</script>
+  <link rel="stylesheet" href="assets/style.css?v=9">
+</head>
+<body>
+  <a class="visually-hidden" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html"><svg class="icon brand-mark" aria-hidden="true"><use href="assets/icons.svg?v=6#i-mark"/></svg>Polyp segmentation benchmark</a>
+      <div class="header-actions">
+        <button class="theme-toggle" type="button" aria-label="Switch to dark theme" title="Switch theme"><svg class="icon icon-moon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-moon"/></svg><svg class="icon icon-sun" aria-hidden="true"><use href="assets/icons.svg?v=6#i-sun"/></svg></button>
+        <nav aria-label="Primary">
+        <button class="menu-button" type="button" popovertarget="site-menu" aria-controls="site-menu">
+          <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-menu"/></svg><span>Menu</span>
+        </button>
+        <ul id="site-menu" class="nav-list" popover="auto">
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="journal.html" aria-current="page">Journal</a></li>
+          <li><a href="stage-1.html">Stage 1</a></li>
+          <li><a href="stage-2.html">Stage 2</a></li>
+          <li><a href="stage-3.html">Stage 3</a></li>
+          <li><a href="stage-4.html">Stage 4</a></li>
+        </ul>
+      </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap">
+        <h1>Every step, what went wrong, and what we did about it</h1>
+        <p class="lead">The full record of the project: each iteration with its explanation and results, every mistake and problem we found, and how each one was fixed. Everything here is drawn from the project's saved data and from measurements of the real models.</p>
+        <div class="stats" id="kpis" aria-live="polite">
+          <div class="stat"><span class="stat-value" data-k="iterations">–</span><span class="stat-label">iterations so far</span></div>
+          <div class="stat"><span class="stat-value" data-k="tests">–</span><span class="stat-label">automated tests</span></div>
+          <div class="stat"><span class="stat-value" data-k="problems">–</span><span class="stat-label">problems found and fixed</span></div>
+          <div class="stat"><span class="stat-value" data-k="published">–</span><span class="stat-label">problems in published code and papers</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="wrap">
+        <h2>Where the project stands</h2>
+        <p class="section-lead">Nine stages, done one at a time. Each finished stage has its own explainer page.</p>
+        <ol class="progress-track" id="progress" aria-label="Stage progress"></ol>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2>Analytics</h2>
+        <p class="section-lead">The patterns behind the individual iterations. Hover or focus any mark for its value; every chart has a table view.</p>
+
+        <figure class="panel reveal" style="margin-top:40px">
+          <h3>Where the problems came from</h3>
+          <p class="note">Every problem found so far, by stage and by source. Most were our own slips, each caught by a check before it could affect a result.</p>
+          <ul class="legend" id="kind-legend" aria-label="Legend"></ul>
+          <div class="chart" id="chart-kinds" role="img" aria-label="Problems by stage and source"></div>
+        </figure>
+
+        <figure class="panel reveal">
+          <h3>The test suite as the project grew</h3>
+          <p class="note">Number of automated tests at the end of each iteration that added code.</p>
+          <div class="chart" id="chart-tests" role="img" aria-label="Test count per iteration"></div>
+        </figure>
+
+        <figure class="panel reveal">
+          <h3>Our evaluation against the published numbers</h3>
+          <p class="note">The authors' own prediction maps, scored by our code. Each dot is one test set: our mDice minus the number in PraNet's Tables 1-2. The light band is the 0.005 tolerance we set in advance; the darker band is rounding to three decimals.</p>
+          <div class="chart" id="chart-ruler" role="img" aria-label="Difference between our mDice and the published mDice for 4 methods on 5 test sets"></div>
+          <figcaption><span id="ruler-summary">–</span> Data: <a class="doc-link" href="../reports/stage3_published_maps.md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>stage3_published_maps.md</a></figcaption>
+          <details class="accordion" style="margin-top:12px;border-top:0"><summary>Show as a table<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><div class="table-wrap" id="table-ruler"></div></div></details>
+        </figure>
+
+        <figure class="panel reveal">
+          <h3>What 21 skipped images change on CVC-ColonDB</h3>
+          <p class="note">The evaluation reads only .png maps, and 21 baseline maps are .tif. The published scores of U-Net, U-Net++ and SFA cover 359 images; PraNet's cover all 380.</p>
+          <div class="chart" id="chart-skipped" role="img" aria-label="mDice on 359 versus all 380 CVC-ColonDB images for three baselines"></div>
+        </figure>
+
+        <figure class="panel reveal">
+          <h3>The released weights on the Mac, map by map</h3>
+          <p class="note">Our run of the released PraNet weights against the maps the authors published, image by image. On the four sets with lossless originals every map matches within one 8-bit level. Kvasir, the only set that started as JPEG, differs on every image.</p>
+          <div class="chart" id="chart-maps" role="img" aria-label="Share of maps identical, within one level, or different from the authors' maps, per test set"></div>
+          <figcaption><span id="maps-summary">–</span> Data: <a class="doc-link" href="../reports/stage3_pranet_weights.md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>stage3_pranet_weights.md</a></figcaption>
+        </figure>
+
+        <figure class="panel reveal">
+          <h3>Which video feeds which set: CVC-ClinicDB</h3>
+          <p class="note">Frames per video sequence. The benchmark's test frames (orange) come from 26 of 29 videos that also train the model. Our validation (aqua) uses the only three videos without test frames.</p>
+          <ul class="legend" aria-label="Legend">
+            <li><svg aria-hidden="true" style="fill:var(--s1)"><use href="assets/icons.svg?v=6#m-square"/></svg>Training</li>
+            <li><svg aria-hidden="true" style="fill:var(--s3)"><use href="assets/icons.svg?v=6#m-square"/></svg>Our validation</li>
+            <li><svg aria-hidden="true" style="fill:var(--s2)"><use href="assets/icons.svg?v=6#m-square"/></svg>Benchmark test</li>
+          </ul>
+          <div class="chart" id="chart-sequences" role="img" aria-label="CVC-ClinicDB frames per video, split into training, validation and test"></div>
+          <details class="accordion" style="margin-top:12px;border-top:0"><summary>Show as a table<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><div class="table-wrap" id="table-sequences"></div></div></details>
+        </figure>
+
+        <figure class="panel reveal">
+          <h3>How close each evaluation image is to the training data</h3>
+          <p class="note">One dot per image: the similarity of its features to the most similar training image. The black tick is the median. CVC-ClinicDB test sits far to the right: near-copies of training frames.</p>
+          <div class="chart" id="chart-nearest" role="img" aria-label="Similarity of each evaluation image to its nearest training image"></div>
+          <figcaption>ResNet-18 features, cosine similarity, <span id="nearest-count">–</span> images. Data: <a class="doc-link" href="../reports/data_inventory.md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>data_inventory.md</a></figcaption>
+        </figure>
+
+        <figure class="panel reveal">
+          <h3>The data at a glance</h3>
+          <p class="note">Images per set after our split. The three test sets from unseen hospitals are where models differ most.</p>
+          <div class="chart" id="chart-sizes" role="img" aria-label="Number of images per set"></div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="wrap">
+        <h2>The models</h2>
+        <p class="section-lead">Each block is one stage of the network, sized by its feature maps: taller for more channels, wider for higher resolution. Shapes of built models come from a real forward pass.</p>
+        <div id="models"></div>
+        <figure class="panel reveal" style="margin-top:16px">
+          <h3>Where the parameters sit</h3>
+          <p class="note">Measured on the built models. In both, the pretrained encoder holds most of the weights.</p>
+          <ul class="legend" aria-label="Legend">
+            <li><svg aria-hidden="true" style="fill:var(--s1)"><use href="assets/icons.svg?v=6#m-square"/></svg>Encoder</li>
+            <li><svg aria-hidden="true" style="fill:var(--s2)"><use href="assets/icons.svg?v=6#m-square"/></svg>Decoder and head</li>
+          </ul>
+          <div class="chart" id="chart-params" role="img" aria-label="Parameters per model, encoder versus decoder"></div>
+        </figure>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2>Iteration by iteration</h2>
+        <p class="section-lead">What each step did, why, what it showed, and what went wrong on the way.</p>
+        <div class="filters" role="group" aria-label="Filter by stage">
+          <div class="segmented" id="stage-filter"></div>
+          <div class="segmented" id="kind-filter"></div>
+        </div>
+        <ol class="timeline" id="timeline"></ol>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="wrap">
+        <h2>Every mistake and its correction</h2>
+        <p class="section-lead">One row per problem, in the order they were found.</p>
+        <div class="table-wrap" id="problems-table"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Generated from <a href="../research/journal.yaml">research/journal.yaml</a>, the saved reports and the models themselves by <code>scripts/build_site_data.py</code>, on <span id="generated">–</span>.</p>
+    </div>
+  </footer>
+  <script src="assets/site.js?v=10" defer></script>
+  <script src="assets/journal.js?v=11" defer></script>
+</body>
+</html>

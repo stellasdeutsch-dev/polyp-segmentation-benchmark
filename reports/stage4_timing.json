@@ -1,0 +1,62 @@
+{
+  "device": "mps",
+  "batch": 16,
+  "size": 256,
+  "steps": 12,
+  "variants": [
+    {
+      "variant": "U-Net 64-1024",
+      "parameters": 31037633,
+      "gflops_per_image": 96.334774272,
+      "images_per_second": 5.1218409603551605,
+      "seconds_per_epoch": 252.25304924548257,
+      "peak_mb": 5867.918701171875,
+      "finite_loss": true
+    },
+    {
+      "variant": "U-Net 64-1024, channels-last",
+      "parameters": 31037633,
+      "gflops_per_image": 96.334774272,
+      "images_per_second": 2.1828765327584194,
+      "seconds_per_epoch": 591.8795592013388,
+      "peak_mb": 5869.543701171875,
+      "finite_loss": true
+    },
+    {
+      "variant": "U-Net 64-1024, float16 autocast",
+      "parameters": 31037633,
+      "gflops_per_image": 96.334774272,
+      "images_per_second": 5.2218110956437,
+      "seconds_per_epoch": 247.4237340906208,
+      "peak_mb": 6379.119384765625,
+      "finite_loss": true
+    },
+    {
+      "variant": "U-Net 64-1024, bfloat16 autocast",
+      "parameters": 31037633,
+      "gflops_per_image": 96.334774272,
+      "images_per_second": 5.398590255168363,
+      "seconds_per_epoch": 239.321737515289,
+      "peak_mb": 6377.494384765625,
+      "finite_loss": true
+    },
+    {
+      "variant": "U-Net 32-512 (nnU-Net widths)",
+      "parameters": 7763041,
+      "gflops_per_image": 24.142413824,
+      "images_per_second": 11.890427420101625,
+      "seconds_per_epoch": 108.65883574679417,
+      "peak_mb": 2855.398193359375,
+      "finite_loss": true
+    },
+    {
+      "variant": "ResNet-34 U-Net (rung 2, anchor)",
+      "parameters": 24436369,
+      "gflops_per_image": 15.627976704,
+      "images_per_second": 19.770391614561703,
+      "seconds_per_epoch": 65.35024824942714,
+      "peak_mb": 1860.7548828125,
+      "finite_loss": true
+    }
+  ]
+}

@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stage 4 · U-Net From Scratch</title>
+  <meta name="description" content="Stage 4 of the polyp segmentation benchmark, in plain words: a U-Net we wrote ourselves, how we checked it, what it costs to train on a laptop, and how training is going.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230066cc' stroke-width='1.8'%3E%3Crect x='2.5' y='2.5' width='19' height='19' rx='5.5'/%3E%3Cpath d='M8 15.5c-1.6-2.4-.4-6 2.6-6.6 2.1-.4 2.7 1.1 4.3 1.1 2 0 3 2.2 1.8 4-1.4 2.2-6.9 4.3-8.7 1.5z' fill='%230066cc' fill-opacity='.25'/%3E%3C/svg%3E">
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')==='dark'?'dark':'light'}catch(e){document.documentElement.dataset.theme='light'}</script>
+  <link rel="stylesheet" href="assets/style.css?v=9">
+</head>
+<body>
+  <a class="visually-hidden" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html"><svg class="icon brand-mark" aria-hidden="true"><use href="assets/icons.svg?v=6#i-mark"/></svg>Polyp segmentation benchmark</a>
+      <div class="header-actions">
+        <button class="theme-toggle" type="button" aria-label="Switch to dark theme" title="Switch theme"><svg class="icon icon-moon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-moon"/></svg><svg class="icon icon-sun" aria-hidden="true"><use href="assets/icons.svg?v=6#i-sun"/></svg></button>
+        <nav aria-label="Primary">
+        <button class="menu-button" type="button" popovertarget="site-menu" aria-controls="site-menu">
+          <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-menu"/></svg><span>Menu</span>
+        </button>
+        <ul id="site-menu" class="nav-list" popover="auto">
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="journal.html">Journal</a></li>
+          <li><a href="stage-1.html">Stage 1</a></li>
+          <li><a href="stage-2.html">Stage 2</a></li>
+          <li><a href="stage-3.html">Stage 3</a></li>
+          <li><a href="stage-4.html" aria-current="page">Stage 4</a></li>
+        </ul>
+      </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- 1. What we did -->
+    <section class="hero">
+      <div class="wrap">
+        <h1>Stage 4. A U-Net we wrote ourselves</h1>
+        <p class="lead">The U-Net is the classic model for finding the exact outline of something in a picture. We wrote one from scratch, proved it works exactly like a well-known version, measured what it costs to train on a laptop, and started training it. This page explains each step in plain words.</p>
+        <div class="stats">
+          <div class="stat"><span class="stat-value" data-s4="params">31 M</span><span class="stat-label">numbers the model learns</span></div>
+          <div class="stat"><span class="stat-value">100%</span><span class="stat-label">same answers as the reference U-Net</span></div>
+          <div class="stat"><span class="stat-value" data-s4="minutes">5 min</span><span class="stat-label">per pass over all training pictures</span></div>
+          <div class="stat"><span class="stat-value" data-s4="runs">0 of 5</span><span class="stat-label">training runs finished</span></div>
+        </div>
+        <p class="note" style="margin-top:20px"><svg class="icon" aria-hidden="true" style="vertical-align:-4px;color:var(--accent)"><use href="assets/icons.svg?v=6#i-clock"/></svg> Training is still going. The numbers on this page are a snapshot from <span class="key" data-s4="date">–</span>.</p>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="wrap">
+        <h2>Four steps</h2>
+        <p class="section-lead">Each step is small enough to check on its own.</p>
+        <div class="cards">
+          <a class="card reveal" href="../src/seg/unet.py">
+            <svg class="icon card-icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-unet"/></svg>
+            <h3>4.1 Write the model</h3>
+            <p>A U-Net in about 100 lines of our own code, following the original 2015 paper.</p>
+            <span class="card-foot"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>unet.py</span>
+          </a>
+          <a class="card reveal" href="../reports/stage4_timing.json">
+            <svg class="icon card-icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-clock"/></svg>
+            <h3>4.2 Measure the cost</h3>
+            <p>How long training takes on the MacBook Air, and whether any trick makes it faster.</p>
+            <span class="card-foot"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>Timing report</span>
+          </a>
+          <a class="card reveal" href="../scripts/eval_run.py">
+            <svg class="icon card-icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-ruler"/></svg>
+            <h3>4.3 Prepare the final exam</h3>
+            <p>A script that grades a trained model on the five test sets, the same way we graded PraNet.</p>
+            <span class="card-foot"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>eval_run.py</span>
+          </a>
+          <a class="card reveal" href="#training">
+            <svg class="icon card-icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-loop"/></svg>
+            <h3>4.4 Train it five times</h3>
+            <p>Three runs to find the best learning speed, then two more to see how much luck matters.</p>
+            <span class="card-foot"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-next"/></svg>In progress</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2-3. How it works -->
+    <section>
+      <div class="wrap">
+        <h2>How a U-Net sees a picture</h2>
+        <p class="section-lead">The left side shrinks the picture step by step to work out <em>what</em> is in it. The right side grows it back to draw <em>where</em> it is, pixel by pixel. Bridges between the two sides carry the fine detail across, so the outline comes out sharp.</p>
+        <div class="panel reveal" style="margin-top:40px">
+          <h3>Tap or hover a block</h3>
+          <p class="note">Each block is one step. Its height shows how big the picture is at that step, its width how many numbers describe each spot. The sizes are measured from our model with a 256 × 256 input.</p>
+          <div class="chart" id="s4-unet" role="img" aria-label="Diagram of the U-Net: five steps down, four steps up, and four bridges"></div>
+          <div class="unet-info" id="s4-info" aria-live="polite">
+            <strong id="s4-info-title">Choose a block</strong>
+            <span id="s4-info-text">Start at the top left: that is where the colonoscopy picture goes in.</span>
+          </div>
+          <ul class="legend" aria-label="Legend">
+            <li><svg aria-hidden="true" style="fill:var(--s1)"><use href="assets/icons.svg?v=6#m-square"/></svg>Shrink side</li>
+            <li><svg aria-hidden="true" style="fill:var(--s2)"><use href="assets/icons.svg?v=6#m-square"/></svg>Grow side</li>
+            <li><svg aria-hidden="true" style="fill:var(--ink-3)"><use href="assets/icons.svg?v=6#m-diamond"/></svg>Bridge</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="wrap">
+        <h2>How we know our code is right</h2>
+        <p class="section-lead">Writing a model yourself is easy to get slightly wrong. So we compared ours with milesial's U-Net, one of the most widely used versions.</p>
+        <ol class="flow check-flow" style="margin-top:40px">
+          <li><span class="step-num">1</span><strong>Same starting numbers</strong><span class="what">We copied every one of milesial's 31 million numbers into our model.</span></li>
+          <li><span class="step-num">2</span><strong>Same picture in</strong><span class="what">Both models got exactly the same input.</span></li>
+          <li class="ours"><span class="step-num">3</span><strong>Identical answer out</strong><span class="what">Every output value matched to the last bit. The training updates matched too, down to rounding.</span></li>
+        </ol>
+        <p class="note" style="margin-top:20px">If even one layer were different, the answers would differ. A test now repeats this check every time the code changes. On the way we also found a bug in milesial's code: its rescue plan for "out of memory" crashes when it runs.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2>What it costs to train</h2>
+        <p class="section-lead">The paper's U-Net is big: about six times the work per picture of the model in stage 5. On a fanless MacBook Air one full training run takes about 4-7 hours.</p>
+        <div class="panel reveal" style="margin-top:40px">
+          <h3>Seconds for one pass over the 1,292 training pictures</h3>
+          <p class="note">Measured one after another, so the bars compare fairly with each other. Shorter is faster. Hover a bar for details.</p>
+          <div class="chart" id="s4-cost" role="img" aria-label="Seconds per training pass for six model variants"></div>
+          <div class="result-row">
+            <div class="result"><span class="result-value">No</span><span class="result-label">Half precision barely helps (2-5%)</span></div>
+            <div class="result"><span class="result-value">2.3× slower</span><span class="result-label">The memory trick that helps on NVIDIA hurts on Apple</span></div>
+            <div class="result"><span class="result-value">2.3× faster</span><span class="result-label">A half-width U-Net, saved for stage 7</span></div>
+          </div>
+          <figcaption>We kept the paper's full size, so nobody can say our basic model was made weaker on purpose. The half-width version comes back in stage 7 to show what the extra size buys. Data: <a class="doc-link" href="../reports/stage4_timing.json"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>stage4_timing.json</a></figcaption>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Results so far -->
+    <section class="alt">
+      <div class="wrap">
+        <h2 id="training">How training is going</h2>
+        <p class="section-lead">After every pass over the training pictures, the model is quizzed on 158 pictures it never trains on. The score is Dice: 0 means it found nothing, 1 means a perfect outline.</p>
+        <div class="panel reveal" style="margin-top:40px">
+          <h3>Quiz score after each pass</h3>
+          <p class="note">Hover the line to see each pass. The run stops at 50 passes; the version with the best quiz score is the one that goes to the final exam.</p>
+          <div class="chart" id="s4-curve" role="img" aria-label="Validation Dice after each training pass"></div>
+          <div class="result-row" aria-live="polite">
+            <div class="result"><span class="result-value" id="s4-best">–</span><span class="result-label">Best quiz score so far, any run</span></div>
+            <div class="result"><span class="result-value" id="s4-done">–</span><span class="result-label">Passes done in the newest run</span></div>
+            <div class="result"><span class="result-value" id="s4-pass">–</span><span class="result-label">Typical time per pass</span></div>
+          </div>
+        </div>
+        <div class="panel reveal">
+          <h3>The five runs</h3>
+          <p class="note">The first three try three learning speeds. The best one is then used twice more with a different random start, to see how much the result depends on luck.</p>
+          <ol class="run-list" id="s4-runs"></ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Mistakes caught -->
+    <section>
+      <div class="wrap">
+        <h2>Mistakes we caught</h2>
+        <ul class="risk-list">
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-bug"/></svg><div><strong>Every test picture scored zero</strong><span>The model saw the true outline as 0 and 1, but the grading code expected 0 to 255, so every outline looked empty. The grading code now refuses that format instead of quietly getting it wrong.</span></div></li>
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-threshold"/></svg><div><strong>Two kinds of "Dice at 0.5"</strong><span>For PraNet we measured it on a stretched picture, for our model on the raw output. Before the two share a table, PraNet will be measured the same way as ours.</span></div></li>
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-heat"/></svg><div><strong>Other work slows training a lot</strong><span>Running tests during training made one pass take 31 minutes instead of 5. We now report the typical time per pass, which one slow pass cannot spoil.</span></div></li>
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-lock"/></svg><div><strong>Training stopped twice</strong><span>Once it was ended from outside, once the Mac restarted. The model saves itself after every pass, so each time it carried on from the last finished pass.</span></div></li>
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-copy"/></svg><div><strong>After a stop, the model saw old pictures again</strong><span>A restarted run repeated the same picture order and the same random changes it had used from pass 1. Now a restarted run gets fresh ones, and each run records where it was restarted.</span></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 7. Questions -->
+    <section class="alt">
+      <div class="wrap">
+        <h2 id="questions">Questions you should be ready for</h2>
+        <div class="accordion" aria-labelledby="questions">
+          <details><summary>Why write a U-Net yourself instead of using a library?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>To understand every layer and to be able to change it. Matching milesial's version exactly shows the code is right, not just that it runs.</p></div></details>
+          <details><summary>Where does your U-Net differ from the 2015 paper?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>Three changes, all common today: padding keeps the output the same size as the input, BatchNorm after each convolution makes training stable, and there is no dropout. Size, layers and starting values follow the paper.</p></div></details>
+          <details><summary>Why train five times?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>Three runs choose the learning speed on the quiz pictures, never on the test. Two more runs with a different random start show how much the score moves by chance. A difference between models only counts if it is bigger than that.</p></div></details>
+          <details><summary>Why not make it smaller to save time?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>The project asks whether newer models really beat a fair U-Net. A shrunken U-Net would make that question easier to answer the wrong way. The smaller one is still tested, in stage 7, as an extra experiment.</p></div></details>
+          <details><summary>How do you know the final exam grades the same way as the quiz?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>We graded the quiz pictures with the exam script and got the same score as the training loop, 0.564492 against 0.564491. A test keeps it that way.</p></div></details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Glossary -->
+    <section>
+      <div class="wrap">
+        <h2>Words on this page</h2>
+        <dl class="glossary">
+          <div><dt>U-Net</dt><dd>A model shaped like the letter U: it shrinks a picture, then grows it back into an outline.</dd></div>
+          <div><dt>Parameters</dt><dd>The numbers a model adjusts while it learns. Ours has 31 million.</dd></div>
+          <div><dt>Pass (epoch)</dt><dd>Showing the model all 1,292 training pictures once.</dd></div>
+          <div><dt>Learning speed (rate)</dt><dd>How big a correction the model makes after each mistake. Too big and it jumps around, too small and it learns slowly.</dd></div>
+          <div><dt>Random start (seed)</dt><dd>The random numbers a model starts from. A different seed gives a slightly different result.</dd></div>
+          <div><dt>Quiz pictures (validation)</dt><dd>158 pictures kept aside to pick the best version of the model. Never used to train it.</dd></div>
+          <div><dt>Final exam (test)</dt><dd>Five sets of pictures from different hospitals, used once at the very end.</dd></div>
+          <div><dt>Dice</dt><dd>How well two outlines overlap: 0 is no overlap, 1 is a perfect match.</dd></div>
+        </dl>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="pager">
+        <a class="doc-link" href="stage-3.html"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-arrow-left"/></svg>Stage 3. Reproducing PraNet</a>
+        <span>Stage 5, a U-Net with a pretrained encoder, comes next</span>
+      </div>
+    </div>
+  </footer>
+  <script src="assets/site.js?v=10" defer></script>
+</body>
+</html>

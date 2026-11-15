@@ -1,0 +1,812 @@
+{
+ "benchmark_png_equals_pillow_jpeg": true,
+ "apple_vs_pillow_pixel_diff_mean": 0.4584507256125424,
+ "mdice_pillow": 0.8944006253129441,
+ "mdice_apple": 0.8942581860491106,
+ "decoder_mdice_gap_mean": 0.00014243926383359834,
+ "decoder_mdice_gap_max_image": 0.16647519399457705,
+ "level_diff_to_authors_pillow": 0.6034042942194319,
+ "level_diff_to_authors_apple": 0.8589564470623091,
+ "per_image": [
+  {
+   "image": "cju0u82z3cuma0835wlxrnrjv",
+   "apple_vs_pillow_pixels": 0.4665346190905296,
+   "pillow_mdice": 0.9126250504963045,
+   "pillow_level_diff_to_authors": 0.22456084916148814,
+   "apple_mdice": 0.9131392481917014,
+   "apple_level_diff_to_authors": 0.19549965476483047
+  },
+  {
+   "image": "cju15wdt3zla10801odjiw7sy",
+   "apple_vs_pillow_pixels": 0.5493114270489529,
+   "pillow_mdice": 0.9754404791549538,
+   "pillow_level_diff_to_authors": 0.751597079972526,
+   "apple_mdice": 0.9727546606962721,
+   "apple_level_diff_to_authors": 0.47917869668548924
+  },
+  {
+   "image": "cju16ach3m1da0993r1dq3sn2",
+   "apple_vs_pillow_pixels": 0.6542761216056671,
+   "pillow_mdice": 0.98276654854986,
+   "pillow_level_diff_to_authors": 0.08326261806375443,
+   "apple_mdice": 0.9827414294797265,
+   "apple_level_diff_to_authors": 0.09569313262495081
+  },
+  {
+   "image": "cju16whaj0e7n0855q7b6cjkm",
+   "apple_vs_pillow_pixels": 0.4526296012911943,
+   "pillow_mdice": 0.7359693596567597,
+   "pillow_level_diff_to_authors": 1.1494471733708698,
+   "apple_mdice": 0.7385218632588473,
+   "apple_level_diff_to_authors": 2.1601445000613277
+  },
+  {
+   "image": "cju17z0qongpa0993de4boim4",
+   "apple_vs_pillow_pixels": 0.4219147940359472,
+   "pillow_mdice": 0.9428907876641923,
+   "pillow_level_diff_to_authors": 0.05559236319209331,
+   "apple_mdice": 0.9398176240470478,
+   "apple_level_diff_to_authors": 0.12538369428455073
+  },
+  {
+   "image": "cju1amqw6p8pw0993d9gc5crl",
+   "apple_vs_pillow_pixels": 0.37296977962225997,
+   "pillow_mdice": 0.6822358410055802,
+   "pillow_level_diff_to_authors": 3.168916098920155,
+   "apple_mdice": 0.7106450010161314,
+   "apple_level_diff_to_authors": 2.403857345238865
+  },
+  {
+   "image": "cju1bm8063nmh07996rsjjemq",
+   "apple_vs_pillow_pixels": 0.6715053930558578,
+   "pillow_mdice": 0.9473242508809896,
+   "pillow_level_diff_to_authors": 0.44056448354107736,
+   "apple_mdice": 0.9511018444593551,
+   "apple_level_diff_to_authors": 0.98594697087439
+  },
+  {
+   "image": "cju1c3218411b08014g9f6gig",
+   "apple_vs_pillow_pixels": 0.618179654920869,
+   "pillow_mdice": 0.9546422239622234,
+   "pillow_level_diff_to_authors": 0.2271852215941673,
+   "apple_mdice": 0.9547971756857183,
+   "apple_level_diff_to_authors": 0.20863321981532845
+  },
+  {
+   "image": "cju1cbokpuiw70988j4lq1fpi",
+   "apple_vs_pillow_pixels": 0.4827598219271418,
+   "pillow_mdice": 0.8621652096225922,
+   "pillow_level_diff_to_authors": 0.27033058232283647,
+   "apple_mdice": 0.8632588706189606,
+   "apple_level_diff_to_authors": 0.21705319132586412
+  },
+  {
+   "image": "cju1cj3f0qi5n0993ut8f49rj",
+   "apple_vs_pillow_pixels": 0.39944866454300415,
+   "pillow_mdice": 0.9772364986796809,
+   "pillow_level_diff_to_authors": 0.19581903945111492,
+   "apple_mdice": 0.9748931493062842,
+   "apple_level_diff_to_authors": 0.36773156089193826
+  },
+  {
+   "image": "cju1cqc7n4gpy0855jt246k68",
+   "apple_vs_pillow_pixels": 0.3360256630577992,
+   "pillow_mdice": 0.9517643130776767,
+   "pillow_level_diff_to_authors": 0.031341295755284417,
+   "apple_mdice": 0.9526609180712438,
+   "apple_level_diff_to_authors": 0.046939827658164145
+  },
+  {
+   "image": "cju1ddr6p4k5z08780uuuzit2",
+   "apple_vs_pillow_pixels": 0.5308564883646656,
+   "pillow_mdice": 0.9219547802430048,
+   "pillow_level_diff_to_authors": 0.20338652658010375,
+   "apple_mdice": 0.9258026335472048,
+   "apple_level_diff_to_authors": 0.11342716489906499
+  },
+  {
+   "image": "cju1f8w0t65en0799m9oacq0q",
+   "apple_vs_pillow_pixels": 0.5931775552957225,
+   "pillow_mdice": 0.946359751021142,
+   "pillow_level_diff_to_authors": 0.14184144499658968,
+   "apple_mdice": 0.9482365202797579,
+   "apple_level_diff_to_authors": 0.20240183182305369
+  },
+  {
+   "image": "cju1h89h6xbnx08352k2790o9",
+   "apple_vs_pillow_pixels": 0.3943458772480479,
+   "pillow_mdice": 0.9729107172006248,
+   "pillow_level_diff_to_authors": 0.08045726368652327,
+   "apple_mdice": 0.9728019010661328,
+   "apple_level_diff_to_authors": 0.11419698020946906
+  },
+  {
+   "image": "cju1hp9i2xu8e0988u2dazk7m",
+   "apple_vs_pillow_pixels": 0.4358904390381388,
+   "pillow_mdice": 0.9740983455272985,
+   "pillow_level_diff_to_authors": 0.072458587954956,
+   "apple_mdice": 0.9747982397472403,
+   "apple_level_diff_to_authors": 0.12004304546677429
+  },
+  {
+   "image": "cju2hfqnmhisa0993gpleeldd",
+   "apple_vs_pillow_pixels": 0.41386584834766404,
+   "pillow_mdice": 0.2085644812270689,
+   "pillow_level_diff_to_authors": 1.8250721599368032,
+   "apple_mdice": 0.3381529833402709,
+   "apple_level_diff_to_authors": 9.875845410628019
+  },
+  {
+   "image": "cju2hjrqcvi2j0801bx1i6gxg",
+   "apple_vs_pillow_pixels": 0.5211112473498937,
+   "pillow_mdice": 0.7803042766572921,
+   "pillow_level_diff_to_authors": 0.021341281294310354,
+   "apple_mdice": 0.7812203154031532,
+   "apple_level_diff_to_authors": 0.040217688614734536
+  },
+  {
+   "image": "cju2hos57llxm08359g92p6jj",
+   "apple_vs_pillow_pixels": 0.4983770871449498,
+   "pillow_mdice": 0.9636203345037742,
+   "pillow_level_diff_to_authors": 0.06001434484770756,
+   "apple_mdice": 0.9636305252977241,
+   "apple_level_diff_to_authors": 0.09159732310553796
+  },
+  {
+   "image": "cju2hqt33lmra0988fr5ijv8j",
+   "apple_vs_pillow_pixels": 0.4503769002315514,
+   "pillow_mdice": 0.9781225966324755,
+   "pillow_level_diff_to_authors": 0.08659581697372395,
+   "apple_mdice": 0.978369420818308,
+   "apple_level_diff_to_authors": 0.13109080841638981
+  },
+  {
+   "image": "cju2lberzkdzm09938cl40pog",
+   "apple_vs_pillow_pixels": 0.42798334585524667,
+   "pillow_mdice": 0.9685906411901706,
+   "pillow_level_diff_to_authors": 0.26220260455797645,
+   "apple_mdice": 0.969186265803573,
+   "apple_level_diff_to_authors": 0.24873528675181567
+  },
+  {
+   "image": "cju2mh8t6p07008350e01tx2a",
+   "apple_vs_pillow_pixels": 0.6997805435305435,
+   "pillow_mdice": 0.5268276613165126,
+   "pillow_level_diff_to_authors": 13.748212353123067,
+   "apple_mdice": 0.5153895622372936,
+   "apple_level_diff_to_authors": 15.091585497835498
+  },
+  {
+   "image": "cju2nnqrqzp580855z8mhzgd6",
+   "apple_vs_pillow_pixels": 0.39982990773851934,
+   "pillow_mdice": 0.6983946456388379,
+   "pillow_level_diff_to_authors": 0.7598272387376078,
+   "apple_mdice": 0.6957485618304801,
+   "apple_level_diff_to_authors": 0.7452551723201987
+  },
+  {
+   "image": "cju2np2k9zi3v079992ypxqkn",
+   "apple_vs_pillow_pixels": 0.5035535859101646,
+   "pillow_mdice": 0.97231622876568,
+   "pillow_level_diff_to_authors": 0.09112941257304188,
+   "apple_mdice": 0.9711584200043297,
+   "apple_level_diff_to_authors": 0.13241076475750563
+  },
+  {
+   "image": "cju2omjpeqj5a0988pjdlb8l1",
+   "apple_vs_pillow_pixels": 0.3564515412138587,
+   "pillow_mdice": 0.9794254001823776,
+   "pillow_level_diff_to_authors": 0.13976265084338957,
+   "apple_mdice": 0.9799214463544681,
+   "apple_level_diff_to_authors": 0.17893859590639377
+  },
+  {
+   "image": "cju2osuru0ki00855txo0n3uu",
+   "apple_vs_pillow_pixels": 0.45736617011869535,
+   "pillow_mdice": 0.9784091209218547,
+   "pillow_level_diff_to_authors": 0.05441409039893889,
+   "apple_mdice": 0.9780257540815537,
+   "apple_level_diff_to_authors": 0.09954660238751148
+  },
+  {
+   "image": "cju2pag1f0s4r0878h52uq83s",
+   "apple_vs_pillow_pixels": 0.3962374489683328,
+   "pillow_mdice": 0.962865846572376,
+   "pillow_level_diff_to_authors": 0.05454485269778219,
+   "apple_mdice": 0.9619301761264419,
+   "apple_level_diff_to_authors": 0.09641509433962264
+  },
+  {
+   "image": "cju2rga4psq9n09881z519xx0",
+   "apple_vs_pillow_pixels": 0.48060305091407884,
+   "pillow_mdice": 0.9684581522787492,
+   "pillow_level_diff_to_authors": 0.04377609880925607,
+   "apple_mdice": 0.9654371248443554,
+   "apple_level_diff_to_authors": 0.11815048717777278
+  },
+  {
+   "image": "cju2rmd2rsw9g09888hh1efu0",
+   "apple_vs_pillow_pixels": 0.7900783031023887,
+   "pillow_mdice": 0.8788798039046481,
+   "pillow_level_diff_to_authors": 0.017798262133676943,
+   "apple_mdice": 0.8772911388471503,
+   "apple_level_diff_to_authors": 0.02190504509862226
+  },
+  {
+   "image": "cju2rqo702wpx0855fn7d5cxh",
+   "apple_vs_pillow_pixels": 0.4819391046617698,
+   "pillow_mdice": 0.9536439823934346,
+   "pillow_level_diff_to_authors": 0.017679880916504572,
+   "apple_mdice": 0.953714851185268,
+   "apple_level_diff_to_authors": 0.023941505407766607
+  },
+  {
+   "image": "cju2top2ruxxy0988p1svx36g",
+   "apple_vs_pillow_pixels": 0.3297506344477546,
+   "pillow_mdice": 0.8808275565357447,
+   "pillow_level_diff_to_authors": 0.13486593843098313,
+   "apple_mdice": 0.8805886417957866,
+   "apple_level_diff_to_authors": 0.19985766302548824
+  },
+  {
+   "image": "cju2wve9v7esz0878mxsdcy04",
+   "apple_vs_pillow_pixels": 0.46505884505152756,
+   "pillow_mdice": 0.9401876168151567,
+   "pillow_level_diff_to_authors": 0.13399902433075186,
+   "apple_mdice": 0.9382391025183965,
+   "apple_level_diff_to_authors": 0.12167510214037441
+  },
+  {
+   "image": "cju2y40d8ulqo0993q0adtgtb",
+   "apple_vs_pillow_pixels": 0.5303780003451871,
+   "pillow_mdice": 0.5779904465838687,
+   "pillow_level_diff_to_authors": 0.4617347798512836,
+   "apple_mdice": 0.592320928542237,
+   "apple_level_diff_to_authors": 2.928334860122613
+  },
+  {
+   "image": "cju2yi9tz8vky0801yqip0xyl",
+   "apple_vs_pillow_pixels": 0.4486535402728585,
+   "pillow_mdice": 0.9139307790306503,
+   "pillow_level_diff_to_authors": 0.6890741833923653,
+   "apple_mdice": 0.9077959394771224,
+   "apple_level_diff_to_authors": 1.951698396300669
+  },
+  {
+   "image": "cju2yo1j1v0qz09934o0e683p",
+   "apple_vs_pillow_pixels": 0.5334351484511229,
+   "pillow_mdice": 0.9428702621563753,
+   "pillow_level_diff_to_authors": 0.18312092593242754,
+   "apple_mdice": 0.9434338090266066,
+   "apple_level_diff_to_authors": 0.28196058467623963
+  },
+  {
+   "image": "cju2yv4imv6cz099314jveiib",
+   "apple_vs_pillow_pixels": 0.503977059989224,
+   "pillow_mdice": 0.9203552832591981,
+   "pillow_level_diff_to_authors": 0.5811712921107184,
+   "apple_mdice": 0.9182018846618609,
+   "apple_level_diff_to_authors": 0.9459101577125741
+  },
+  {
+   "image": "cju2zp89k9q1g0855k1x0f1xa",
+   "apple_vs_pillow_pixels": 0.3347064652470222,
+   "pillow_mdice": 0.9533636785399853,
+   "pillow_level_diff_to_authors": 0.04294121215798095,
+   "apple_mdice": 0.9548488370482264,
+   "apple_level_diff_to_authors": 0.039659042650003036
+  },
+  {
+   "image": "cju2zwg05a0oy0801yr73ig7g",
+   "apple_vs_pillow_pixels": 0.3721697702909327,
+   "pillow_mdice": 0.9705962596992335,
+   "pillow_level_diff_to_authors": 0.07083683100207816,
+   "apple_mdice": 0.9706892485726298,
+   "apple_level_diff_to_authors": 0.06362141547903127
+  },
+  {
+   "image": "cju30ajhw09sx0988qyahx9s8",
+   "apple_vs_pillow_pixels": 0.6067958907156868,
+   "pillow_mdice": 0.6136325145751524,
+   "pillow_level_diff_to_authors": 0.7064521021658678,
+   "apple_mdice": 0.6536726138631832,
+   "apple_level_diff_to_authors": 3.351528847903901
+  },
+  {
+   "image": "cju30gxjq0djk0988jytm49rs",
+   "apple_vs_pillow_pixels": 0.5407530991526623,
+   "pillow_mdice": 0.9601528021861261,
+   "pillow_level_diff_to_authors": 0.07491961414790997,
+   "apple_mdice": 0.9610932416272351,
+   "apple_level_diff_to_authors": 0.09512224716374447
+  },
+  {
+   "image": "cju30j1rgadut0801vuyrsnt8",
+   "apple_vs_pillow_pixels": 0.5192706609290522,
+   "pillow_mdice": 0.9229859516150569,
+   "pillow_level_diff_to_authors": 0.045534591194968554,
+   "apple_mdice": 0.9179194664468175,
+   "apple_level_diff_to_authors": 0.12440913604766633
+  },
+  {
+   "image": "cju31w6goazci0799n014ly1q",
+   "apple_vs_pillow_pixels": 0.3600140731864007,
+   "pillow_mdice": 0.9710396904537131,
+   "pillow_level_diff_to_authors": 0.14630768378483186,
+   "apple_mdice": 0.9705886866209439,
+   "apple_level_diff_to_authors": 0.16665354594730136
+  },
+  {
+   "image": "cju32srle1xfq083575i3fl75",
+   "apple_vs_pillow_pixels": 0.393496913165626,
+   "pillow_mdice": 0.9586516076456965,
+   "pillow_level_diff_to_authors": 0.04696544030465332,
+   "apple_mdice": 0.9590360461743184,
+   "apple_level_diff_to_authors": 0.05175193182681019
+  },
+  {
+   "image": "cju34m7h536wq0988xz7gx79v",
+   "apple_vs_pillow_pixels": 0.5907439456048087,
+   "pillow_mdice": 0.9555324611003435,
+   "pillow_level_diff_to_authors": 0.13521779340530543,
+   "apple_mdice": 0.9562922360525681,
+   "apple_level_diff_to_authors": 0.16306653603030274
+  },
+  {
+   "image": "cju34xspwzenf0993cyzajv9n",
+   "apple_vs_pillow_pixels": 0.41486723010398474,
+   "pillow_mdice": 0.9564510711466252,
+   "pillow_level_diff_to_authors": 0.22313402760336662,
+   "apple_mdice": 0.9585165994058469,
+   "apple_level_diff_to_authors": 0.28625497193521443
+  },
+  {
+   "image": "cju3tp94kfstl08181awh6z49",
+   "apple_vs_pillow_pixels": 0.3701825278140147,
+   "pillow_mdice": 0.9706977325899149,
+   "pillow_level_diff_to_authors": 0.3016290686945178,
+   "apple_mdice": 0.970639807980942,
+   "apple_level_diff_to_authors": 0.48416112507556713
+  },
+  {
+   "image": "cju3uhb79gcgr0871orbrbi3x",
+   "apple_vs_pillow_pixels": 0.5454581236640205,
+   "pillow_mdice": 0.41970953925698834,
+   "pillow_level_diff_to_authors": 0.8184944986405557,
+   "apple_mdice": 0.2532343452624113,
+   "apple_level_diff_to_authors": 4.029941080652291
+  },
+  {
+   "image": "cju3v11mrgwwb0755u242ygye",
+   "apple_vs_pillow_pixels": 0.4207597726951,
+   "pillow_mdice": 0.9475573264866073,
+   "pillow_level_diff_to_authors": 0.759060850573318,
+   "apple_mdice": 0.9449036620543536,
+   "apple_level_diff_to_authors": 0.7897743129284718
+  },
+  {
+   "image": "cju3x5u2tiihx0818914gzxy1",
+   "apple_vs_pillow_pixels": 0.3989130214968958,
+   "pillow_mdice": 0.972390274876822,
+   "pillow_level_diff_to_authors": 0.19488867317842626,
+   "apple_mdice": 0.9764762768483455,
+   "apple_level_diff_to_authors": 0.5099223442334526
+  },
+  {
+   "image": "cju3xga12iixg0817dijbvjxw",
+   "apple_vs_pillow_pixels": 0.42550001011142796,
+   "pillow_mdice": 0.8347905620171449,
+   "pillow_level_diff_to_authors": 0.9809318691985682,
+   "apple_mdice": 0.832964268653295,
+   "apple_level_diff_to_authors": 1.3651064733361646
+  },
+  {
+   "image": "cju3ya7goj6at0818v2l5ay7f",
+   "apple_vs_pillow_pixels": 0.44161590084749225,
+   "pillow_mdice": 0.9054900232337431,
+   "pillow_level_diff_to_authors": 0.403198392626642,
+   "apple_mdice": 0.8819276944403327,
+   "apple_level_diff_to_authors": 0.49270198760593653
+  },
+  {
+   "image": "cju3ykamdj9u208503pygyuc8",
+   "apple_vs_pillow_pixels": 0.7146445382243143,
+   "pillow_mdice": 0.13622799560919852,
+   "pillow_level_diff_to_authors": 1.1369631553319266,
+   "apple_mdice": 0.13692829213260918,
+   "apple_level_diff_to_authors": 0.7893759130011362
+  },
+  {
+   "image": "cju40m0rjkpw80871z6n6yg1u",
+   "apple_vs_pillow_pixels": 0.5302534732995484,
+   "pillow_mdice": 0.9293803593366065,
+   "pillow_level_diff_to_authors": 0.1514311200744648,
+   "apple_mdice": 0.9289296317115663,
+   "apple_level_diff_to_authors": 0.17710918916123694
+  },
+  {
+   "image": "cju42qet0lsq90871e50xbnuv",
+   "apple_vs_pillow_pixels": 0.41256164616518337,
+   "pillow_mdice": 0.9475515146553416,
+   "pillow_level_diff_to_authors": 0.08422299063419181,
+   "apple_mdice": 0.947630840951185,
+   "apple_level_diff_to_authors": 0.06121157152844699
+  },
+  {
+   "image": "cju42wamblrqn098798r2yyok",
+   "apple_vs_pillow_pixels": 0.523951951845866,
+   "pillow_mdice": 0.8385204316326212,
+   "pillow_level_diff_to_authors": 0.5378863483147721,
+   "apple_mdice": 0.8415526813465525,
+   "apple_level_diff_to_authors": 0.9237974959300768
+  },
+  {
+   "image": "cju43jcqim2cp08172dvjvyui",
+   "apple_vs_pillow_pixels": 0.49041144163244965,
+   "pillow_mdice": 0.9581556693669848,
+   "pillow_level_diff_to_authors": 0.04462038069983821,
+   "apple_mdice": 0.9583394096870577,
+   "apple_level_diff_to_authors": 0.03492182161192914
+  },
+  {
+   "image": "cju45rj7ln8980850a7821fov",
+   "apple_vs_pillow_pixels": 0.32418104212976007,
+   "pillow_mdice": 0.9557485087299706,
+   "pillow_level_diff_to_authors": 0.16028302182148335,
+   "apple_mdice": 0.9567663765327681,
+   "apple_level_diff_to_authors": 0.2350239504085658
+  },
+  {
+   "image": "cju45ty6zn9oz0850qy4qnck1",
+   "apple_vs_pillow_pixels": 0.33778338306315175,
+   "pillow_mdice": 0.9725874573042795,
+   "pillow_level_diff_to_authors": 0.12092036051554954,
+   "apple_mdice": 0.9718119344010255,
+   "apple_level_diff_to_authors": 0.08971532669585516
+  },
+  {
+   "image": "cju45v0pungu40871acnwtmu5",
+   "apple_vs_pillow_pixels": 0.3630809307345829,
+   "pillow_mdice": 0.9730503799152909,
+   "pillow_level_diff_to_authors": 0.12157357245158477,
+   "apple_mdice": 0.9734694910282539,
+   "apple_level_diff_to_authors": 0.1507098823089856
+  },
+  {
+   "image": "cju5cky5xb0ay0801oxet697t",
+   "apple_vs_pillow_pixels": 0.3723945646172334,
+   "pillow_mdice": 0.9223666488681829,
+   "pillow_level_diff_to_authors": 0.10909030010718114,
+   "apple_mdice": 0.9311228569138357,
+   "apple_level_diff_to_authors": 0.3383574490889603
+  },
+  {
+   "image": "cju5clr68b48r0755cmuvponm",
+   "apple_vs_pillow_pixels": 0.36789971931023285,
+   "pillow_mdice": 0.9669140712021421,
+   "pillow_level_diff_to_authors": 0.06275029576814309,
+   "apple_mdice": 0.9662433183935499,
+   "apple_level_diff_to_authors": 0.08905942567204216
+  },
+  {
+   "image": "cju5hi52odyf90817prvcwg45",
+   "apple_vs_pillow_pixels": 0.3709453691848058,
+   "pillow_mdice": 0.9637579415770512,
+   "pillow_level_diff_to_authors": 0.18213828425096032,
+   "apple_mdice": 0.9627483326059421,
+   "apple_level_diff_to_authors": 0.20866177176696543
+  },
+  {
+   "image": "cju5hyi9yegob0755ho3do8en",
+   "apple_vs_pillow_pixels": 0.43362452349092395,
+   "pillow_mdice": 0.96056881860698,
+   "pillow_level_diff_to_authors": 0.08073623876176923,
+   "apple_mdice": 0.9600734813344116,
+   "apple_level_diff_to_authors": 0.11882864485825341
+  },
+  {
+   "image": "cju5k3j3uf6de0817hszzfr7n",
+   "apple_vs_pillow_pixels": 0.4571096777160728,
+   "pillow_mdice": 0.9518851910330912,
+   "pillow_level_diff_to_authors": 0.08506777965575524,
+   "apple_mdice": 0.9534292247531302,
+   "apple_level_diff_to_authors": 0.08785485150563968
+  },
+  {
+   "image": "cju5o4pk9h0720755lgp9jq8m",
+   "apple_vs_pillow_pixels": 0.45894456915205567,
+   "pillow_mdice": 0.9836079672198136,
+   "pillow_level_diff_to_authors": 0.1287933021901353,
+   "apple_mdice": 0.9840014969415652,
+   "apple_level_diff_to_authors": 0.21475459564399685
+  },
+  {
+   "image": "cju5wrrs0m2af0818vmnajbtw",
+   "apple_vs_pillow_pixels": 0.37859424920127793,
+   "pillow_mdice": 0.9528667852420036,
+   "pillow_level_diff_to_authors": 0.018193924455788473,
+   "apple_mdice": 0.9541224700307946,
+   "apple_level_diff_to_authors": 0.0343844729602654
+  },
+  {
+   "image": "cju5x00l6m5j608503k78ptee",
+   "apple_vs_pillow_pixels": 0.3458367739690036,
+   "pillow_mdice": 0.7840664543271951,
+   "pillow_level_diff_to_authors": 5.0023168842513295,
+   "apple_mdice": 0.794324650960346,
+   "apple_level_diff_to_authors": 6.719831027823084
+  },
+  {
+   "image": "cju5xjn5mm78b09871spyqhhr",
+   "apple_vs_pillow_pixels": 0.6089106499074345,
+   "pillow_mdice": 0.7517090925431976,
+   "pillow_level_diff_to_authors": 1.7951074247296113,
+   "apple_mdice": 0.7561668675035728,
+   "apple_level_diff_to_authors": 1.5646497125596803
+  },
+  {
+   "image": "cju5xkwzxmf0z0818gk4xabdm",
+   "apple_vs_pillow_pixels": 0.3664081679103871,
+   "pillow_mdice": 0.9690083237299371,
+   "pillow_level_diff_to_authors": 0.22422409728657594,
+   "apple_mdice": 0.9677973763489918,
+   "apple_level_diff_to_authors": 0.3165357915101855
+  },
+  {
+   "image": "cju5xq3tdm9fn0987pbedxdg5",
+   "apple_vs_pillow_pixels": 0.35026365535767584,
+   "pillow_mdice": 0.698662896094966,
+   "pillow_level_diff_to_authors": 0.08875733757835041,
+   "apple_mdice": 0.6940951477372364,
+   "apple_level_diff_to_authors": 0.14298079793055418
+  },
+  {
+   "image": "cju5y4hgqmk0i08180rjhbwvp",
+   "apple_vs_pillow_pixels": 0.5330693316044725,
+   "pillow_mdice": 0.9501410784330705,
+   "pillow_level_diff_to_authors": 0.13181980129781382,
+   "apple_mdice": 0.9497282308324305,
+   "apple_level_diff_to_authors": 0.14236234821360777
+  },
+  {
+   "image": "cju5yeqiwmkgl0801fzv2douc",
+   "apple_vs_pillow_pixels": 0.6271373663285646,
+   "pillow_mdice": 0.466312173728031,
+   "pillow_level_diff_to_authors": 0.9781412098985695,
+   "apple_mdice": 0.45010707822607593,
+   "apple_level_diff_to_authors": 1.1754055572075197
+  },
+  {
+   "image": "cju6us80mv1b50871ebyq2wxa",
+   "apple_vs_pillow_pixels": 0.34987578056805213,
+   "pillow_mdice": 0.9412173427304414,
+   "pillow_level_diff_to_authors": 0.026559457463237762,
+   "apple_mdice": 0.938202580817133,
+   "apple_level_diff_to_authors": 0.025666420465990734
+  },
+  {
+   "image": "cju6uy20suzbl0987rzuhz7z9",
+   "apple_vs_pillow_pixels": 0.43429706608620344,
+   "pillow_mdice": 0.9718284904693126,
+   "pillow_level_diff_to_authors": 0.15197076618801858,
+   "apple_mdice": 0.9716441013901751,
+   "apple_level_diff_to_authors": 0.21117274631651628
+  },
+  {
+   "image": "cju6v1m1xv07w09870ah3njy1",
+   "apple_vs_pillow_pixels": 0.4327700784772082,
+   "pillow_mdice": 0.9582693556235846,
+   "pillow_level_diff_to_authors": 0.09459676072800134,
+   "apple_mdice": 0.9579785433514243,
+   "apple_level_diff_to_authors": 0.10143596593755218
+  },
+  {
+   "image": "cju6vifjlv55z0987un6y4zdo",
+   "apple_vs_pillow_pixels": 0.43622317179170794,
+   "pillow_mdice": 0.9009999931510975,
+   "pillow_level_diff_to_authors": 7.251107774785891,
+   "apple_mdice": 0.8948334946224774,
+   "apple_level_diff_to_authors": 4.996760252615199
+  },
+  {
+   "image": "cju6vrs1ov8cr098788h8gs6j",
+   "apple_vs_pillow_pixels": 0.5035732151427612,
+   "pillow_mdice": 0.9434356317393329,
+   "pillow_level_diff_to_authors": 0.05442468851690517,
+   "apple_mdice": 0.9437420690892212,
+   "apple_level_diff_to_authors": 0.06840908468261143
+  },
+  {
+   "image": "cju6x0yqbvxqt0755dhxislgb",
+   "apple_vs_pillow_pixels": 0.5567766790026087,
+   "pillow_mdice": 0.8942366420658032,
+   "pillow_level_diff_to_authors": 0.1002062731298914,
+   "apple_mdice": 0.8941147565714687,
+   "apple_level_diff_to_authors": 0.18613419887156465
+  },
+  {
+   "image": "cju7ajnbo1gvm098749rdouk0",
+   "apple_vs_pillow_pixels": 0.4927754176955455,
+   "pillow_mdice": 0.9852535624958043,
+   "pillow_level_diff_to_authors": 0.08065337218691851,
+   "apple_mdice": 0.9849753131017261,
+   "apple_level_diff_to_authors": 0.10728329178808411
+  },
+  {
+   "image": "cju7awzmu1ncs0871hziy65zx",
+   "apple_vs_pillow_pixels": 0.4165245653623263,
+   "pillow_mdice": 0.9672987569609369,
+   "pillow_level_diff_to_authors": 0.05782988871224165,
+   "apple_mdice": 0.9674153079916521,
+   "apple_level_diff_to_authors": 0.07352300117954767
+  },
+  {
+   "image": "cju7bd1qu1mx409877xjxibox",
+   "apple_vs_pillow_pixels": 0.3339037846187797,
+   "pillow_mdice": 0.9631748158664035,
+   "pillow_level_diff_to_authors": 0.08228070175438597,
+   "apple_mdice": 0.9647160838935376,
+   "apple_level_diff_to_authors": 0.07442237669645813
+  },
+  {
+   "image": "cju7bgnvb1sf808717qa799ir",
+   "apple_vs_pillow_pixels": 0.43253830679678135,
+   "pillow_mdice": 0.9789418184321724,
+   "pillow_level_diff_to_authors": 0.12965780688238315,
+   "apple_mdice": 0.9790330065770839,
+   "apple_level_diff_to_authors": 0.20022149460708782
+  },
+  {
+   "image": "cju7crgxa28550755wbsgqkel",
+   "apple_vs_pillow_pixels": 0.3759920634920635,
+   "pillow_mdice": 0.9163373082673663,
+   "pillow_level_diff_to_authors": 0.07428354514367376,
+   "apple_mdice": 0.9169538717985359,
+   "apple_level_diff_to_authors": 0.17653945286581943
+  },
+  {
+   "image": "cju7da88w2eod0755wejzynvt",
+   "apple_vs_pillow_pixels": 0.2533604829351687,
+   "pillow_mdice": 0.9385920514050372,
+   "pillow_level_diff_to_authors": 0.04055499455236374,
+   "apple_mdice": 0.9416083565556312,
+   "apple_level_diff_to_authors": 0.07476548590258032
+  },
+  {
+   "image": "cju7ddtz729960801uazp1knc",
+   "apple_vs_pillow_pixels": 0.502733321965637,
+   "pillow_mdice": 0.9605836806624451,
+   "pillow_level_diff_to_authors": 0.12834941050375134,
+   "apple_mdice": 0.9609262170007621,
+   "apple_level_diff_to_authors": 0.2168469258501413
+  },
+  {
+   "image": "cju7do8c72dbo0801vxfzxdc4",
+   "apple_vs_pillow_pixels": 0.5328902153872512,
+   "pillow_mdice": 0.9383928385623639,
+   "pillow_level_diff_to_authors": 0.047047210751645634,
+   "apple_mdice": 0.9389236401096193,
+   "apple_level_diff_to_authors": 0.08524277061637395
+  },
+  {
+   "image": "cju7dymur2od30755eg8yv2ht",
+   "apple_vs_pillow_pixels": 0.36701753321604075,
+   "pillow_mdice": 0.9442388201549261,
+   "pillow_level_diff_to_authors": 0.149353879754899,
+   "apple_mdice": 0.9413142612698159,
+   "apple_level_diff_to_authors": 0.4380482921798216
+  },
+  {
+   "image": "cju7ecl9i2i060987xawjp4l0",
+   "apple_vs_pillow_pixels": 0.5110878784010763,
+   "pillow_mdice": 0.8570249361540965,
+   "pillow_level_diff_to_authors": 0.5020605522766367,
+   "apple_mdice": 0.8542071696285279,
+   "apple_level_diff_to_authors": 0.7940025164266741
+  },
+  {
+   "image": "cju7fbndk2sl608015ravktum",
+   "apple_vs_pillow_pixels": 0.3953918935349449,
+   "pillow_mdice": 0.9573441540452478,
+   "pillow_level_diff_to_authors": 0.1995324468614252,
+   "apple_mdice": 0.9550385170758249,
+   "apple_level_diff_to_authors": 0.1501475610969261
+  },
+  {
+   "image": "cju7fcgbe2z3p07550vaflqdb",
+   "apple_vs_pillow_pixels": 0.3907080543720836,
+   "pillow_mdice": 0.9706049282965594,
+   "pillow_level_diff_to_authors": 0.06574863055386489,
+   "apple_mdice": 0.9705966425612997,
+   "apple_level_diff_to_authors": 0.08362446743761412
+  },
+  {
+   "image": "cju7fpfzq2wyf0818xxd1oziv",
+   "apple_vs_pillow_pixels": 0.3275008275405495,
+   "pillow_mdice": 0.9710086948371881,
+   "pillow_level_diff_to_authors": 0.2504170804369414,
+   "apple_mdice": 0.9719928723444871,
+   "apple_level_diff_to_authors": 0.22225422045680238
+  },
+  {
+   "image": "cju84hibuktj80871u519o71q",
+   "apple_vs_pillow_pixels": 0.4167370739347228,
+   "pillow_mdice": 0.9796421410997778,
+   "pillow_level_diff_to_authors": 0.023896935916216364,
+   "apple_mdice": 0.9803295215534683,
+   "apple_level_diff_to_authors": 0.04049076398470693
+  },
+  {
+   "image": "cju88cddensj00987788yotmg",
+   "apple_vs_pillow_pixels": 0.4638541206201569,
+   "pillow_mdice": 0.9696311056906706,
+   "pillow_level_diff_to_authors": 0.04224874501183837,
+   "apple_mdice": 0.9695898369054817,
+   "apple_level_diff_to_authors": 0.042887593026565175
+  },
+  {
+   "image": "cju88t4fvokxf07558ymyh281",
+   "apple_vs_pillow_pixels": 0.5254705947258083,
+   "pillow_mdice": 0.9594787719255169,
+   "pillow_level_diff_to_authors": 0.034342932803707385,
+   "apple_mdice": 0.957499798875158,
+   "apple_level_diff_to_authors": 0.0828666004634227
+  },
+  {
+   "image": "cju88vx2uoocy075531lc63n3",
+   "apple_vs_pillow_pixels": 0.35062269900826154,
+   "pillow_mdice": 0.9736116509960968,
+   "pillow_level_diff_to_authors": 0.027298129260688052,
+   "apple_mdice": 0.9737048221691896,
+   "apple_level_diff_to_authors": 0.04397426412302489
+  },
+  {
+   "image": "cju8alhigqn2h0801zksudldd",
+   "apple_vs_pillow_pixels": 0.5880435050834074,
+   "pillow_mdice": 0.9854765517982155,
+   "pillow_level_diff_to_authors": 0.14145629750271443,
+   "apple_mdice": 0.9855389726737511,
+   "apple_level_diff_to_authors": 0.18864129898331852
+  },
+  {
+   "image": "cju8aqq8uqmoq0987hphto9gg",
+   "apple_vs_pillow_pixels": 0.5596983775897514,
+   "pillow_mdice": 0.891124925994228,
+   "pillow_level_diff_to_authors": 0.16771407506231786,
+   "apple_mdice": 0.8916084351871716,
+   "apple_level_diff_to_authors": 0.2081738814965652
+  },
+  {
+   "image": "cju8bk8oirjhw0817hgkua2w8",
+   "apple_vs_pillow_pixels": 0.40779476666381936,
+   "pillow_mdice": 0.9095807493157853,
+   "pillow_level_diff_to_authors": 0.19989408046467924,
+   "apple_mdice": 0.912105275050384,
+   "apple_level_diff_to_authors": 0.6124130861877509
+  },
+  {
+   "image": "cju8c2rqzs5t80850d0zky5dy",
+   "apple_vs_pillow_pixels": 0.4343819479011117,
+   "pillow_mdice": 0.827928120031024,
+   "pillow_level_diff_to_authors": 5.752450638792102,
+   "apple_mdice": 0.8178386346985125,
+   "apple_level_diff_to_authors": 8.139488966318234
+  },
+  {
+   "image": "cju8d4jgatgpj0871q2ophhkm",
+   "apple_vs_pillow_pixels": 0.33135421649782104,
+   "pillow_mdice": 0.9716525777460099,
+   "pillow_level_diff_to_authors": 0.10668156302795792,
+   "apple_mdice": 0.9722939485577313,
+   "apple_level_diff_to_authors": 0.1134818125117324
+  },
+  {
+   "image": "cju8dqkrqu83i0818ev74qpxq",
+   "apple_vs_pillow_pixels": 0.5492872791813417,
+   "pillow_mdice": 0.9320515868887289,
+   "pillow_level_diff_to_authors": 1.6991624837072576,
+   "apple_mdice": 0.9291724003974451,
+   "apple_level_diff_to_authors": 1.34631645358995
+  }
+ ]
+}

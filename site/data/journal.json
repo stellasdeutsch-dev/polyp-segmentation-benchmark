@@ -1,0 +1,2150 @@
+{
+ "generated": "2026-11-15",
+ "stages": [
+  {
+   "stage": 1,
+   "title": "Study of real projects",
+   "iterations": 5
+  },
+  {
+   "stage": 2,
+   "title": "Skeleton and data",
+   "iterations": 6
+  },
+  {
+   "stage": 3,
+   "title": "Reproduce the reference",
+   "iterations": 5
+  },
+  {
+   "stage": 4,
+   "title": "U-Net from scratch",
+   "iterations": 5
+  },
+  {
+   "stage": 5,
+   "title": "U-Net with a pretrained encoder",
+   "iterations": 0
+  },
+  {
+   "stage": 6,
+   "title": "Frozen foundation model",
+   "iterations": 0
+  },
+  {
+   "stage": 7,
+   "title": "Experiments",
+   "iterations": 0
+  },
+  {
+   "stage": 8,
+   "title": "Demo, report, publication",
+   "iterations": 0
+  },
+  {
+   "stage": 9,
+   "title": "Server stage",
+   "iterations": 0
+  }
+ ],
+ "stages_started": [
+  1,
+  2,
+  3,
+  4
+ ],
+ "iterations": [
+  {
+   "id": "1.1",
+   "stage": 1,
+   "date": "2026-11-13",
+   "title": "How the polyp benchmark really works",
+   "summary": "Read the code and papers of Kvasir-SEG, PraNet and Polyp-PVT, the benchmark every later paper reports on.",
+   "why": "Published numbers can only be compared if they were measured the same way; the code shows how they were measured.",
+   "results": [
+    {
+     "label": "Findings in the benchmark code",
+     "value": "6"
+    },
+    {
+     "label": "Published rows collected later in 1.4",
+     "value": "45"
+    }
+   ],
+   "problems": [
+    {
+     "kind": "published",
+     "what": "Polyp-PVT picks its saved checkpoint by Dice on a test folder; PraNet has no validation set at all.",
+     "found": "Reading Train.py lines 109-121 and MyTrain.py lines 67-69.",
+     "fix": "Our protocol keeps a saved validation split and touches test sets once (decision D3)."
+    },
+    {
+     "kind": "published",
+     "what": "The headline \"mDice\" averages Dice over 256 thresholds of a per-image stretched map; it is not Dice at 0.5.",
+     "found": "Reading MyTest.py line 37 and eval/main.m.",
+     "fix": "We report Dice at 0.5 and PraNet-style mDice side by side (decision D4)."
+    },
+    {
+     "kind": "published",
+     "what": "The PraNet paper describes a random 80/10/10 split; the released data uses fixed folders.",
+     "found": "Comparing paper Section 3.1 with the README data section.",
+     "fix": "We follow the released folders, which is what later papers did."
+    }
+   ],
+   "files": [
+    "research/01_polyp_protocol.md"
+   ]
+  },
+  {
+   "id": "1.2",
+   "stage": 1,
+   "date": "2026-11-13",
+   "title": "The U-Net lineage",
+   "summary": "Compared the 2015 U-Net paper with three implementations (milesial, SMP, nnU-Net) and read nnU-Net Revisited.",
+   "why": "Our first two models are U-Nets; knowing which details came from where lets us explain every design choice.",
+   "results": [
+    {
+     "label": "Code links pinned and checked",
+     "value": "23"
+    },
+    {
+     "label": "Validation pitfalls named by nnU-Net Revisited",
+     "value": "4"
+    }
+   ],
+   "problems": [
+    {
+     "kind": "published",
+     "what": "milesial evaluates with drop_last=True and averages Dice per batch, so results depend on batch size and skip images.",
+     "found": "Reading train.py line 55 and evaluate.py lines 30 and 40.",
+     "fix": "We score every image and average per image."
+    },
+    {
+     "kind": "ours",
+     "what": "The plan said the SMP author works at Hugging Face; his profile says formerly.",
+     "found": "Checking the GitHub profile before writing the note.",
+     "fix": "Corrected in the note before it was saved."
+    }
+   ],
+   "files": [
+    "research/02_unet_lineage.md"
+   ]
+  },
+  {
+   "id": "1.3",
+   "stage": 1,
+   "date": "2026-11-13",
+   "title": "Beyond U-Net",
+   "summary": "Read Mask2Former, SegFormer, EoMT, DINOv3 and MONAI at code level and sorted every model into three designs.",
+   "why": "Rung 3 uses a frozen DINOv3 backbone, and the server stage uses mask transformers; we need to know where each is weak.",
+   "results": [
+    {
+     "label": "EoMT gap to Mask2Former, ViT-S vs ViT-g",
+     "value": "5.8 vs 0.7 PQ"
+    },
+    {
+     "label": "DINOv3 vs DINOv2 ViT-S, ADE20K",
+     "value": "47.0 vs 45.5 mIoU"
+    }
+   ],
+   "problems": [
+    {
+     "kind": "ours",
+     "what": "The plan named NVIDIA and King's College London as MONAI's founders without a source.",
+     "found": "The MONAI paper page lists no affiliations.",
+     "fix": "Confirmed from the full paper (\"initially led by NVIDIA and King's College London\") before using it."
+    }
+   ],
+   "files": [
+    "research/03_foundation_models.md"
+   ]
+  },
+  {
+   "id": "1.4",
+   "stage": 1,
+   "date": "2026-11-13",
+   "title": "Published numbers and the project's rules",
+   "summary": "Collected 45 published results with their source tables, drew the first chart, and wrote fifteen decisions.",
+   "why": "Every later stage follows these rules, so each one needed a reason and a source.",
+   "results": [
+    {
+     "label": "Published results",
+     "value": "45"
+    },
+    {
+     "label": "Decisions",
+     "value": "15"
+    },
+    {
+     "label": "U-Net to best model gap, unseen hospitals",
+     "value": "up to 0.39 Dice"
+    }
+   ],
+   "problems": [
+    {
+     "kind": "ours",
+     "what": "The first chart title said the gap is \"3x larger on unseen hospitals\", which overstates CVC-300 (0.16).",
+     "found": "Looking at the rendered chart before sharing it.",
+     "fix": "Rewrote the title to state the actual range, 0.1 to 0.39."
+    },
+    {
+     "kind": "ours",
+     "what": "The \"(vs PraNet)\" label was cut off at the chart's right edge.",
+     "found": "Looking at the rendered chart.",
+     "fix": "Shortened to an asterisk with a footnote."
+    }
+   ],
+   "files": [
+    "research/published_results.csv",
+    "research/decisions.md",
+    "research/plot_published.py"
+   ]
+  },
+  {
+   "id": "1.5",
+   "stage": 1,
+   "date": "2026-11-13",
+   "title": "The explainer site",
+   "summary": "Built the site shell, the home page and the stage 1 page with an interactive chart and two hands-on demos.",
+   "why": "You should be able to explain every step as your own; the site is the study guide and the showcase.",
+   "results": [
+    {
+     "label": "Widths checked",
+     "value": "1440, 834, 390"
+    },
+    {
+     "label": "Console errors",
+     "value": "0"
+    }
+   ],
+   "problems": [
+    {
+     "kind": "ours",
+     "what": "The note claimed boundary pixels get up to 6x weight in PraNet's loss; at a straight edge it is about 3.5x.",
+     "found": "Building the weight-map demo, which computes the weights.",
+     "fix": "Corrected the note, the page and the colour scale."
+    },
+    {
+     "kind": "ours",
+     "what": "The home-page chart image was stretched vertically.",
+     "found": "Checking the page at 834 px.",
+     "fix": "Added height auto so images keep their aspect ratio."
+    },
+    {
+     "kind": "ours",
+     "what": "In dark mode the weight colours were reversed and a chart label ran off the left edge on phones.",
+     "found": "Checking the page in dark mode and at 390 px.",
+     "fix": "One colour scale for both themes; group labels moved to the left margin."
+    }
+   ],
+   "files": [
+    "site/index.html",
+    "site/stage-1.html"
+   ]
+  },
+  {
+   "id": "2.1",
+   "stage": 2,
+   "date": "2026-11-13",
+   "title": "Environment",
+   "summary": "Python 3.11 environment with exact pinned versions, one-command setup, and helpers for device, seeds and cost.",
+   "why": "Anyone must be able to rebuild the same environment, and cost needs a reliable memory measurement.",
+   "tests": 10,
+   "results": [
+    {
+     "label": "PyTorch",
+     "value": "2.15.0 on MPS"
+    },
+    {
+     "label": "Memory counter checked",
+     "value": "256 MB read as 256.0 MB"
+    }
+   ],
+   "problems": [
+    {
+     "kind": "library",
+     "what": "torch.mps has no peak-memory counter in PyTorch 2.15, and the driver total grows in 1 GB steps.",
+     "found": "Listing the available functions and testing them on known allocations.",
+     "fix": "Use torch.accelerator's peak counter, which reads known allocations exactly (decision D15)."
+    },
+    {
+     "kind": "ours",
+     "what": "Eight lint findings, including two unchecked zip() calls in the chart script.",
+     "found": "Running the linter.",
+     "fix": "All fixed; lint now runs on every change."
+    }
+   ],
+   "files": [
+    "src/seg/env.py",
+    "scripts/check_env.py",
+    "requirements-lock.txt"
+   ]
+  },
+  {
+   "id": "2.2",
+   "stage": 2,
+   "date": "2026-11-13",
+   "title": "Data and the validation split",
+   "summary": "Downloaded the benchmark with checksums, audited it, and saved a validation split made of whole videos.",
+   "why": "A validation set that shares videos with training measures memory, not generalisation.",
+   "tests": 32,
+   "results": [
+    {
+     "label": "Validation images",
+     "value": "158"
+    },
+    {
+     "label": "Sequence table vs images, AUC",
+     "value": "0.965"
+    },
+    {
+     "label": "Exact train/test duplicates",
+     "value": "0"
+    }
+   ],
+   "problems": [
+    {
+     "kind": "data",
+     "what": "The CVC-ClinicDB test set takes its frames from 26 videos that also have training frames.",
+     "found": "Mapping every frame to its video with the dataset's own table.",
+     "fix": "Validation uses the only three videos with no test frame; CVC-ClinicDB results are labelled as near-copy performance."
+    },
+    {
+     "kind": "ours",
+     "what": "The plan was to recover video boundaries from image similarity, but only 15 of the 28 most dissimilar pairs were true boundaries.",
+     "found": "Comparing the similarity signal with the official sequence table.",
+     "fix": "Used the published table, and kept the images only as a check of it."
+    },
+    {
+     "kind": "published",
+     "what": "The PraNet paper says 31 clips; the dataset's own table has 29 sequences.",
+     "found": "Reading the CVC-ClinicDB table.",
+     "fix": "The table is used; the difference is noted."
+    },
+    {
+     "kind": "data",
+     "what": "The training archive uses an image/ folder (test sets use images/) and contains six macOS .DS_Store files.",
+     "found": "Counting files after extraction.",
+     "fix": "Paths handled explicitly; the extractor skips macOS metadata."
+    }
+   ],
+   "files": [
+    "scripts/download_data.py",
+    "scripts/make_splits.py",
+    "reports/data_inventory.md",
+    "data/splits/val_seed0.json"
+   ]
+  },
+  {
+   "id": "2.3",
+   "stage": 2,
+   "date": "2026-11-13",
+   "title": "Metrics we can trust",
+   "summary": "Dice, IoU, Boundary IoU and PraNet-style mDice, each checked against an implementation we did not write.",
+   "why": "If the ruler is wrong, every comparison is wrong.",
+   "tests": 66,
+   "results": [
+    {
+     "label": "Agreement with SMP and MONAI",
+     "value": "exact"
+    },
+    {
+     "label": "Agreement with official Boundary IoU code",
+     "value": "pixel-identical"
+    },
+    {
+     "label": "Effect of float threshold ties on mDice",
+     "value": "at most 0.0016"
+    }
+   ],
+   "problems": [
+    {
+     "kind": "ours",
+     "what": "All metrics crashed on GPU tensors, because Apple's MPS backend has no float64.",
+     "found": "Running the metrics on MPS, a case the CPU tests could not reach.",
+     "fix": "Count on the GPU, divide on the CPU; a GPU test keeps it fixed."
+    },
+    {
+     "kind": "ours",
+     "what": "The slow port and the fast version disagreed at 66 of 256 thresholds.",
+     "found": "The literal-port test failed.",
+     "fix": "The cause was float ties at a threshold; measured the effect (at most 0.0016) and kept exact integer thresholds."
+    }
+   ],
+   "files": [
+    "src/seg/metrics.py",
+    "tests/test_metrics.py",
+    "tests/reference/boundary_iou_official.py"
+   ]
+  },
+  {
+   "id": "2.4",
+   "stage": 2,
+   "date": "2026-11-13",
+   "title": "Data loader",
+   "summary": "One augmentation for every model, with image and mask proven to move together.",
+   "why": "An augmentation that moves the image but not its mask silently trains on wrong labels.",
+   "tests": 82,
+   "results": [
+    {
+     "label": "Image-mask agreement, worst of 160 draws",
+     "value": "0.935 IoU"
+    },
+    {
+     "label": "Same check on a broken pipeline",
+     "value": "0.257 median"
+    },
+    {
+     "label": "Loading speed, 4 workers",
+     "value": "746 images/s"
+    }
+   ],
+   "problems": [
+    {
+     "kind": "ours",
+     "what": "A helper named test_items, then testset_items, was collected by pytest as a test.",
+     "found": "The test run reported an error for a fixture.",
+     "fix": "Renamed to items_for_testset."
+    }
+   ],
+   "files": [
+    "src/seg/data.py",
+    "tests/test_data.py",
+    "reports/figures/augmentations.png"
+   ]
+  },
+  {
+   "id": "2.5",
+   "stage": 2,
+   "date": "2026-11-13",
+   "title": "Losses and the training loop",
+   "summary": "Losses, one training loop for every model, an overfit check, and a timed epoch that set the budget.",
+   "why": "Every model must be trained by exactly the same procedure, and the budget must fit the laptop.",
+   "tests": 103,
+   "results": [
+    {
+     "label": "Overfit check, 32 images",
+     "value": "Dice 0.980"
+    },
+    {
+     "label": "Speed-up after profiling",
+     "value": "2.3x"
+    },
+    {
+     "label": "Epoch budget",
+     "value": "50 epochs"
+    }
+   ],
+   "problems": [
+    {
+     "kind": "published",
+     "what": "PraNet's structure loss passes reduce='none', which PyTorch reads as true; the boundary weights cancel out of the BCE term.",
+     "found": "Testing what that argument returns.",
+     "fix": "Both versions exist; the ablation tests whether the weighting matters."
+    },
+    {
+     "kind": "library",
+     "what": "albumentations 2 ignores the global seed, and loader workers repeated each other's draws (4 of 8 distinct with 2 workers).",
+     "found": "Testing reproducibility with and without workers.",
+     "fix": "Each worker gets its own seed; a test checks distinct and repeatable draws."
+    },
+    {
+     "kind": "ours",
+     "what": "--set lr=3e-4 would have passed the learning rate as text: YAML 1.1 reads 3e-4 as a string.",
+     "found": "A config test failed.",
+     "fix": "Every setting is converted to its declared type."
+    },
+    {
+     "kind": "ours",
+     "what": "The first timed epoch took 65 s + 25 s, more than twice the bare compute.",
+     "found": "Profiling a bare training step and validation separately.",
+     "fix": "Workers now persist across epochs, and the loss is read once per epoch."
+    }
+   ],
+   "files": [
+    "src/seg/losses.py",
+    "src/seg/train.py",
+    "src/seg/models.py"
+   ]
+  },
+  {
+   "id": "2.6",
+   "stage": 2,
+   "date": "2026-11-14",
+   "title": "Stage 2 explainer page",
+   "summary": "Page with an overlap calculator, a threshold sweep, and charts filled from saved results.",
+   "why": "The checks are only useful if they can be explained.",
+   "tests": 103,
+   "results": [
+    {
+     "label": "2-pixel shift: IoU vs Boundary IoU",
+     "value": "0.92 vs 0.505"
+    },
+    {
+     "label": "Biased model: raw Dice vs mDice",
+     "value": "0.000 vs 0.835"
+    }
+   ],
+   "problems": [
+    {
+     "kind": "ours",
+     "what": "Peak memory was quoted as 1.86 GB next to an 11.84 GB limit counted in different units; it is 1.82 GB.",
+     "found": "The page computed the value from the saved results.",
+     "fix": "One unit everywhere."
+    },
+    {
+     "kind": "ours",
+     "what": "The decisions said \"about 34 minutes\" and \"2.2x\" from a rough average including the first epoch.",
+     "found": "The collector script computed steady-state epochs.",
+     "fix": "Now 32 minutes and 2.3x, from the script."
+    },
+    {
+     "kind": "ours",
+     "what": "The demo text claimed low confidence alone breaks Dice at 0.5; it takes a bias as well.",
+     "found": "Testing the demo's settings before publishing the text.",
+     "fix": "Rewrote the explanation to match what the demo shows."
+    }
+   ],
+   "files": [
+    "site/stage-2.html",
+    "reports/stage2_checks.json"
+   ]
+  },
+  {
+   "id": "3.1",
+   "stage": 3,
+   "date": "2026-11-14",
+   "title": "The PraNet reference",
+   "summary": "Fetched PraNet's code at the pinned commit, its released weights and the authors' own prediction maps, and loaded the model on the Mac.",
+   "why": "Stage 3 must reproduce PraNet's published numbers before any of our own results count (decision D13).",
+   "tests": 105,
+   "results": [
+    {
+     "label": "Weights matched",
+     "value": "all, strict"
+    },
+    {
+     "label": "Speed on the Mac GPU",
+     "value": "56 ms per image"
+    },
+    {
+     "label": "Published maps included",
+     "value": "PraNet, U-Net, U-Net++, SFA"
+    }
+   ],
+   "problems": [
+    {
+     "kind": "published",
+     "what": "PraNet's constructor loads its backbone from a hard-coded path on the authors' own machine.",
+     "found": "The first load failed with that path in the error.",
+     "fix": "Our loader builds the backbone without it; the released weights contain every parameter."
+    },
+    {
+     "kind": "ours",
+     "what": "The first workaround used functools.partial, which an explicit pretrained=True in PraNet's code overrides.",
+     "found": "The load still failed with the same path.",
+     "fix": "A small wrapper that always forces pretrained off."
+    }
+   ],
+   "files": [
+    "src/seg/pranet.py",
+    "scripts/fetch_pranet.py"
+   ]
+  },
+  {
+   "id": "J.1",
+   "stage": 3,
+   "date": "2026-11-14",
+   "title": "The project journal",
+   "summary": "A bright, data-driven page with every iteration, its results, every problem and its fix, analytics charts and model diagrams.",
+   "why": "The work has to be easy to review and to present; everything on the page is generated from the project's data and models.",
+   "tests": 108,
+   "results": [
+    {
+     "label": "Iterations recorded",
+     "value": "13"
+    },
+    {
+     "label": "Images in the similarity chart",
+     "value": "956"
+    },
+    {
+     "label": "Model shapes measured by forward passes",
+     "value": "2 built, 2 planned"
+    }
+   ],
+   "problems": [
+    {
+     "kind": "ours",
+     "what": "The browser served stale copies of the data and stylesheet after they changed, so half the charts failed to draw.",
+     "found": "The page showed an error instead of the charts.",
+     "fix": "Data is fetched without the cache, and every asset reference carries a version number."
+    },
+    {
+     "kind": "ours",
+     "what": "Tooltips in two charts were created once and wiped by every redraw, so they would never have appeared.",
+     "found": "Reading the code before testing it in the browser.",
+     "fix": "Each redraw creates its own tooltip."
+    },
+    {
+     "kind": "ours",
+     "what": "The \"current stage\" bar used a hard-stop CSS gradient, which the design rules exclude.",
+     "found": "Reviewing the styles against the design rules.",
+     "fix": "A solid half-width fill instead."
+    },
+    {
+     "kind": "ours",
+     "what": "The image count for the similarity chart was quoted as 1,056; the data has 956.",
+     "found": "The chart counted its own dots.",
+     "fix": "The page shows the count computed from the data."
+    },
+    {
+     "kind": "ours",
+     "what": "A long caption inside each model diagram ran past the screen edge on phones.",
+     "found": "Checking every chart element's position at 390 px.",
+     "fix": "The caption moved out of the diagram into text that wraps."
+    }
+   ],
+   "files": [
+    "site/journal.html",
+    "site/assets/journal.js",
+    "scripts/build_site_data.py",
+    "research/journal.yaml"
+   ]
+  },
+  {
+   "id": "3.2",
+   "stage": 3,
+   "date": "2026-11-14",
+   "title": "Checking our ruler on the authors' own maps",
+   "summary": "Scored the prediction maps the authors released for PraNet, U-Net, U-Net++ and SFA with our port of their evaluation, and compared every number with PraNet's Tables 1-2.",
+   "why": "Same files, so only the evaluation code can differ. If our numbers match theirs, later differences between our models and the literature are about the models, not the measurement (decision D13).",
+   "tests": 125,
+   "results": [
+    {
+     "label": "Published numbers reproduced",
+     "value": "20 of 20 within 0.005"
+    },
+    {
+     "label": "Matching to the third decimal",
+     "value": "19 of 20"
+    },
+    {
+     "label": "Largest gap",
+     "value": "+0.0025, PraNet on CVC-ColonDB"
+    },
+    {
+     "label": "Baseline maps the evaluation skips",
+     "value": "21 of 380 on CVC-ColonDB"
+    },
+    {
+     "label": "Effect of MATLAB's float thresholds",
+     "value": "at most 0.0001"
+    },
+    {
+     "label": "Boundary IoU, one 1225 x 966 image on the CPU",
+     "value": "about 100 s to 3 ms"
+    }
+   ],
+   "problems": [
+    {
+     "kind": "published",
+     "what": "In the released U-Net, U-Net++ and SFA maps, CVC-ColonDB images 77-97 are saved as .tif, and the evaluation lists only .png files. Those baselines were scored on 359 images, PraNet on all 380.",
+     "found": "Our scores matched the published ones only when the 21 .tif maps were left out.",
+     "fix": "We report both. With all 380 maps the baselines drop by 0.001 to 0.013 (research finding 9)."
+    },
+    {
+     "kind": "published",
+     "what": "PraNet on CVC-ColonDB is 0.709 in the PraNet paper, but its released maps give 0.7115, which is the 0.712 the Polyp-PVT paper reports.",
+     "found": "The only one of 20 rows outside rounding.",
+     "fix": "Recorded as finding 4, resolved; still within the 0.005 tolerance."
+    },
+    {
+     "kind": "library",
+     "what": "PyTorch's CPU max-pool with stride 1 is slow for wide windows: one 63 x 63 pool on a 1225 x 966 image took 50 s, and Boundary IoU needs two.",
+     "found": "The first full run had printed nothing after ten minutes; timing each step pointed to the pool.",
+     "fix": "A window-doubling sliding max (about log2 of the window in element-wise steps); identical to the max-pool on 200 random cases, now a test."
+    },
+    {
+     "kind": "ours",
+     "what": "Our port of MATLAB's mapminmax handled a constant map wrongly: for a zero range it replaces both the gain and the offset, and we replaced only the gain.",
+     "found": "A new test with a constant map failed.",
+     "fix": "Both replaced, as in mapminmax.m. None of the 3,129 released .png maps is constant, so no number changed."
+    },
+    {
+     "kind": "ours",
+     "what": "The first run crashed on a blank mIoU cell in our table of published numbers (ResUNet-mod has no mIoU in the paper).",
+     "found": "The script stopped with a conversion error.",
+     "fix": "Blank cells are read as missing values."
+    },
+    {
+     "kind": "data",
+     "what": "The U-Net and U-Net++ Kvasir folders hold 200 files for 100 images, an extra 256 x 256 .jpg next to each full-size .png.",
+     "found": "Counting files against the ground truth.",
+     "fix": "The evaluation reads only the .png maps, as main.m does."
+    }
+   ],
+   "files": [
+    "scripts/eval_published_maps.py",
+    "src/seg/metrics.py",
+    "src/seg/stats.py",
+    "reports/stage3_published_maps.md",
+    "tests/test_metrics.py",
+    "tests/test_stats.py"
+   ]
+  },
+  {
+   "id": "3.3",
+   "stage": 3,
+   "date": "2026-11-14",
+   "title": "The released weights, run on the Mac",
+   "summary": "Ran the released PraNet weights on all five test sets, on the Apple GPU and on the CPU, following the authors' test script step by step, and scored the output with the evaluation checked in 3.2.",
+   "why": "3.2 checked the ruler; this checks the whole pipeline: loading, preprocessing, inference on a non-CUDA device, saving and scoring. It is the second half of decision D13.",
+   "tests": 131,
+   "results": [
+    {
+     "label": "Published numbers reproduced",
+     "value": "5 of 5 within 0.005"
+    },
+    {
+     "label": "Maps equal to the authors' (4 lossless sets)",
+     "value": "698 of 698 within one 8-bit level"
+    },
+    {
+     "label": "Kvasir, against the authors' maps",
+     "value": "-0.0038 mDice, every image differs"
+    },
+    {
+     "label": "Apple GPU against CPU",
+     "value": "at most 0.00001 per image"
+    },
+    {
+     "label": "Forward pass, Apple GPU",
+     "value": "31 ms, rising to 44-49 ms late in the run"
+    },
+    {
+     "label": "Forward pass, CPU",
+     "value": "50-59 ms"
+    }
+   ],
+   "problems": [
+    {
+     "kind": "data",
+     "what": "On Kvasir, and only there, our maps differ from the authors' on every image (mean 0.6 levels, up to 243 at polyp edges) and mDice is 0.0038 lower (paired bootstrap interval -0.0085 to -0.0003). Kvasir is the only test set whose originals are JPEG.",
+     "found": "Comparing our maps with the authors' image by image; the other four sets agree within one level.",
+     "fix": "Not explained yet, and recorded as open. Ruled out: the model and code (four sets match), the device (CPU equals GPU), our copy of the images (the benchmark's PNGs equal the original Kvasir-SEG JPEGs pixel for pixel). Decoding the JPEGs with Apple's decoder instead of Pillow moves single images by up to 0.17 mDice but the mean by only 0.0001. Still inside the 0.005 tolerance against the paper (-0.0036)."
+    },
+    {
+     "kind": "ours",
+     "what": "3.1 quoted 56 ms per image on the Apple GPU. That came from a smoke test: one batch of 2 timed straight after loading, with no warm-up.",
+     "found": "The proper measurement here (5 warm-up passes, synchronised timing, median over 798 images) gave 31 ms.",
+     "fix": "Speeds are now measured only by the run scripts, with warm-up and synchronisation; 3.1's number stays in its entry as history."
+    },
+    {
+     "kind": "ours",
+     "what": "On the Apple GPU the forward pass slowed from 31 ms to 44-49 ms over the last two test sets, with the same input size. The likely cause is heat on the fanless MacBook Air, not verified.",
+     "found": "The per-set medians in the report.",
+     "fix": "Stage 7's latency numbers will alternate models and rest between runs, and report the spread, not one median."
+    },
+    {
+     "kind": "ours",
+     "what": "Three labels in two older Journal charts (set sizes, parameters) ran past the left edge on phones; the J.1 check had measured only the newest charts.",
+     "found": "Checking every text element of every chart at 375 and 390 px, not just the new ones.",
+     "fix": "Shorter labels on narrow screens and a wider label column; every chart is now checked on each change."
+    }
+   ],
+   "files": [
+    "scripts/run_pranet_weights.py",
+    "scripts/check_kvasir_decoding.py",
+    "src/seg/evaluate.py",
+    "src/seg/metrics.py",
+    "reports/stage3_pranet_weights.md",
+    "reports/stage3_kvasir_decoding.json",
+    "tests/test_evaluate.py",
+    "site/assets/journal.js"
+   ]
+  },
+  {
+   "id": "3.4",
+   "stage": 3,
+   "date": "2026-11-14",
+   "title": "The stage 3 page",
+   "summary": "An explainer page for stage 3: why the reproduction was split into two checks, both results against the paper's tolerance, our maps next to the authors', the open Kvasir question with a decoder switch, speed on the Apple GPU and the CPU, three pieces of code, open risks and interview questions.",
+   "why": "Every stage ends with a page that lets the work be reviewed and defended. Every number on it is read from the stage 3 reports, through one small data file.",
+   "tests": 142,
+   "results": [
+    {
+     "label": "Interactive charts",
+     "value": "3, plus a step diagram"
+    },
+    {
+     "label": "Kvasir images off by more than 0.01, Pillow / Apple decoder",
+     "value": "8 / 14 of 100"
+    },
+    {
+     "label": "New tests",
+     "value": "11: local links, menus, page data against reports"
+    },
+    {
+     "label": "Checked at",
+     "value": "1440, 834 and 390 px, light and dark"
+    }
+   ],
+   "problems": [
+    {
+     "kind": "ours",
+     "what": "In the tolerance chart, the mark for the authors' maps and the mark for our run sat on the same spot for four test sets, so one hid the other and the chart looked like it had only one result.",
+     "found": "Looking at the rendered chart next to the table.",
+     "fix": "Each result gets its own lane in the row, joined by a short line."
+    },
+    {
+     "kind": "ours",
+     "what": "A draft note under the saving code said that without the hidden second stretch the maps would differ by one level in many pixels. That effect had never been measured.",
+     "found": "Checking each claim on the page against a report or the code before publishing.",
+     "fix": "The note now describes what a plain truncating save does, which follows from the code, and makes no measured claim."
+    },
+    {
+     "kind": "ours",
+     "what": "The CVC-ClinicDB and CVC-ColonDB labels in two new charts ran 4-5 px past the left edge at 390 px.",
+     "found": "The script that measures every chart element against its chart's edges.",
+     "fix": "A wider label column on narrow screens."
+    },
+    {
+     "kind": "ours",
+     "what": "The seven-step diagram left an empty slot at 1440 px and became one long column on phones.",
+     "found": "Screenshots at the three widths.",
+     "fix": "Steps grouped into the authors' test script and their evaluation, two per row on phones."
+    }
+   ],
+   "files": [
+    "site/stage-3.html",
+    "site/assets/site.js",
+    "site/assets/style.css",
+    "scripts/make_stage3_figures.py",
+    "scripts/build_site_data.py",
+    "tests/test_site.py"
+   ]
+  },
+  {
+   "id": "4.1",
+   "stage": 4,
+   "date": "2026-11-14",
+   "title": "A U-Net written from scratch",
+   "summary": "Our own U-Net after the 2015 paper, with the milesial-style changes fixed in decision D12: padded convolutions, BatchNorm, transposed-convolution upsampling, 64 channels doubling to 1,024, He initialisation. Checked against milesial/Pytorch-UNet by copying weights across.",
+   "why": "Rung 1 of the ladder has to be a real U-Net, not a weak strawman, and it has to be our code. Matching a widely used implementation exactly shows both.",
+   "tests": 153,
+   "results": [
+    {
+     "label": "Parameters",
+     "value": "31,037,633, equal to a hand count"
+    },
+    {
+     "label": "Output against milesial, same weights",
+     "value": "bit-identical, in eval and train mode"
+    },
+    {
+     "label": "Gradients against milesial",
+     "value": "equal within 1e-5"
+    },
+    {
+     "label": "Input sizes",
+     "value": "any, including odd sizes such as 33 x 47"
+    }
+   ],
+   "problems": [
+    {
+     "kind": "published",
+     "what": "milesial's train.py catches a CUDA out-of-memory error and calls model.use_checkpointing() to retry with less memory. That method calls torch.utils.checkpoint, which is a module, not a function, so the retry itself crashes with a TypeError.",
+     "found": "Reading the reference code before the comparison test, then calling the method in a test.",
+     "fix": "Nothing to fix on our side: our loop does not retry on out-of-memory. A test pins the behaviour, and the finding is recorded in the lineage notes."
+    }
+   ],
+   "files": [
+    "src/seg/unet.py",
+    "src/seg/models.py",
+    "scripts/fetch_milesial.py",
+    "tests/test_unet.py",
+    "configs/unet.yaml"
+   ]
+  },
+  {
+   "id": "4.2",
+   "stage": 4,
+   "date": "2026-11-14",
+   "title": "What the U-Net costs, and the training queue",
+   "summary": "Timed the from-scratch U-Net in the real training loop and in a step benchmark against cheaper variants, fixed its budget, and started decision D7's five runs through a resumable queue.",
+   "why": "Decision D8 says rung 1's epoch time is measured before its runs start. At the paper's widths one run takes hours, so the budget and the cheaper options had to be measured, not guessed.",
+   "tests": 153,
+   "results": [
+    {
+     "label": "Training time per epoch, real loop",
+     "value": "302-491 s (3 epochs)"
+    },
+    {
+     "label": "One 50-epoch run / five runs",
+     "value": "about 4-7 h / 20-35 h"
+    },
+    {
+     "label": "Forward pass per 256 px image",
+     "value": "96.3 GFLOP, vs 15.6 for the ResNet-34 U-Net"
+    },
+    {
+     "label": "Half precision (float16 / bfloat16)",
+     "value": "2% / 5% faster, not used"
+    },
+    {
+     "label": "nnU-Net widths (32-512)",
+     "value": "2.3x faster, kept for a stage 7 ablation"
+    },
+    {
+     "label": "Peak memory",
+     "value": "5.7 GB of 11.84 GB"
+    }
+   ],
+   "problems": [
+    {
+     "kind": "library",
+     "what": "Switching the U-Net to channels-last memory, which speeds up convolutions on NVIDIA GPUs, made each training step 2.3 times slower on Apple's GPU.",
+     "found": "The step benchmark.",
+     "fix": "Not used. Recorded in decision D8 with the benchmark file."
+    },
+    {
+     "kind": "ours",
+     "what": "In the step benchmark the ResNet-34 U-Net came out at 65 s per epoch, against 37 s measured in 2.5. The benchmark ran straight after 20 minutes of training, on a hot laptop.",
+     "found": "Comparing the anchor row with the number already in decision D8.",
+     "fix": "Only ratios between variants timed back to back are used from the benchmark; absolute run times come from each run's own log."
+    }
+   ],
+   "files": [
+    "scripts/time_unet.py",
+    "scripts/run_queue.py",
+    "reports/stage4_timing.json",
+    "configs/unet.yaml",
+    "Makefile"
+   ]
+  },
+  {
+   "id": "4.3",
+   "stage": 4,
+   "date": "2026-11-14",
+   "title": "Scoring a trained model on the test sets",
+   "summary": "A script that takes a run's validation-chosen checkpoint and scores it on the five test sets: Dice, IoU and Boundary IoU at 0.5 on the raw probability, and PraNet-style mDice on the 8-bit map PraNet's test script would have saved, with bootstrap intervals.",
+   "why": "Our models must be scored on test by the same rule that picked their checkpoint on validation, and with PraNet's own metric for the comparison with published numbers.",
+   "tests": 156,
+   "results": [
+    {
+     "label": "Validation Dice, test path vs training loop",
+     "value": "0.564492 vs 0.564491"
+    },
+    {
+     "label": "Per test set",
+     "value": "mDice, Dice at 0.5 with 95% interval, IoU, Boundary IoU, per-image rows"
+    }
+   ],
+   "problems": [
+    {
+     "kind": "ours",
+     "what": "The first smoke test scored every image as 0. Our loader returns masks as 0 and 1; the scoring code, written for the authors' 0-255 PNGs, counts a pixel as polyp above 128, so every mask was empty.",
+     "found": "A 3-epoch checkpoint that reached 0.56 validation Dice scored 0.00 on every test set.",
+     "fix": "Masks are passed as booleans, and the scoring code now refuses an integer mask whose largest value is 1 instead of reading it as empty. A test covers both."
+    },
+    {
+     "kind": "ours",
+     "what": "The fix to the script did not land at first: the formatter had already rewritten the line the edit was looking for, so the second smoke test failed with the new error.",
+     "found": "The new check raised on the next run, which is what it was added for.",
+     "fix": "Re-applied to the reformatted line and checked that it took effect before rerunning."
+    },
+    {
+     "kind": "ours",
+     "what": "PraNet's \"Dice at 0.5\" in 3.3 was taken on the stretched saved map; ours is on the raw probability. The two are not the same quantity.",
+     "found": "Writing the scoring path for our own models next to the one used in 3.3.",
+     "fix": "Recorded under decision D4. PraNet's Dice at 0.5 is recomputed on its raw probability before it appears in a table next to our models; mDice is unaffected."
+    },
+    {
+     "kind": "ours",
+     "what": "Running the test suite and the smoke tests while the first U-Net run was training made its epoch 3 take 1,890 s instead of about 300 s. The scores are unaffected, but that run's total training time is inflated by about 26 minutes.",
+     "found": "The per-epoch times in the run's own log.",
+     "fix": "Training cost is reported as the median epoch time, which one disturbed epoch does not move, and nothing else heavy runs on the laptop during the remaining runs."
+    }
+   ],
+   "files": [
+    "scripts/eval_run.py",
+    "src/seg/evaluate.py",
+    "src/seg/metrics.py",
+    "tests/test_evaluate.py"
+   ]
+  },
+  {
+   "id": "4.4",
+   "stage": 4,
+   "date": "2026-11-15",
+   "title": "Training under way, and the stage 4 page",
+   "summary": "The first U-Net run is training. A stage 4 page in plain language explains the model with a clickable diagram drawn from its measured shapes, how we checked it, what it costs, and a snapshot of training so far.",
+   "why": "The page has to be easy to follow for someone who has never trained a model, and every number on it still comes from saved data.",
+   "tests": 158,
+   "results": [
+    {
+     "label": "Run 1, best validation Dice after 12 of 50 passes",
+     "value": "0.783"
+    },
+    {
+     "label": "Typical time per pass",
+     "value": "about 5 minutes"
+    },
+    {
+     "label": "Runs finished",
+     "value": "0 of 5"
+    }
+   ],
+   "problems": [
+    {
+     "kind": "ours",
+     "what": "The training queue was stopped from outside after 12 passes of run 1 and stayed stopped overnight. Its log has no error, only clean-up messages, so it was ended rather than crashed; it had been started from this working session.",
+     "found": "The next morning no training process was running and the log ended at pass 12.",
+     "fix": "It resumed from the checkpoint saved after pass 12, now fully detached from the session and kept awake with caffeinate, so the Mac does not sleep during a run."
+    }
+   ],
+   "files": [
+    "site/stage-4.html",
+    "site/assets/site.js",
+    "site/assets/style.css",
+    "scripts/build_site_data.py"
+   ]
+  },
+  {
+   "id": "4.5",
+   "stage": 4,
+   "date": "2026-11-15",
+   "title": "Project check, and run 1 finished",
+   "summary": "A full check of the project: all tests, lint, the pinned environment, the published files, the live site and the training runs. Run 1 (learning rate 1e-4) finished; run 2 had stopped when the Mac restarted and was resumed.",
+   "why": "Long unattended runs and a growing code base both drift. A check finds what the tests do not: stopped jobs, stale pages, and behaviour that only shows after an interruption.",
+   "tests": 159,
+   "results": [
+    {
+     "label": "Run 1, best validation Dice at 0.5",
+     "value": "0.854 at epoch 45 of 50"
+    },
+    {
+     "label": "Run 1, median training time per epoch",
+     "value": "299 s (5.5 h in total)"
+    },
+    {
+     "label": "Run 2 when it stopped",
+     "value": "0.848 after 25 of 50 epochs"
+    },
+    {
+     "label": "Tests and lint",
+     "value": "158 of 158 passed before the fix, 159 after; lint clean"
+    },
+    {
+     "label": "Installed packages against the lock file",
+     "value": "identical"
+    },
+    {
+     "label": "Personal data in published files",
+     "value": "none found"
+    }
+   ],
+   "problems": [
+    {
+     "kind": "ours",
+     "what": "A resumed run replayed its first epochs' data order. On resume the training loader was seeded with the run's seed again, so from the resume point on it repeated the shuffles and augmentations of epochs 1, 2, 3 and so on. Run 1 was resumed after epoch 12 this way.",
+     "found": "Reading the resume path during the check, after two interruptions.",
+     "fix": "A resumed run now gets a loader seed of its own, fixed by the run's seed and the resume epoch, and the summary records after which epochs a run was resumed. Run 1's scores stand: the replayed draws were valid training data, only not fresh ones. It is flagged as resumed in every table."
+    },
+    {
+     "kind": "data",
+     "what": "Training stopped a second time: the Mac restarted at 12:19 with run 2 at epoch 25. The log ends with a GPU error and a terminated loader worker, both from the shutdown.",
+     "found": "No training process was running, and the system's boot time matched the end of the log.",
+     "fix": "Resumed from the checkpoint saved after epoch 25. Nothing survives a restart, so the queue has to be started again by hand: make queue CONFIG=configs/unet.yaml."
+    },
+    {
+     "kind": "ours",
+     "what": "12 of run 2's 25 epochs took over 10 minutes, up to 56, because the laptop was in use. Total training time is therefore not a fair cost number for these runs.",
+     "found": "The per-epoch times in the run log.",
+     "fix": "The run summary now also stores the median epoch time, and cost tables use median time times the number of epochs."
+    },
+    {
+     "kind": "ours",
+     "what": "The queue rested 10 minutes after a run it had only skipped as finished.",
+     "found": "Restarting the queue.",
+     "fix": "It now rests only between two runs that actually train."
+    }
+   ],
+   "files": [
+    "src/seg/train.py",
+    "scripts/run_queue.py",
+    "tests/test_train.py"
+   ]
+  }
+ ],
+ "problems_by_stage": [
+  {
+   "stage": 1,
+   "ours": 7,
+   "published": 4,
+   "library": 0,
+   "data": 0
+  },
+  {
+   "stage": 2,
+   "ours": 10,
+   "published": 2,
+   "library": 2,
+   "data": 2
+  },
+  {
+   "stage": 3,
+   "ours": 15,
+   "published": 3,
+   "library": 1,
+   "data": 2
+  },
+  {
+   "stage": 4,
+   "ours": 9,
+   "published": 1,
+   "library": 1,
+   "data": 1
+  }
+ ],
+ "problem_totals": {
+  "ours": 41,
+  "published": 10,
+  "library": 4,
+  "data": 5
+ },
+ "tests": {
+  "total": 159,
+  "per_file": {
+   "test_data": 18,
+   "test_env": 10,
+   "test_evaluate": 6,
+   "test_journal": 3,
+   "test_losses": 14,
+   "test_metrics": 49,
+   "test_pranet": 2,
+   "test_site": 13,
+   "test_splits": 22,
+   "test_stats": 5,
+   "test_train": 6,
+   "test_unet": 11
+  }
+ },
+ "tests_timeline": [
+  {
+   "id": "2.1",
+   "tests": 10
+  },
+  {
+   "id": "2.2",
+   "tests": 32
+  },
+  {
+   "id": "2.3",
+   "tests": 66
+  },
+  {
+   "id": "2.4",
+   "tests": 82
+  },
+  {
+   "id": "2.5",
+   "tests": 103
+  },
+  {
+   "id": "2.6",
+   "tests": 103
+  },
+  {
+   "id": "3.1",
+   "tests": 105
+  },
+  {
+   "id": "J.1",
+   "tests": 108
+  },
+  {
+   "id": "3.2",
+   "tests": 125
+  },
+  {
+   "id": "3.3",
+   "tests": 131
+  },
+  {
+   "id": "3.4",
+   "tests": 142
+  },
+  {
+   "id": "4.1",
+   "tests": 153
+  },
+  {
+   "id": "4.2",
+   "tests": 153
+  },
+  {
+   "id": "4.3",
+   "tests": 156
+  },
+  {
+   "id": "4.4",
+   "tests": 158
+  },
+  {
+   "id": "4.5",
+   "tests": 159
+  }
+ ],
+ "models": [
+  {
+   "id": "unet_scratch",
+   "rung": "1",
+   "title": "U-Net from scratch",
+   "status": "built",
+   "input": [
+    3,
+    256,
+    256
+   ],
+   "encoder": [
+    {
+     "name": "input conv",
+     "shape": [
+      64,
+      256,
+      256
+     ]
+    },
+    {
+     "name": "down 1",
+     "shape": [
+      128,
+      128,
+      128
+     ]
+    },
+    {
+     "name": "down 2",
+     "shape": [
+      256,
+      64,
+      64
+     ]
+    },
+    {
+     "name": "down 3",
+     "shape": [
+      512,
+      32,
+      32
+     ]
+    },
+    {
+     "name": "down 4",
+     "shape": [
+      1024,
+      16,
+      16
+     ]
+    }
+   ],
+   "decoder": [
+    {
+     "name": "up 1",
+     "shape": [
+      512,
+      32,
+      32
+     ]
+    },
+    {
+     "name": "up 2",
+     "shape": [
+      256,
+      64,
+      64
+     ]
+    },
+    {
+     "name": "up 3",
+     "shape": [
+      128,
+      128,
+      128
+     ]
+    },
+    {
+     "name": "up 4",
+     "shape": [
+      64,
+      256,
+      256
+     ]
+    }
+   ],
+   "output": [
+    1,
+    256,
+    256
+   ],
+   "params": {
+    "total": 31037633,
+    "encoder": 18847168,
+    "decoder": 12190400,
+    "head": 65
+   },
+   "note": "Measured by a forward pass of a 256 x 256 input. Same function as milesial."
+  },
+  {
+   "id": "smp_unet_r34",
+   "rung": "2",
+   "title": "U-Net with a ResNet-34 encoder",
+   "status": "built",
+   "input": [
+    3,
+    256,
+    256
+   ],
+   "encoder": [
+    {
+     "name": "stem",
+     "shape": [
+      64,
+      128,
+      128
+     ]
+    },
+    {
+     "name": "layer1",
+     "shape": [
+      64,
+      64,
+      64
+     ]
+    },
+    {
+     "name": "layer2",
+     "shape": [
+      128,
+      32,
+      32
+     ]
+    },
+    {
+     "name": "layer3",
+     "shape": [
+      256,
+      16,
+      16
+     ]
+    },
+    {
+     "name": "layer4",
+     "shape": [
+      512,
+      8,
+      8
+     ]
+    }
+   ],
+   "decoder": [
+    {
+     "name": "up 1",
+     "shape": [
+      256,
+      16,
+      16
+     ]
+    },
+    {
+     "name": "up 2",
+     "shape": [
+      128,
+      32,
+      32
+     ]
+    },
+    {
+     "name": "up 3",
+     "shape": [
+      64,
+      64,
+      64
+     ]
+    },
+    {
+     "name": "up 4",
+     "shape": [
+      32,
+      128,
+      128
+     ]
+    },
+    {
+     "name": "up 5",
+     "shape": [
+      16,
+      256,
+      256
+     ]
+    }
+   ],
+   "output": [
+    1,
+    256,
+    256
+   ],
+   "decoder_output": [
+    16,
+    256,
+    256
+   ],
+   "params": {
+    "total": 24436369,
+    "encoder": 21284672,
+    "decoder": 3151552,
+    "head": 145
+   },
+   "note": "Measured by a forward pass of a 256 x 256 input. ImageNet-pretrained encoder (stage 5)."
+  },
+  {
+   "id": "pranet",
+   "rung": "reference",
+   "title": "PraNet (released weights)",
+   "status": "built",
+   "input": [
+    3,
+    352,
+    352
+   ],
+   "encoder": [
+    {
+     "name": "layer1",
+     "shape": [
+      256,
+      88,
+      88
+     ]
+    },
+    {
+     "name": "layer2",
+     "shape": [
+      512,
+      44,
+      44
+     ]
+    },
+    {
+     "name": "layer3",
+     "shape": [
+      1024,
+      22,
+      22
+     ]
+    },
+    {
+     "name": "layer4",
+     "shape": [
+      2048,
+      11,
+      11
+     ]
+    }
+   ],
+   "decoder": [
+    {
+     "name": "RFB on layer2-4",
+     "shape": [
+      32,
+      44,
+      44
+     ]
+    },
+    {
+     "name": "partial decoder",
+     "shape": [
+      1,
+      44,
+      44
+     ]
+    },
+    {
+     "name": "reverse attention x3",
+     "shape": [
+      1,
+      352,
+      352
+     ]
+    }
+   ],
+   "output": [
+    1,
+    352,
+    352
+   ],
+   "params": {
+    "total": 32547319,
+    "encoder": 25718352,
+    "decoder": 6828967,
+    "head": 0
+   },
+   "note": "Measured by a forward pass of a 352 x 352 input with the released weights. Res2Net-50 backbone."
+  },
+  {
+   "id": "dinov3_linear",
+   "rung": "3",
+   "title": "Linear head on frozen DINOv3 ViT-S/16",
+   "status": "planned",
+   "input": [
+    3,
+    256,
+    256
+   ],
+   "encoder": [
+    {
+     "name": "12 transformer blocks",
+     "shape": [
+      384,
+      16,
+      16
+     ]
+    }
+   ],
+   "decoder": [
+    {
+     "name": "BatchNorm + 1x1 conv",
+     "shape": [
+      1,
+      16,
+      16
+     ]
+    },
+    {
+     "name": "bilinear upsampling",
+     "shape": [
+      1,
+      256,
+      256
+     ]
+    }
+   ],
+   "output": [
+    1,
+    256,
+    256
+   ],
+   "params": null,
+   "note": "Shapes follow from patch size 16 and width 384 (DINOv3 README: ViT-S/16, 21M parameters). Measured in stage 6."
+  }
+ ],
+ "published_maps": {
+  "tolerance": 0.005,
+  "rows": [
+   {
+    "method": "PraNet",
+    "dataset": "Kvasir",
+    "n_images": 100,
+    "n_ground_truth": 100,
+    "mdice": 0.8981630179768326,
+    "miou": 0.8404157678124466,
+    "mdice_ci": [
+     0.8671334611095276,
+     0.9241485950799249
+    ],
+    "dice": 0.9035443423875326,
+    "boundary_iou": 0.6498424047510918,
+    "paper": {
+     "mdice": 0.898,
+     "miou": 0.84
+    },
+    "diff_mdice": 0.00016301797683260233,
+    "diff_miou": 0.0004157678124466768,
+    "within_tolerance": true
+   },
+   {
+    "method": "PraNet",
+    "dataset": "CVC-ClinicDB",
+    "n_images": 62,
+    "n_ground_truth": 62,
+    "mdice": 0.898951946472856,
+    "miou": 0.8490787723127333,
+    "mdice_ci": [
+     0.8503691677171927,
+     0.9370200649536103
+    ],
+    "dice": 0.9052373632881011,
+    "boundary_iou": 0.7167013772694023,
+    "paper": {
+     "mdice": 0.899,
+     "miou": 0.849
+    },
+    "diff_mdice": -4.805352714398747e-05,
+    "diff_miou": 7.877231273334395e-05,
+    "within_tolerance": true
+   },
+   {
+    "method": "PraNet",
+    "dataset": "CVC-ColonDB",
+    "n_images": 380,
+    "n_ground_truth": 380,
+    "mdice": 0.7115459244563251,
+    "miou": 0.6401722650324839,
+    "mdice_ci": [
+     0.6776249140588394,
+     0.7440352659341646
+    ],
+    "dice": 0.7153114008636046,
+    "boundary_iou": 0.48440556768701293,
+    "paper": {
+     "mdice": 0.709,
+     "miou": 0.64
+    },
+    "diff_mdice": 0.002545924456325177,
+    "diff_miou": 0.00017226503248390923,
+    "within_tolerance": true
+   },
+   {
+    "method": "PraNet",
+    "dataset": "ETIS-LaribPolypDB",
+    "n_images": 196,
+    "n_ground_truth": 196,
+    "mdice": 0.628361268147587,
+    "miou": 0.5665235602745239,
+    "mdice_ci": [
+     0.5722967802470347,
+     0.6821808754638775
+    ],
+    "dice": 0.6366959571147719,
+    "boundary_iou": 0.47351539852718244,
+    "paper": {
+     "mdice": 0.628,
+     "miou": 0.567
+    },
+    "diff_mdice": 0.00036126814758696835,
+    "diff_miou": -0.0004764397254760633,
+    "within_tolerance": true
+   },
+   {
+    "method": "PraNet",
+    "dataset": "CVC-300",
+    "n_images": 60,
+    "n_ground_truth": 60,
+    "mdice": 0.8709370434632511,
+    "miou": 0.7966401392698532,
+    "mdice_ci": [
+     0.8333199986697545,
+     0.9044965614854031
+    ],
+    "dice": 0.8766876301243597,
+    "boundary_iou": 0.6527295688424354,
+    "paper": {
+     "mdice": 0.871,
+     "miou": 0.797
+    },
+    "diff_mdice": -6.295653674892598e-05,
+    "diff_miou": -0.0003598607301468215,
+    "within_tolerance": true
+   },
+   {
+    "method": "U-Net",
+    "dataset": "Kvasir",
+    "n_images": 100,
+    "n_ground_truth": 100,
+    "mdice": 0.8182533071889224,
+    "miou": 0.7460091367066093,
+    "mdice_ci": [
+     0.7691205436760622,
+     0.8619948701697691
+    ],
+    "dice": 0.8252128307905441,
+    "boundary_iou": 0.5414260019317799,
+    "paper": {
+     "mdice": 0.818,
+     "miou": 0.746
+    },
+    "diff_mdice": 0.0002533071889224692,
+    "diff_miou": 9.136706609291778e-06,
+    "within_tolerance": true
+   },
+   {
+    "method": "U-Net",
+    "dataset": "CVC-ClinicDB",
+    "n_images": 62,
+    "n_ground_truth": 62,
+    "mdice": 0.822560327004045,
+    "miou": 0.7553130668800749,
+    "mdice_ci": [
+     0.7560569640776594,
+     0.8794707734547806
+    ],
+    "dice": 0.8302410666804048,
+    "boundary_iou": 0.610273716181374,
+    "paper": {
+     "mdice": 0.823,
+     "miou": 0.755
+    },
+    "diff_mdice": -0.0004396729959549317,
+    "diff_miou": 0.00031306688007493033,
+    "within_tolerance": true
+   },
+   {
+    "method": "U-Net",
+    "dataset": "CVC-ColonDB",
+    "n_images": 359,
+    "n_ground_truth": 380,
+    "mdice": 0.5115036028106607,
+    "miou": 0.4441605762516075,
+    "mdice_ci": [
+     0.4699888056943133,
+     0.5517301783227941
+    ],
+    "dice": 0.5127793576049037,
+    "boundary_iou": 0.33399876443872506,
+    "paper": {
+     "mdice": 0.512,
+     "miou": 0.444
+    },
+    "diff_mdice": -0.0004963971893393593,
+    "diff_miou": 0.00016057625160748046,
+    "within_tolerance": true,
+    "all_files": {
+     "n_images": 380,
+     "mdice": 0.5037468113097854,
+     "miou": 0.43565608016544244,
+     "dice": 0.5042512208132861,
+     "boundary_iou": 0.32811267521125664
+    }
+   },
+   {
+    "method": "U-Net",
+    "dataset": "ETIS-LaribPolypDB",
+    "n_images": 196,
+    "n_ground_truth": 196,
+    "mdice": 0.39834838480045276,
+    "miou": 0.33529079379463456,
+    "mdice_ci": [
+     0.3454207367531039,
+     0.4515103528845817
+    ],
+    "dice": 0.40237887551912593,
+    "boundary_iou": 0.2593163923028924,
+    "paper": {
+     "mdice": 0.398,
+     "miou": 0.335
+    },
+    "diff_mdice": 0.000348384800452739,
+    "diff_miou": 0.00029079379463453625,
+    "within_tolerance": true
+   },
+   {
+    "method": "U-Net",
+    "dataset": "CVC-300",
+    "n_images": 60,
+    "n_ground_truth": 60,
+    "mdice": 0.7098622931884531,
+    "miou": 0.6268179680663555,
+    "mdice_ci": [
+     0.6324466080171638,
+     0.7830529218704692
+    ],
+    "dice": 0.7175615895765773,
+    "boundary_iou": 0.5125189062110247,
+    "paper": {
+     "mdice": 0.71,
+     "miou": 0.627
+    },
+    "diff_mdice": -0.00013770681154690045,
+    "diff_miou": -0.00018203193364452197,
+    "within_tolerance": true
+   },
+   {
+    "method": "U-Net++",
+    "dataset": "Kvasir",
+    "n_images": 100,
+    "n_ground_truth": 100,
+    "mdice": 0.8208443199084046,
+    "miou": 0.7434835549060808,
+    "mdice_ci": [
+     0.7754463476466631,
+     0.8615141247794662
+    ],
+    "dice": 0.8282551746967903,
+    "boundary_iou": 0.5422812316600077,
+    "paper": {
+     "mdice": 0.821,
+     "miou": 0.743
+    },
+    "diff_mdice": -0.00015568009159538931,
+    "diff_miou": 0.0004835549060807631,
+    "within_tolerance": true
+   },
+   {
+    "method": "U-Net++",
+    "dataset": "CVC-ClinicDB",
+    "n_images": 62,
+    "n_ground_truth": 62,
+    "mdice": 0.7943146602707534,
+    "miou": 0.7284972821225079,
+    "mdice_ci": [
+     0.7196135161165422,
+     0.859937768999932
+    ],
+    "dice": 0.8035779024352648,
+    "boundary_iou": 0.5945867550253089,
+    "paper": {
+     "mdice": 0.794,
+     "miou": 0.729
+    },
+    "diff_mdice": 0.0003146602707533308,
+    "diff_miou": -0.0005027178774921204,
+    "within_tolerance": true
+   },
+   {
+    "method": "U-Net++",
+    "dataset": "CVC-ColonDB",
+    "n_images": 359,
+    "n_ground_truth": 380,
+    "mdice": 0.4827444015297846,
+    "miou": 0.40986093174568905,
+    "mdice_ci": [
+     0.4434644371951558,
+     0.521532135776794
+    ],
+    "dice": 0.4824790315891576,
+    "boundary_iou": 0.3170129711239099,
+    "paper": {
+     "mdice": 0.483,
+     "miou": 0.41
+    },
+    "diff_mdice": -0.00025559847021539017,
+    "diff_miou": -0.00013906825431092562,
+    "within_tolerance": true,
+    "all_files": {
+     "n_images": 380,
+     "mdice": 0.48148796522274107,
+     "miou": 0.4076051105432342,
+     "dice": 0.48148089118227644,
+     "boundary_iou": 0.3165286424117172
+    }
+   },
+   {
+    "method": "U-Net++",
+    "dataset": "ETIS-LaribPolypDB",
+    "n_images": 196,
+    "n_ground_truth": 196,
+    "mdice": 0.40097470132872304,
+    "miou": 0.34350472877071636,
+    "mdice_ci": [
+     0.3474763334475907,
+     0.45440165720752596
+    ],
+    "dice": 0.39573666819149794,
+    "boundary_iou": 0.27905473678538084,
+    "paper": {
+     "mdice": 0.401,
+     "miou": 0.344
+    },
+    "diff_mdice": -2.5298671276985374e-05,
+    "diff_miou": -0.0004952712292836114,
+    "within_tolerance": true
+   },
+   {
+    "method": "U-Net++",
+    "dataset": "CVC-300",
+    "n_images": 60,
+    "n_ground_truth": 60,
+    "mdice": 0.7068830341684682,
+    "miou": 0.624205371572329,
+    "mdice_ci": [
+     0.6292483876714392,
+     0.7818013319674076
+    ],
+    "dice": 0.7142147733572574,
+    "boundary_iou": 0.5175134187103201,
+    "paper": {
+     "mdice": 0.707,
+     "miou": 0.624
+    },
+    "diff_mdice": -0.00011696583153175677,
+    "diff_miou": 0.00020537157232902725,
+    "within_tolerance": true
+   },
+   {
+    "method": "SFA",
+    "dataset": "Kvasir",
+    "n_images": 100,
+    "n_ground_truth": 100,
+    "mdice": 0.7229871024738939,
+    "miou": 0.61050589267964,
+    "mdice_ci": [
+     0.6786989422540497,
+     0.7641310887492809
+    ],
+    "dice": 0.7311214103088362,
+    "boundary_iou": 0.3805718766375542,
+    "paper": {
+     "mdice": 0.723,
+     "miou": 0.611
+    },
+    "diff_mdice": -1.2897526106114832e-05,
+    "diff_miou": -0.0004941073203600377,
+    "within_tolerance": true
+   },
+   {
+    "method": "SFA",
+    "dataset": "CVC-ClinicDB",
+    "n_images": 62,
+    "n_ground_truth": 62,
+    "mdice": 0.7004267134225894,
+    "miou": 0.6065451428803894,
+    "mdice_ci": [
+     0.6270797964471411,
+     0.7692864074007996
+    ],
+    "dice": 0.7086566550121989,
+    "boundary_iou": 0.4581646008285731,
+    "paper": {
+     "mdice": 0.7,
+     "miou": 0.607
+    },
+    "diff_mdice": 0.0004267134225894864,
+    "diff_miou": -0.0004548571196105744,
+    "within_tolerance": true
+   },
+   {
+    "method": "SFA",
+    "dataset": "CVC-ColonDB",
+    "n_images": 359,
+    "n_ground_truth": 380,
+    "mdice": 0.468562883146946,
+    "miou": 0.34746164896985665,
+    "mdice_ci": [
+     0.4410297056460081,
+     0.4956199263493075
+    ],
+    "dice": 0.4736453346838418,
+    "boundary_iou": 0.201283945957797,
+    "paper": {
+     "mdice": 0.469,
+     "miou": 0.347
+    },
+    "diff_mdice": -0.00043711685305397596,
+    "diff_miou": 0.00046164896985667614,
+    "within_tolerance": true,
+    "all_files": {
+     "n_images": 380,
+     "mdice": 0.4558184554365083,
+     "miou": 0.33653656390255815,
+     "dice": 0.4606579349932332,
+     "boundary_iou": 0.19598931145394693
+    }
+   },
+   {
+    "method": "SFA",
+    "dataset": "ETIS-LaribPolypDB",
+    "n_images": 196,
+    "n_ground_truth": 196,
+    "mdice": 0.2973668676154545,
+    "miou": 0.21683051954561156,
+    "mdice_ci": [
+     0.2572800239042365,
+     0.33805655095498627
+    ],
+    "dice": 0.29956704935652967,
+    "boundary_iou": 0.11942587714795821,
+    "paper": {
+     "mdice": 0.297,
+     "miou": 0.217
+    },
+    "diff_mdice": 0.00036686761545451363,
+    "diff_miou": -0.00016948045438844317,
+    "within_tolerance": true
+   },
+   {
+    "method": "SFA",
+    "dataset": "CVC-300",
+    "n_images": 60,
+    "n_ground_truth": 60,
+    "mdice": 0.467380996219643,
+    "miou": 0.32932398948115726,
+    "mdice_ci": [
+     0.42021795340138945,
+     0.5152865342938311
+    ],
+    "dice": 0.4713667086791626,
+    "boundary_iou": 0.1887915372290022,
+    "paper": {
+     "mdice": 0.467,
+     "miou": 0.329
+    },
+    "diff_mdice": 0.0003809962196429928,
+    "diff_miou": 0.0003239894811572497,
+    "within_tolerance": true
+   }
+  ]
+ },
+ "pranet_weights": {
+  "tolerance": 0.005,
+  "runs": [
+   {
+    "device": "mps",
+    "sets": [
+     {
+      "dataset": "Kvasir",
+      "n_images": 100,
+      "mdice": 0.8944006253129442,
+      "paper": 0.898,
+      "authors_maps_mdice": 0.8981630179768326,
+      "diff_paper": -0.003599374687055845,
+      "forward_ms": 30.938645591959357,
+      "maps_identical": 0,
+      "maps_within_one_level": 0,
+      "maps_differ": 100
+     },
+     {
+      "dataset": "CVC-ClinicDB",
+      "n_images": 62,
+      "mdice": 0.8989520069477968,
+      "paper": 0.899,
+      "authors_maps_mdice": 0.898951946472856,
+      "diff_paper": -4.799305220326566e-05,
+      "forward_ms": 31.298646004870534,
+      "maps_identical": 50,
+      "maps_within_one_level": 12,
+      "maps_differ": 0
+     },
+     {
+      "dataset": "CVC-ColonDB",
+      "n_images": 380,
+      "mdice": 0.7115458918894642,
+      "paper": 0.709,
+      "authors_maps_mdice": 0.7115459244563251,
+      "diff_paper": 0.0025458918894641913,
+      "forward_ms": 31.057062442414463,
+      "maps_identical": 160,
+      "maps_within_one_level": 220,
+      "maps_differ": 0
+     },
+     {
+      "dataset": "ETIS-LaribPolypDB",
+      "n_images": 196,
+      "mdice": 0.6283612502879845,
+      "paper": 0.628,
+      "authors_maps_mdice": 0.628361268147587,
+      "diff_paper": 0.00036125028798450476,
+      "forward_ms": 43.94383344333619,
+      "maps_identical": 43,
+      "maps_within_one_level": 153,
+      "maps_differ": 0
+     },
+     {
+      "dataset": "CVC-300",
+      "n_images": 60,
+      "mdice": 0.8709370399072672,
+      "paper": 0.871,
+      "authors_maps_mdice": 0.8709370434632511,
+      "diff_paper": -6.29600927327667e-05,
+      "forward_ms": 49.32150000240654,
+      "maps_identical": 38,
+      "maps_within_one_level": 22,
+      "maps_differ": 0
+     }
+    ]
+   },
+   {
+    "device": "cpu",
+    "sets": [
+     {
+      "dataset": "Kvasir",
+      "n_images": 100,
+      "mdice": 0.8944006486146551,
+      "paper": 0.898,
+      "authors_maps_mdice": 0.8981630179768326,
+      "diff_paper": -0.003599351385344951,
+      "forward_ms": 59.339854517020285,
+      "maps_identical": 0,
+      "maps_within_one_level": 0,
+      "maps_differ": 100
+     },
+     {
+      "dataset": "CVC-ClinicDB",
+      "n_images": 62,
+      "mdice": 0.898952087955446,
+      "paper": 0.899,
+      "authors_maps_mdice": 0.898951946472856,
+      "diff_paper": -4.7912044554010436e-05,
+      "forward_ms": 59.16347948368639,
+      "maps_identical": 49,
+      "maps_within_one_level": 13,
+      "maps_differ": 0
+     },
+     {
+      "dataset": "CVC-ColonDB",
+      "n_images": 380,
+      "mdice": 0.7115459294979296,
+      "paper": 0.709,
+      "authors_maps_mdice": 0.7115459244563251,
+      "diff_paper": 0.0025459294979296443,
+      "forward_ms": 59.34845865704119,
+      "maps_identical": 174,
+      "maps_within_one_level": 206,
+      "maps_differ": 0
+     },
+     {
+      "dataset": "ETIS-LaribPolypDB",
+      "n_images": 196,
+      "mdice": 0.628361223458477,
+      "paper": 0.628,
+      "authors_maps_mdice": 0.628361268147587,
+      "diff_paper": 0.0003612234584770002,
+      "forward_ms": 50.027458113618195,
+      "maps_identical": 38,
+      "maps_within_one_level": 158,
+      "maps_differ": 0
+     },
+     {
+      "dataset": "CVC-300",
+      "n_images": 60,
+      "mdice": 0.870937035100915,
+      "paper": 0.871,
+      "authors_maps_mdice": 0.8709370434632511,
+      "diff_paper": -6.296489908497183e-05,
+      "forward_ms": 49.918124452233315,
+      "maps_identical": 43,
+      "maps_within_one_level": 17,
+      "maps_differ": 0
+     }
+    ]
+   }
+  ],
+  "device_gap": [
+   {
+    "dataset": "Kvasir",
+    "mdice_diff": -2.3301711116197055e-08,
+    "max_image_diff": 1.2207835483057927e-06
+   },
+   {
+    "dataset": "CVC-ClinicDB",
+    "mdice_diff": -8.100764925522697e-08,
+    "max_image_diff": 3.361025503745285e-06
+   },
+   {
+    "dataset": "CVC-ColonDB",
+    "mdice_diff": -3.760846545297625e-08,
+    "max_image_diff": 1.0949265759618854e-05
+   },
+   {
+    "dataset": "ETIS-LaribPolypDB",
+    "mdice_diff": 2.6829507615566683e-08,
+    "max_image_diff": 3.74727429630628e-06
+   },
+   {
+    "dataset": "CVC-300",
+    "mdice_diff": 4.806352094099964e-09,
+    "max_image_diff": 1.7651005320695745e-06
+   }
+  ]
+ }
+}

@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stage 1 · Field Review</title>
+  <meta name="description" content="Stage 1 of the polyp segmentation benchmark: ten real projects read at code level, published numbers collected, and the rules the project follows.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230066cc' stroke-width='1.8'%3E%3Crect x='2.5' y='2.5' width='19' height='19' rx='5.5'/%3E%3Cpath d='M8 15.5c-1.6-2.4-.4-6 2.6-6.6 2.1-.4 2.7 1.1 4.3 1.1 2 0 3 2.2 1.8 4-1.4 2.2-6.9 4.3-8.7 1.5z' fill='%230066cc' fill-opacity='.25'/%3E%3C/svg%3E">
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')==='dark'?'dark':'light'}catch(e){document.documentElement.dataset.theme='light'}</script>
+  <link rel="stylesheet" href="assets/style.css?v=9">
+</head>
+<body>
+  <a class="visually-hidden" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html"><svg class="icon brand-mark" aria-hidden="true"><use href="assets/icons.svg?v=6#i-mark"/></svg>Polyp segmentation benchmark</a>
+      <div class="header-actions">
+        <button class="theme-toggle" type="button" aria-label="Switch to dark theme" title="Switch theme"><svg class="icon icon-moon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-moon"/></svg><svg class="icon icon-sun" aria-hidden="true"><use href="assets/icons.svg?v=6#i-sun"/></svg></button>
+        <nav aria-label="Primary">
+        <button class="menu-button" type="button" popovertarget="site-menu" aria-controls="site-menu">
+          <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-menu"/></svg><span>Menu</span>
+        </button>
+        <ul id="site-menu" class="nav-list" popover="auto">
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="journal.html">Journal</a></li>
+          <li><a href="stage-1.html" aria-current="page">Stage 1</a></li>
+          <li><a href="stage-2.html">Stage 2</a></li>
+          <li><a href="stage-3.html">Stage 3</a></li>
+          <li><a href="stage-4.html">Stage 4</a></li>
+        </ul>
+      </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- 1. What we did -->
+    <section class="hero">
+      <div class="wrap">
+        <h1>Stage 1. What the field does, and where it cuts corners</h1>
+        <p class="lead">Before writing any model code, we read the projects this benchmark builds on, line by line, and wrote down every number with its source. The result is a set of rules for the rest of the project.</p>
+        <div class="stats">
+          <div class="stat"><span class="stat-value">10</span><span class="stat-label">repositories read at pinned commits</span></div>
+          <div class="stat"><span class="stat-value">6</span><span class="stat-label">findings in the benchmark's own code</span></div>
+          <div class="stat"><span class="stat-value">45</span><span class="stat-label">published results with their table</span></div>
+          <div class="stat"><span class="stat-value">15</span><span class="stat-label">decisions for every later stage</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="wrap">
+        <h2>Four notes, one per question</h2>
+        <p class="section-lead">Each note links every claim to a paper table or a line of code at a fixed commit, so anyone can check it.</p>
+        <div class="cards">
+          <a class="card reveal" href="../research/01_polyp_protocol.md">
+            <svg class="icon card-icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-protocol"/></svg>
+            <h3>1.1 How the benchmark works</h3>
+            <p>Kvasir-SEG, PraNet and Polyp-PVT: the splits, the training recipe, how Dice is really computed.</p>
+            <span class="card-foot"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>Read the note</span>
+          </a>
+          <a class="card reveal" href="../research/02_unet_lineage.md">
+            <svg class="icon card-icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-unet"/></svg>
+            <h3>1.2 The U-Net lineage</h3>
+            <p>The 2015 paper, three implementations, and why nnU-Net Revisited shapes our protocol.</p>
+            <span class="card-foot"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>Read the note</span>
+          </a>
+          <a class="card reveal" href="../research/03_foundation_models.md">
+            <svg class="icon card-icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-layers"/></svg>
+            <h3>1.3 Beyond U-Net</h3>
+            <p>Mask2Former, SegFormer, EoMT, DINOv3 and MONAI: what each does and what we take from it.</p>
+            <span class="card-foot"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>Read the note</span>
+          </a>
+          <a class="card reveal" href="../research/decisions.md">
+            <svg class="icon card-icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-decide"/></svg>
+            <h3>1.4 Decisions</h3>
+            <p>Fifteen rules on data, metrics, statistics, training and cost, each with its reason and source.</p>
+            <span class="card-foot"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>Read the note</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Why -->
+    <section>
+      <div class="wrap">
+        <h2>Why not just use the papers' numbers</h2>
+        <div class="prose" style="margin-top:24px">
+          <p>The published results look clear: newer models beat U-Net by about <span class="key">0.1</span> Dice on hospitals seen in training and by up to <span class="key">0.39</span> on unseen ones. But reading the code showed three reasons those numbers cannot simply be compared.</p>
+        </div>
+        <div class="cards">
+          <div class="card reveal">
+            <span class="num">1</span>
+            <h3>No validation set</h3>
+            <p>PraNet keeps its last epoch. Polyp-PVT tests every epoch on a test folder and keeps the best one, so its reported score is the luckiest of many measurements.</p>
+          </div>
+          <div class="card reveal">
+            <span class="num">2</span>
+            <h3>A different Dice</h3>
+            <p>The headline "mDice" stretches each prediction to the full range and averages Dice over 256 thresholds. It is not Dice at a threshold of 0.5.</p>
+          </div>
+          <div class="card reveal">
+            <span class="num">3</span>
+            <h3>Copied, not re-measured</h3>
+            <p>The same model gets 0.709 in one paper and 0.712 in another. Baseline rows travel from paper to paper instead of being run again.</p>
+          </div>
+        </div>
+
+        <figure class="panel reveal" style="margin-top:32px" id="published">
+          <h3>Published Dice by test set</h3>
+          <p class="note">Each method with the numbers from its own paper; U-Net as reported by PraNet. Hover or focus a mark for its value.</p>
+          <ul class="legend" aria-label="Legend">
+            <li><svg aria-hidden="true" style="fill:var(--s1)"><use href="assets/icons.svg?v=6#m-circle"/></svg>U-Net</li>
+            <li><svg aria-hidden="true" style="fill:var(--s2)"><use href="assets/icons.svg?v=6#m-square"/></svg>PraNet</li>
+            <li><svg aria-hidden="true" style="fill:var(--s3)"><use href="assets/icons.svg?v=6#m-diamond"/></svg>Polyp-PVT</li>
+          </ul>
+          <div class="chart" id="published-chart" role="img" aria-label="Dot plot of published mean Dice for U-Net, PraNet and Polyp-PVT on five test sets"></div>
+          <details class="accordion" style="margin-top:20px;border-top:0">
+            <summary>Show as a table<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary>
+            <div class="answer"><div class="table-wrap" id="published-table"></div></div>
+          </details>
+          <figcaption>Sources: PraNet (MICCAI 2020) Tables 1-2; Polyp-PVT (CAAI AIR 2023) Tables IV-V. Polyp-PVT reports no CVC-300 result, so that gap (*) is to PraNet. Data: <a class="doc-link" href="../research/published_results.csv"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>published_results.csv</a></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 3. How it works -->
+    <section class="alt">
+      <div class="wrap">
+        <h2>Three ways to produce a mask</h2>
+        <p class="section-lead">Every model in this project is one of three designs. Our ladder climbs through them.</p>
+        <div class="designs">
+          <div class="design reveal">
+            <svg viewBox="0 0 240 120" aria-hidden="true">
+              <rect x="10" y="20" width="34" height="80" rx="6" style="fill:var(--bg-alt);stroke:var(--line)"/>
+              <rect x="56" y="34" width="26" height="52" rx="6" style="fill:var(--accent-soft);stroke:var(--accent)"/>
+              <rect x="94" y="46" width="20" height="28" rx="5" style="fill:var(--accent-soft);stroke:var(--accent)"/>
+              <rect x="126" y="34" width="26" height="52" rx="6" style="fill:var(--accent-soft);stroke:var(--accent)"/>
+              <rect x="164" y="20" width="34" height="80" rx="6" style="fill:var(--accent-soft);stroke:var(--accent)"/>
+              <path d="M69 30 Q104 6 139 30" style="fill:none;stroke:var(--ink-3);stroke-dasharray:3 3"/>
+              <path d="M27 16 Q104 -14 181 16" style="fill:none;stroke:var(--ink-3);stroke-dasharray:3 3"/>
+              <rect x="208" y="20" width="24" height="80" rx="5" style="fill:var(--s1);opacity:.85"/>
+            </svg>
+            <h3>Per-pixel, with a decoder</h3>
+            <p>An encoder shrinks the image into features, a decoder grows them back, and every pixel gets a score. Skip connections carry fine detail across.</p>
+            <p class="rung"><span class="key">Rungs 1 and 2:</span> U-Net from scratch, U-Net with ResNet-34</p>
+          </div>
+          <div class="design reveal">
+            <svg viewBox="0 0 240 120" aria-hidden="true">
+              <rect x="10" y="20" width="70" height="80" rx="8" style="fill:var(--bg-alt);stroke:var(--line)"/>
+              <circle cx="110" cy="35" r="7" style="fill:var(--s2)"/><circle cx="110" cy="60" r="7" style="fill:var(--s3)"/><circle cx="110" cy="85" r="7" style="fill:var(--s1)"/>
+              <path d="M117 35 L150 30 M117 60 L150 60 M117 85 L150 90" style="stroke:var(--ink-3)"/>
+              <rect x="152" y="14" width="34" height="30" rx="5" style="fill:var(--bg-alt);stroke:var(--line)"/><path d="M160 34c2-9 12-12 18-6 3 4-4 10-11 9z" style="fill:var(--s2);opacity:.85"/>
+              <rect x="152" y="46" width="34" height="30" rx="5" style="fill:var(--bg-alt);stroke:var(--line)"/><circle cx="169" cy="61" r="8" style="fill:var(--s3);opacity:.85"/>
+              <rect x="152" y="78" width="34" height="30" rx="5" style="fill:var(--bg-alt);stroke:var(--line)"/>
+              <path d="M200 61h24" style="stroke:var(--ink-3)"/><path d="M218 55l6 6-6 6" style="fill:none;stroke:var(--ink-3)"/>
+            </svg>
+            <h3>Mask classification</h3>
+            <p>A set of learned queries each predicts one mask and one label; the final map combines them. It can tell two touching objects apart.</p>
+            <p class="rung"><span class="key">Server stage:</span> Mask2Former, EoMT</p>
+          </div>
+          <div class="design reveal">
+            <svg viewBox="0 0 240 120" aria-hidden="true">
+              <rect x="10" y="20" width="110" height="80" rx="8" style="fill:var(--bg-alt);stroke:var(--line)"/>
+              <path d="M30 40h70M30 55h70M30 70h70M30 85h70" style="stroke:var(--line)"/>
+              <path d="M52 32 v60 M78 32 v60" style="stroke:var(--line)"/>
+              <rect x="44" y="50" width="16" height="10" rx="2" style="fill:var(--ink-3);opacity:.35"/>
+              <path d="M128 60h26" style="stroke:var(--ink-3)"/>
+              <rect x="158" y="46" width="22" height="28" rx="5" style="fill:var(--accent-soft);stroke:var(--accent)"/>
+              <path d="M184 60h14" style="stroke:var(--ink-3)"/>
+              <rect x="202" y="40" width="30" height="40" rx="5" style="fill:var(--s1);opacity:.85"/>
+              <path d="M28 106h74" style="stroke:var(--ink-3);stroke-width:1.5"/><text x="65" y="118" text-anchor="middle" style="font-size:10px;fill:var(--ink-3)">frozen</text>
+            </svg>
+            <h3>Frozen backbone, tiny head</h3>
+            <p>A pretrained model is not trained at all. A single linear layer maps its patch features to classes. It shows how good the features are on their own.</p>
+            <p class="rung"><span class="key">Rung 3:</span> linear head on DINOv3 ViT-S</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2>Two ideas worth seeing</h2>
+        <p class="section-lead">Both come straight out of the code we read. Move the sliders.</p>
+
+        <div class="panel reveal" style="margin-top:40px">
+          <h3>Where the structure loss looks</h3>
+          <p class="note">PraNet weights each pixel by <code>1 + 5·|avgpool(mask) − mask|</code>. Flat regions get weight 1. At a straight edge the window is half polyp, so the weight is about 3.5; thin or pointed parts go higher, up to 6. Change the window and the strength to see the band move.</p>
+          <div class="controls">
+            <div class="control"><label for="k">Window size (pixels at 352 px) <output id="k-out">31</output></label><input id="k" type="range" min="11" max="61" step="2" value="31"></div>
+            <div class="control"><label for="lam">Strength <output id="lam-out">5</output></label><input id="lam" type="range" min="1" max="10" step="1" value="5"></div>
+          </div>
+          <div class="canvas-pair">
+            <div><canvas id="mask-canvas" width="176" height="176" aria-label="Example polyp mask"></canvas><p>Mask</p></div>
+            <div><canvas id="weight-canvas" width="176" height="176" aria-label="Pixel weights of the structure loss"></canvas><p>Weight: 1 matches the background, stronger blue up to 6</p></div>
+          </div>
+          <p class="source"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-code"/></svg><a href="https://github.com/DengPingFan/PraNet/blob/95f12bd4e32ec954b5069654abae7de9473fd1f5/MyTrain.py#L12-L21">PraNet MyTrain.py, lines 12-21</a></p>
+        </div>
+
+        <div class="panel reveal">
+          <h3>What picking the best epoch on the test set does</h3>
+          <p class="note">A model whose true Dice is <span class="key">0.800</span> is scored on the test set after every epoch, and the best score is reported. The more epochs you look at, and the smaller the test set, the more the reported number drifts above the truth.</p>
+          <div class="controls">
+            <div class="control"><label for="epochs">Epochs scored on the test set <output id="epochs-out">20</output></label><input id="epochs" type="range" min="1" max="100" step="1" value="20"></div>
+            <div class="control"><span style="font-size:.9375rem;color:var(--ink-2)">Test set size</span>
+              <div class="segmented" role="group" aria-label="Test set size">
+                <button type="button" data-n="60" aria-pressed="false">60 (CVC-300)</button>
+                <button type="button" data-n="100" aria-pressed="true">100 (Kvasir)</button>
+                <button type="button" data-n="380" aria-pressed="false">380 (ColonDB)</button>
+              </div>
+            </div>
+          </div>
+          <div class="result-row" aria-live="polite">
+            <div class="result"><span class="result-value" id="r-true">0.800</span><span class="result-label">True Dice</span></div>
+            <div class="result"><span class="result-value" id="r-rep">0.833</span><span class="result-label">Reported, best of the epochs</span></div>
+            <div class="result"><span class="result-value" id="r-gap">+0.033</span><span class="result-label">Inflation</span></div>
+          </div>
+          <p class="note" style="margin-top:16px">This is an illustration, not a measurement. It assumes each image's Dice varies with a standard deviation of 0.20 and treats epochs as independent, which overstates the effect, since neighbouring epochs are similar. Stage 7 measures the real inflation on our own models.</p>
+          <p class="source"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-code"/></svg><a href="https://github.com/DengPingFan/Polyp-PVT/blob/cd71fbf9fcd8c32cc0f33699f4e0186073c64dc4/Train.py#L109-L121">Polyp-PVT Train.py, lines 109-121</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Code walkthrough -->
+    <section class="alt">
+      <div class="wrap">
+        <h2>In the code</h2>
+        <p class="section-lead">The three lines that matter most, each linked to the exact commit we read.</p>
+        <div class="panel reveal" style="margin-top:40px">
+          <h3>Boundary weights</h3>
+          <div class="code-block"><pre><span class="hl">weit = 1 + 5*torch.abs(F.avg_pool2d(mask, kernel_size=31, stride=1, padding=15) - mask)</span></pre></div>
+          <p class="note" style="margin-top:12px">The average over a 31×31 window equals the mask itself inside flat regions, so the difference is zero there. Near an edge the window mixes polyp and background, the difference grows, and so does the weight.</p>
+          <p class="source"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-code"/></svg><a href="https://github.com/DengPingFan/PraNet/blob/95f12bd4e32ec954b5069654abae7de9473fd1f5/MyTrain.py#L13">PraNet MyTrain.py, line 13</a></p>
+        </div>
+        <div class="panel reveal">
+          <h3>Stretching every prediction</h3>
+          <div class="code-block"><pre><span class="hl">res = (res - res.min()) / (res.max() - res.min() + 1e-8)</span></pre></div>
+          <p class="note" style="margin-top:12px">Each probability map is stretched to the full 0-1 range before scoring, and Dice is then averaged over 256 thresholds. A badly calibrated model can still score well, so we report Dice at 0.5 next to it.</p>
+          <p class="source"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-code"/></svg><a href="https://github.com/DengPingFan/PraNet/blob/95f12bd4e32ec954b5069654abae7de9473fd1f5/MyTest.py#L37">PraNet MyTest.py, line 37</a></p>
+        </div>
+        <div class="panel reveal">
+          <h3>Choosing the checkpoint on test data</h3>
+          <div class="code-block"><pre>meandice = test(model, test_path, 'test')
+...
+<span class="hl">if meandice &gt; best:</span>
+    best = meandice
+    torch.save(model.state_dict(), save_path + 'PolypPVT.pth')</pre></div>
+          <p class="note" style="margin-top:12px"><code>test_path</code> defaults to the test dataset folder. The saved "best" model is the one that scored highest on test data, which is the inflation shown in the simulation above.</p>
+          <p class="source"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-code"/></svg><a href="https://github.com/DengPingFan/Polyp-PVT/blob/cd71fbf9fcd8c32cc0f33699f4e0186073c64dc4/Train.py#L116-L120">Polyp-PVT Train.py, lines 116-120</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Result: decisions -->
+    <section>
+      <div class="wrap">
+        <h2>What we decided</h2>
+        <p class="section-lead">The rules every later stage follows. Three of them depended on the data and the environment, and are confirmed in stage 2.</p>
+        <div class="table-wrap">
+          <table>
+            <caption class="visually-hidden">Project decisions</caption>
+            <thead><tr><th scope="col">Topic</th><th scope="col">Decision</th><th scope="col">Why</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Data</th><td data-label="Decision">PraNet benchmark folders: 1,450 training images, five test sets</td><td data-label="Why">Every polyp paper since 2020 reports on them, so our numbers sit next to theirs</td></tr>
+              <tr><th scope="row">Validation</th><td data-label="Decision"><span class="key">158</span> training images, saved to a file; CVC-ClinicDB as whole video sequences that share no video with test</td><td data-label="Why">Frames of one video are near-duplicates and would make validation too easy</td></tr>
+              <tr><th scope="row">Selection</th><td data-label="Decision">Best epoch on validation Dice at 0.5; test sets used once</td><td data-label="Why">Avoids the inflation shown above</td></tr>
+              <tr><th scope="row">Metrics</th><td data-label="Decision">Dice and IoU at 0.5 per image, Boundary IoU, PraNet-style mDice for comparison</td><td data-label="Why">Interior pixels dominate IoU; Boundary IoU measures edges</td></tr>
+              <tr><th scope="row">Statistics</th><td data-label="Decision"><span class="key">3</span> seeds, bootstrap 95% intervals, paired comparisons</td><td data-label="Why">Test sets as small as 60 images make 0.01 differences noise</td></tr>
+              <tr><th scope="row">Loss</th><td data-label="Decision">Dice + BCE; ablations with BCE only and the structure loss</td><td data-label="Why">The nnU-Net default, tested against the polyp-specific loss</td></tr>
+              <tr><th scope="row">Optimizer</th><td data-label="Decision">AdamW, cosine schedule, learning rate picked per model from three values</td><td data-label="Why">Every model gets a tuned rate by the same procedure, so no baseline is weak</td></tr>
+              <tr><th scope="row">Resolution</th><td data-label="Decision"><span class="key">256 px</span> main; 352 px for the best model; 448 px for the DINOv3 head</td><td data-label="Why">Fits the laptop; the larger sizes measure what we lose</td></tr>
+              <tr><th scope="row">Trust check</th><td data-label="Decision">Reproduce PraNet's published numbers from its weights within <span class="key">0.005</span></td><td data-label="Why">If we cannot match a known result, our evaluation has a bug</td></tr>
+              <tr><th scope="row">Cost</th><td data-label="Decision">Training time, peak memory, latency on MPS and CPU, parameters</td><td data-label="Why">A small gain that costs ten times more is a different trade-off</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:20px"><a class="doc-link" href="../research/decisions.md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-doc"/></svg>All 15 decisions with sources</a></p>
+      </div>
+    </section>
+
+    <!-- 6. What can go wrong -->
+    <section class="alt">
+      <div class="wrap">
+        <h2>What can go wrong</h2>
+        <ul class="risk-list">
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-leak"/></svg><div><strong>Leaking video frames</strong><span>Resolved in stage 2: the dataset publishes which video each CVC-ClinicDB frame comes from, so validation uses whole videos. The same check showed the benchmark's own CVC-ClinicDB test set shares videos with training.</span></div></li>
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-threshold"/></svg><div><strong>Mixing up the two Dice scores</strong><span>Putting our Dice at 0.5 next to a published mDice would look like a loss. Every table states which one it shows.</span></div></li>
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-ruler"/></svg><div><strong>A bug in our own metric</strong><span>That is why our functions are tested against SMP and MONAI, and why stage 3 must reproduce PraNet first.</span></div></li>
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-hospital"/></svg><div><strong>Foundation features that do not transfer</strong><span>DINOv3 learned from web photos, not colonoscopy. A weak result for rung 3 would be a finding, not a failure.</span></div></li>
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-heat"/></svg><div><strong>A laptop that slows down</strong><span>The Air has no fan and throttles under long load. Latency is measured on a cool machine, and training runs fit short sessions.</span></div></li>
+          <li class="reveal"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-copy"/></svg><div><strong>Trusting copied numbers</strong><span>Published baselines are shown with their source table, and we re-run the reference ourselves.</span></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 7. Interview questions -->
+    <section>
+      <div class="wrap">
+        <h2 id="questions">Questions you should be ready for</h2>
+        <div class="accordion" aria-labelledby="questions">
+          <details><summary>Why not just use the numbers from the papers?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>Papers compute Dice differently (averaged over thresholds versus at 0.5, per image versus pooled), and some choose their checkpoint on the test set. Measuring every model with one evaluation script is the only fair comparison.</p></div></details>
+          <details><summary>What is wrong with picking the best epoch on the test set?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>It turns the test set into a validation set. The reported number is the maximum of many noisy measurements, which is biased upward. We keep a separate validation split and touch the test sets once.</p></div></details>
+          <details><summary>Why do the unseen hospitals matter more than Kvasir?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>A hospital deploys a model on its own equipment. CVC-ColonDB, ETIS and CVC-300 come from other centres and cameras, so they are the closest test of that. The gap between seen and unseen is the real measure of robustness.</p></div></details>
+          <details><summary>What does the structure loss do?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>It is BCE plus IoU with extra weight near object edges. Most pixels are easy background or easy interior; the errors that matter are at the boundary, so the loss concentrates there. The 2015 U-Net weight map and Mask2Former's uncertain-point sampling follow the same idea.</p></div></details>
+          <details><summary>Why does nnU-Net beat newer architectures in "Revisited"?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>Because the comparison was fair: the same data, the same splits and a well-configured baseline. Many reported gains came from more training, pretraining or a weak baseline, not from the new architecture.</p></div></details>
+          <details><summary>Per-image Dice or pooled Dice?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>Pooled Dice treats the test set as one big image, so large polyps dominate. Per-image Dice gives a small missed polyp the same weight as a large one, which matters clinically. We report per image and say so.</p></div></details>
+          <details><summary>Why a frozen backbone with a linear head?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>It measures how good the features are on their own. It trains in minutes after one feature-extraction pass and is hard to overfit. If it matches a trained U-Net, the backbone did most of the work.</p></div></details>
+          <details><summary>Why keep EoMT for the server?<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-plus"/></svg></summary><div class="answer"><p>The EoMT paper shows the gap to the full Mask2Former pipeline grows for small models: 5.8 PQ with ViT-S against 0.7 with ViT-g. ViT-S is what fits on the laptop, which is exactly where EoMT is weakest.</p></div></details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Glossary -->
+    <section class="alt">
+      <div class="wrap">
+        <h2>Glossary</h2>
+        <dl class="glossary">
+          <div><dt>Dice</dt><dd>2·|A∩B| / (|A|+|B|): overlap between predicted and true mask, from 0 to 1.</dd></div>
+          <div><dt>IoU</dt><dd>|A∩B| / |A∪B|. Never higher than Dice for the same masks.</dd></div>
+          <div><dt>mDice (PraNet style)</dt><dd>Dice averaged over 256 thresholds after stretching each map to 0-1, then over images.</dd></div>
+          <div><dt>Boundary IoU</dt><dd>IoU counted only near the edges, within 2% of the image diagonal.</dd></div>
+          <div><dt>Seen and unseen hospital</dt><dd>Whether images from that centre were in the training data.</dd></div>
+          <div><dt>Skip connection</dt><dd>A direct link from an encoder level to the decoder level of the same size.</dd></div>
+          <div><dt>Linear probe</dt><dd>One linear layer trained on frozen features, used to judge the features.</dd></div>
+          <div><dt>Bootstrap interval</dt><dd>Resample test images many times to see how much the average could move by chance.</dd></div>
+        </dl>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="pager">
+        <a class="doc-link" href="index.html"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-arrow-left"/></svg>Overview</a>
+        <a class="doc-link" href="stage-2.html">Stage 2. Skeleton and data<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=6#i-arrow"/></svg></a>
+      </div>
+    </div>
+  </footer>
+  <script src="assets/site.js?v=10" defer></script>
+</body>
+</html>

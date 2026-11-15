@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "seg"
+version = "0.1.0"
+description = "A strict, reproducible benchmark of polyp segmentation on a laptop"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+# Loose ranges here; exact versions live in requirements-lock.txt.
+# Packages are added in the sub-step that first needs them.
+dependencies = [
+    "torch>=2.5",
+    "torchvision>=0.20",
+    "numpy>=1.26",
+    "pillow>=10.0",
+    "pyyaml>=6.0",
+    "matplotlib>=3.8",
+    "gdown>=5.2",  # 2.2: the PraNet data is hosted on Google Drive
+    "albumentations>=2.0",  # 2.4: joint image-mask augmentation (decision D10)
+    "segmentation-models-pytorch>=0.4",  # 2.5: rung 2 model (decision D12); also a metric reference
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+    # 2.3: independent implementations our metric tests compare against (SMP is a main dependency)
+    "monai>=1.4",
+    "opencv-python-headless>=4.9",  # runs the official Boundary IoU code in tests/reference/
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+src = ["src", "scripts", "tests"]
+extend-exclude = ["tests/reference"]  # third-party code kept verbatim
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]

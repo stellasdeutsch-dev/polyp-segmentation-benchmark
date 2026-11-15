@@ -1,0 +1,8 @@
+# Rung 2: U-Net with an ImageNet ResNet-34 encoder (decision D12). Values not set here use
+# the defaults in seg.train.TrainConfig.
+name: smp_unet_r34
+model: smp_unet_r34
+pretrained: true
+size: 256
+batch_size: 16
+loss: dice_bce

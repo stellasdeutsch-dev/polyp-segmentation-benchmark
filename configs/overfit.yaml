@@ -1,0 +1,11 @@
+# Plumbing check (2.5): train and validate on the same 32 images without augmentation.
+# A working pipeline drives validation Dice above 0.9.
+name: overfit32
+model: smp_unet_r34
+overfit: 32
+batch_size: 8
+epochs: 40
+lr: 1.0e-3
+warmup_fraction: 0.05
+augment: false
+num_workers: 0

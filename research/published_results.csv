@@ -1,0 +1,46 @@
+method,dataset,centre,mdice,miou,protocol,reported_in,table,url,note
+U-Net,Kvasir,seen,0.818,0.746,pranet,PraNet paper,Table 1,https://arxiv.org/abs/2006.11392,
+U-Net,CVC-ClinicDB,seen,0.823,0.755,pranet,PraNet paper,Table 1,https://arxiv.org/abs/2006.11392,listed as CVC-612
+U-Net++,Kvasir,seen,0.821,0.743,pranet,PraNet paper,Table 1,https://arxiv.org/abs/2006.11392,
+U-Net++,CVC-ClinicDB,seen,0.794,0.729,pranet,PraNet paper,Table 1,https://arxiv.org/abs/2006.11392,listed as CVC-612
+ResUNet-mod,Kvasir,seen,0.791,,pranet,PraNet paper,Table 1,https://arxiv.org/abs/2006.11392,
+ResUNet-mod,CVC-ClinicDB,seen,0.779,,pranet,PraNet paper,Table 1,https://arxiv.org/abs/2006.11392,listed as CVC-612
+ResUNet++,Kvasir,seen,0.813,0.793,pranet,PraNet paper,Table 1,https://arxiv.org/abs/2006.11392,
+ResUNet++,CVC-ClinicDB,seen,0.796,0.796,pranet,PraNet paper,Table 1,https://arxiv.org/abs/2006.11392,listed as CVC-612
+SFA,Kvasir,seen,0.723,0.611,pranet,PraNet paper,Table 1,https://arxiv.org/abs/2006.11392,
+SFA,CVC-ClinicDB,seen,0.700,0.607,pranet,PraNet paper,Table 1,https://arxiv.org/abs/2006.11392,listed as CVC-612
+PraNet,Kvasir,seen,0.898,0.840,pranet,PraNet paper,Table 1,https://arxiv.org/abs/2006.11392,
+PraNet,CVC-ClinicDB,seen,0.899,0.849,pranet,PraNet paper,Table 1,https://arxiv.org/abs/2006.11392,listed as CVC-612
+U-Net,CVC-ColonDB,unseen,0.512,0.444,pranet,PraNet paper,Table 2,https://arxiv.org/abs/2006.11392,
+U-Net,ETIS-LaribPolypDB,unseen,0.398,0.335,pranet,PraNet paper,Table 2,https://arxiv.org/abs/2006.11392,
+U-Net,CVC-300,unseen,0.710,0.627,pranet,PraNet paper,Table 2,https://arxiv.org/abs/2006.11392,listed as CVC-T (EndoScene test)
+U-Net++,CVC-ColonDB,unseen,0.483,0.410,pranet,PraNet paper,Table 2,https://arxiv.org/abs/2006.11392,
+U-Net++,ETIS-LaribPolypDB,unseen,0.401,0.344,pranet,PraNet paper,Table 2,https://arxiv.org/abs/2006.11392,
+U-Net++,CVC-300,unseen,0.707,0.624,pranet,PraNet paper,Table 2,https://arxiv.org/abs/2006.11392,listed as CVC-T (EndoScene test)
+SFA,CVC-ColonDB,unseen,0.469,0.347,pranet,PraNet paper,Table 2,https://arxiv.org/abs/2006.11392,
+SFA,ETIS-LaribPolypDB,unseen,0.297,0.217,pranet,PraNet paper,Table 2,https://arxiv.org/abs/2006.11392,
+SFA,CVC-300,unseen,0.467,0.329,pranet,PraNet paper,Table 2,https://arxiv.org/abs/2006.11392,listed as CVC-T (EndoScene test)
+PraNet,CVC-ColonDB,unseen,0.709,0.640,pranet,PraNet paper,Table 2,https://arxiv.org/abs/2006.11392,
+PraNet,ETIS-LaribPolypDB,unseen,0.628,0.567,pranet,PraNet paper,Table 2,https://arxiv.org/abs/2006.11392,
+PraNet,CVC-300,unseen,0.871,0.797,pranet,PraNet paper,Table 2,https://arxiv.org/abs/2006.11392,listed as CVC-T (EndoScene test)
+U-Net,Kvasir,seen,0.818,0.746,pranet,Polyp-PVT paper,Table IV,https://arxiv.org/abs/2108.06932,
+U-Net,CVC-ClinicDB,seen,0.823,0.755,pranet,Polyp-PVT paper,Table IV,https://arxiv.org/abs/2108.06932,
+U-Net++,Kvasir,seen,0.821,0.743,pranet,Polyp-PVT paper,Table IV,https://arxiv.org/abs/2108.06932,
+U-Net++,CVC-ClinicDB,seen,0.794,0.729,pranet,Polyp-PVT paper,Table IV,https://arxiv.org/abs/2108.06932,
+PraNet,Kvasir,seen,0.898,0.840,pranet,Polyp-PVT paper,Table IV,https://arxiv.org/abs/2108.06932,
+PraNet,CVC-ClinicDB,seen,0.899,0.849,pranet,Polyp-PVT paper,Table IV,https://arxiv.org/abs/2108.06932,
+SANet,Kvasir,seen,0.904,0.847,pranet,Polyp-PVT paper,Table IV,https://arxiv.org/abs/2108.06932,
+SANet,CVC-ClinicDB,seen,0.916,0.859,pranet,Polyp-PVT paper,Table IV,https://arxiv.org/abs/2108.06932,
+Polyp-PVT,Kvasir,seen,0.917,0.864,pranet,Polyp-PVT paper,Table IV,https://arxiv.org/abs/2108.06932,
+Polyp-PVT,CVC-ClinicDB,seen,0.937,0.889,pranet,Polyp-PVT paper,Table IV,https://arxiv.org/abs/2108.06932,
+U-Net,CVC-ColonDB,unseen,0.512,0.444,pranet,Polyp-PVT paper,Table V,https://arxiv.org/abs/2108.06932,
+U-Net,ETIS-LaribPolypDB,unseen,0.398,0.335,pranet,Polyp-PVT paper,Table V,https://arxiv.org/abs/2108.06932,
+U-Net++,CVC-ColonDB,unseen,0.483,0.410,pranet,Polyp-PVT paper,Table V,https://arxiv.org/abs/2108.06932,
+U-Net++,ETIS-LaribPolypDB,unseen,0.401,0.344,pranet,Polyp-PVT paper,Table V,https://arxiv.org/abs/2108.06932,
+PraNet,CVC-ColonDB,unseen,0.712,0.640,pranet,Polyp-PVT paper,Table V,https://arxiv.org/abs/2108.06932,differs from PraNet paper (0.709)
+PraNet,ETIS-LaribPolypDB,unseen,0.628,0.567,pranet,Polyp-PVT paper,Table V,https://arxiv.org/abs/2108.06932,
+SANet,CVC-ColonDB,unseen,0.753,0.670,pranet,Polyp-PVT paper,Table V,https://arxiv.org/abs/2108.06932,
+SANet,ETIS-LaribPolypDB,unseen,0.750,0.654,pranet,Polyp-PVT paper,Table V,https://arxiv.org/abs/2108.06932,
+Polyp-PVT,CVC-ColonDB,unseen,0.808,0.727,pranet,Polyp-PVT paper,Table V,https://arxiv.org/abs/2108.06932,
+Polyp-PVT,ETIS-LaribPolypDB,unseen,0.787,0.706,pranet,Polyp-PVT paper,Table V,https://arxiv.org/abs/2108.06932,
+ResUNet,Kvasir,seen,0.787763,0.777771,kvasir-seg-80-10-10,Kvasir-SEG paper,Table 1,https://arxiv.org/abs/1911.07069,"random 80/10/10 split, 320x320 input; not comparable with pranet protocol"
